@@ -1,0 +1,47 @@
+#:include kv/cadastropage.kv
+#:include kv/loginpage.kv
+#:include kv/caloriaspage.kv
+#:include kv/glicemiapage.kv
+#:include kv/perfilpage.kv
+#:include kv/receitaspage.kv
+#:include kv/adicionarreceitaspage.kv
+#:import utils kivy.utils
+
+FloatLayout:
+    canvas:
+        Color:
+            rgb: utils.get_color_from_hex("#8dd0d9")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    Image:
+        pos_hint: {"right": 1, "top": 0.9}
+        size_hint: 1, 0.2
+        source: "icones/pina.png"
+        id: foto_perfil
+    ScreenManager:
+        pos_hint: {"right": 1, "top": 0.7}
+        size_hint: 1, 0.7
+        id: screen_manager
+        LoginPage:
+            name: "loginpage"
+            id: loginpage
+        CadastroPage:
+            name: "cadastropage"
+            id: cadastropage
+        CaloriasPage:
+            name: "caloriaspage"
+            id: caloriaspage
+        GlicemiaPage:
+            name: "glicemiapage"
+            id: glicemiapage
+        PerfilPage:
+            name: "perfilpage"
+            id: perfilpage
+        ReceitasPage:
+            name: "receitaspage"
+            id: receitaspage
+        AdicionarReceitasPage:
+            name: "adicionarreceitaspage"
+            id: adicionarreceitaspage
+
