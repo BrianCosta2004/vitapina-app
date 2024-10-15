@@ -1,43 +1,85 @@
 <LoginPage>
     FloatLayout:
         canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#FFFBF0")
             Rectangle:
                 size: self.size
                 pos: self.pos
-                source: "icones/background.png"
+
+        Label:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#139bad")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+            text: ""
+            pos_hint: {"right": 0.95, "top": 1}
+            size_hint: 0.9, 0.38
+
+        Image:
+            pos_hint: {"right": 0.9, "top": 1}
+            size_hint: 0.8, 0.10
+            source: "icones/logotipo.png"
+            id: foto_perfil
+
+        Image:
+            pos_hint: {"right": 1, "top": 0.84}
+            size_hint: 0.7, 0.18
+            source: "icones/balaum.png"
+            id: foto_perfil
+
+        Image:
+            pos_hint: {"right": 0.75, "top": 0.85}
+            size_hint: 1, 0.25
+            source: "icones/pina.png"
+            id: foto_perfil
+
         TextInput:
             id: email
+            password: True
             hint_text: "E-mail"
-            pos_hint: {"right": 0.9, "top": 0.7}
-            size_hint: 0.8, 0.1
+            pos_hint: {"right": 0.85, "top": 0.52}
+            size_hint: 0.7, 0.055
+
         TextInput:
             id: senha
             password: True
             hint_text: "Senha"
-            pos_hint: {"right": 0.9, "top": 0.55}
-            size_hint: 0.8, 0.1
+            pos_hint: {"right": 0.85, "top": 0.445}
+            size_hint: 0.7, 0.055
+
+
         LabelButton:
-            canvas.before:
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-                    source: "icones/botao.png" if self.state == "normal" else "icones/botao_apertado.png"
-            pos_hint: {"right": 0.45, "top": 0.3}
-            size_hint: 0.4, 0.2
-            text: "Login"
+            pos_hint: {"right": 0.55, "top": 0.15}
+            size_hint: 0.1, 0.1
+            text: "[color=#000000]Ainda não possui uma conta?[/color]"
+            id: label_total_vendas
+            markup: True
+            on_release: app.firebase.fazer_login(email.text, senha.text)
+
+        LabelButton:
+            pos_hint: {"right": 0.55, "top": 0.120}
+            size_hint: 0.1, 0.1
+            text: "[color=#0000FF][u]Fazer cadastro[/u][/color]"
             id: label_total_vendas
             markup: True
             on_release: app.firebase.fazer_login(email.text, senha.text)
 
         LabelButton:
             canvas.before:
-                Rectangle:
+                Color:
+                    rgb: utils.get_color_from_hex("#eb7b29")
+                RoundedRectangle:
                     pos: self.pos
                     size: self.size
-                    source: "icones/botao.png" if self.state == "normal" else "icones/botao_apertado.png"
-            pos_hint: {"right": 0.95, "top": 0.3}
-            size_hint: 0.4, 0.2
-            text: "Cadastrar"
+                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+
+            pos_hint: {"right": 0.9, "top": 0.31}
+            size_hint: 0.8, 0.065
+            text: "[color=#FFFFFF]Entrar[/color]"
             id: label_total_vendas
             markup: True
             on_release: app.firebase.criar_conta(email.text, senha.text)

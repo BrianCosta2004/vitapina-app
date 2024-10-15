@@ -1,56 +1,33 @@
 <GlicemiaPage>
     FloatLayout:
         canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#2aadcd")
             Rectangle:
                 size: self.size
                 pos: self.pos
-                source: "icones/bg1.png"
-        Label:
-            text: "CONTROLE DE [color=#00CFDB]VENDAS FATEC[/color]"
-            bold: True
-            markup: True
-            pos_hint: {"right": 0.9, "top": 0.9}
-            size_hint: 0.8, 0.2
-        TextInput:
-            id: email
-            hint_text: "E-mail"
-            pos_hint: {"right": 0.9, "top": 0.7}
-            size_hint: 0.8, 0.1
-        TextInput:
-            id: senha
-            password: True
-            hint_text: "Senha"
-            pos_hint: {"right": 0.9, "top": 0.55}
-            size_hint: 0.8, 0.1
-        Label:
-            id: mensagem_login
-            text: "[color=#00CFDB]Faça seu login[/color]"
-            bold: True
-            markup: True
-            pos_hint: {"right": 0.9, "top": 0.4}
-            size_hint: 0.8, 0.1
-        LabelButton:
-            canvas.before:
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-                    source: "icones/botao.png" if self.state == "normal" else "icones/botao_apertado.png"
-            pos_hint: {"right": 0.45, "top": 0.3}
-            size_hint: 0.4, 0.2
-            text: "Login"
-            id: label_total_vendas
-            markup: True
-            on_release: app.firebase.fazer_login(email.text, senha.text)
 
-        LabelButton:
+        Label:
             canvas.before:
-                Rectangle:
+                Color:
+                    rgb: utils.get_color_from_hex("#139bad")
+                RoundedRectangle:
                     pos: self.pos
                     size: self.size
-                    source: "icones/botao.png" if self.state == "normal" else "icones/botao_apertado.png"
-            pos_hint: {"right": 0.95, "top": 0.3}
-            size_hint: 0.4, 0.2
-            text: "Cadastrar"
-            id: label_total_vendas
-            markup: True
-            on_release: app.firebase.criar_conta(email.text, senha.text)
+                    radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+            text: ""
+            pos_hint: {"right": 0.95, "top": 1}
+            size_hint: 0.9, 0.33
+
+        SemicircleProgressBar:
+            min: 0
+            max: 200
+            value: 50
+            pos_hint: {"right": 0.85, "top": 0.9}
+            size_hint: 0.7, 0.33
+
+        Image:
+            pos_hint: {"right": 0.9, "top": 1}
+            size_hint: 0.8, 0.10
+            source: "icones/logotipo.png"
+            id: foto_perfil
