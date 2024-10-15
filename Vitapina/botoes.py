@@ -33,11 +33,11 @@ class SemicircleProgressBar(Widget):
         with self.canvas:
             # Cor de fundo (base do arco)
             Color(0.9, 0.9, 0.6)
-            Line(circle=(self.center_x, self.center_y, 100, 270, 90), width=15)
+            Line(circle=(self.center_x, self.center_y, 100, -90, 90), width=15)
 
             # Cor da barra de progresso (arco preenchido)
             Color(0.2, 0.2, 0.8)
-            Line(circle=(self.center_x, self.center_y, 100, 270, 270 - (self.progress / 100) * 180), width=15)
+            Line(circle=(self.center_x, self.center_y, 100, -90, -90 + (self.progress / 100) * 180), width=15)
 
 
 class MainWidget(BoxLayout):
