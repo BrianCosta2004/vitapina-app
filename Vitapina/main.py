@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.lang import Builder
 from telas import *
-from botoes import *
+from elementos import *
 import requests
 import os
 from functools import partial

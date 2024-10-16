@@ -17,24 +17,79 @@
                     radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
             text: ""
             pos_hint: {"right": 0.95, "top": 1}
-            size_hint: 0.9, 0.4
+            size_hint: 0.9, 0.35
 
         SemicircleProgressBar:
             min: 0
             max: 200
             value: 50
-            pos_hint: {"right": 0.85, "top": 0.85}
-            size_hint: 0.7, 0.33
+            pos_hint: {"right": 0.80, "top": 0.88}
+            size_hint: 0.6, 0.33
 
         Label:
             text: "[size=100]90[/size]"
-            pos_hint: {"right": 0.85, "top": 0.87}
+            pos_hint: {"right": 0.85, "top": 0.9}
             size_hint: 0.7, 0.33
             markup: True
             bold: True
 
+        Retangulo:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("FFFFFF")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+            pos_hint: {"right": 0.9, "top": 0.60}
+            size_hint: 0.8, 0.45
+
+        LabelButton:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#eb7b29")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+
+            pos_hint: {"right": 0.9, "top": 0.19}
+            size_hint: 0.8, 0.065
+            text: "[color=#FFFFFF]Gerar Relatório[/color]"
+            id: label_total_vendas
+            markup: True
+            on_release: app.firebase.criar_conta(email.text, senha.text)
+
+        GridLayout:
+            rows: 1
+            pos_hint: {"right": 1, "top": 0.08}
+            size_hint: 1, 0.08
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex("#006D7E")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            ImageButton:
+                source: "icones/add.png"
+                on_release: app.mudar_tela("receitaspage")
+            ImageButton:
+                source: "icones/salesman.png"
+                on_release: app.mudar_tela("caloriaspage")
+            ImageButton:
+                source: "icones/settings.png"
+                on_release: app.mudar_tela("glicemiapage")
+            ImageButton:
+                source: "icones/add.png"
+                on_release: app.mudar_tela("perfilpage")
+
         Image:
-            pos_hint: {"right": 0.9, "top": 1}
-            size_hint: 0.8, 0.10
+            pos_hint: {"right": 0.625, "top": 1}
+            size_hint: 0.25, 0.1
             source: "icones/logotipo.png"
             id: foto_perfil
+
+        CurvaGlicemicaWidget:
+            pos_hint: {"right": 0.86, "top": 0.55}
+            size_hint: 0.75, 0.33
+
