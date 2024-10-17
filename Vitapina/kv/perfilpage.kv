@@ -1,56 +1,133 @@
 <PerfilPage>
     FloatLayout:
         canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#FFFBF0")
             Rectangle:
                 size: self.size
                 pos: self.pos
-                source: "icones/bg1.png"
+
         Label:
-            text: "CONTROLE DE [color=#00CFDB]VENDAS FATEC[/color]"
-            bold: True
-            markup: True
-            pos_hint: {"right": 0.9, "top": 0.9}
-            size_hint: 0.8, 0.2
-        TextInput:
-            id: email
-            hint_text: "E-mail"
-            pos_hint: {"right": 0.9, "top": 0.7}
-            size_hint: 0.8, 0.1
-        TextInput:
-            id: senha
-            password: True
-            hint_text: "Senha"
-            pos_hint: {"right": 0.9, "top": 0.55}
-            size_hint: 0.8, 0.1
-        Label:
-            id: mensagem_login
-            text: "[color=#00CFDB]Faça seu login[/color]"
-            bold: True
-            markup: True
-            pos_hint: {"right": 0.9, "top": 0.4}
-            size_hint: 0.8, 0.1
-        LabelButton:
             canvas.before:
-                Rectangle:
+                Color:
+                    rgb: utils.get_color_from_hex("#139bad")
+                RoundedRectangle:
                     pos: self.pos
                     size: self.size
-                    source: "icones/botao.png" if self.state == "normal" else "icones/botao_apertado.png"
-            pos_hint: {"right": 0.45, "top": 0.3}
-            size_hint: 0.4, 0.2
-            text: "Login"
+                    radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+            text: ""
+            pos_hint: {"right": 1, "top": 1}
+            size_hint: 1, 0.38
+
+        Label:
+            text: "[size=25][b]Nome Sobrenome[/b][/size]"
+            pos_hint: {"right": 0.70, "top": 0.98}
+            size_hint: 0.1, 0.38
+            markup: True
+
+        Label:
+            text: "Usuário há XX dias"
+            pos_hint: {"right": 0.75, "top": 0.95}
+            size_hint: 0.1, 0.38
+            markup: True
+
+        Image:
+            pos_hint: {"right": 0.625, "top": 1}
+            size_hint: 0.25, 0.1
+            source: "icones/logotipo.png"
+            id: foto_perfil
+
+        Image:
+            pos_hint: {"right": 0.35, "top": 0.9}
+            size_hint: 0.2, 0.25
+            source: "icones/fotos_perfil/foto3.png"
+            id: foto_perfil
+
+        TextInput:
+            id: sobrenome
+            hint_text: "Sobrenome"
+            pos_hint: {"right": 0.85, "top": 0.605}
+            size_hint: 0.33, 0.055
+
+        TextInput:
+            id: Nome
+            password: True
+            hint_text: "Nome"
+            pos_hint: {"right": 0.48, "top": 0.605}
+            size_hint: 0.33, 0.055
+
+        TextInput:
+            multiline: False
+            id: telefone
+            password: True
+            hint_text: "Telefone"
+            pos_hint: {"right": 0.85, "top": 0.53}
+            size_hint: 0.7, 0.055
+
+
+        TextInput:
+            id: email
+            password: True
+            hint_text: "E-mail"
+            pos_hint: {"right": 0.85, "top": 0.455}
+            size_hint: 0.7, 0.055
+
+        TextInput:
+            id: dia_nas
+            password: True
+            hint_text: "DD"
+            pos_hint: {"right": 0.25, "top": 0.380}
+            size_hint: 0.1, 0.055
+
+        TextInput:
+            id: mes_nas
+            password: True
+            hint_text: "MM"
+            pos_hint: {"right": 0.37, "top": 0.380}
+            size_hint: 0.1, 0.055
+
+        TextInput:
+            id: ano_nas
+            password: True
+            hint_text: "AAAA"
+            pos_hint: {"right": 0.59, "top": 0.380}
+            size_hint: 0.2, 0.055
+
+        TextInput:
+            id: sexo
+            password: True
+            hint_text: "-"
+            pos_hint: {"right": 0.85, "top": 0.380}
+            size_hint: 0.1, 0.055
+
+        LabelButton:
+            pos_hint: {"right": 0.53, "top": 0.225}
+            size_hint: 0.1, 0.1
+            text: "[color=#0000FF][u]Alterar minha senha[/u][/color]"
             id: label_total_vendas
             markup: True
             on_release: app.firebase.fazer_login(email.text, senha.text)
 
-        LabelButton:
-            canvas.before:
+
+        GridLayout:
+            rows: 1
+            pos_hint: {"right": 1, "top": 0.08}
+            size_hint: 1, 0.08
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex("#006D7E")
                 Rectangle:
-                    pos: self.pos
                     size: self.size
-                    source: "icones/botao.png" if self.state == "normal" else "icones/botao_apertado.png"
-            pos_hint: {"right": 0.95, "top": 0.3}
-            size_hint: 0.4, 0.2
-            text: "Cadastrar"
-            id: label_total_vendas
-            markup: True
-            on_release: app.firebase.criar_conta(email.text, senha.text)
+                    pos: self.pos
+            ImageButton:
+                source: "icones/add.png"
+                on_release: app.mudar_tela("receitaspage")
+            ImageButton:
+                source: "icones/salesman.png"
+                on_release: app.mudar_tela("caloriaspage")
+            ImageButton:
+                source: "icones/settings.png"
+                on_release: app.mudar_tela("glicemiapage")
+            ImageButton:
+                source: "icones/add.png"
+                on_release: app.mudar_tela("perfilpage")
