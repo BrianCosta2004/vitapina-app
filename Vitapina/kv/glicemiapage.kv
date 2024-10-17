@@ -2,7 +2,7 @@
     FloatLayout:
         canvas:
             Color:
-                rgb: utils.get_color_from_hex("#2aadcd")
+                rgb: utils.get_color_from_hex("#feeebe")
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -66,21 +66,21 @@
             size_hint: 1, 0.08
             canvas:
                 Color:
-                    rgb: utils.get_color_from_hex("#006D7E")
+                    rgb: utils.get_color_from_hex("#8dd0d9")
                 Rectangle:
                     size: self.size
                     pos: self.pos
             ImageButton:
-                source: "icones/botaomenu.png"
+                source: "icones/receita.png"
                 on_release: app.mudar_tela("receitaspage")
             ImageButton:
-                source: "icones/salesman.png"
+                source: "icones/fogo.png"
                 on_release: app.mudar_tela("caloriaspage")
             ImageButton:
-                source: "icones/settings.png"
+                source: "icones/graph.png"
                 on_release: app.mudar_tela("glicemiapage")
             ImageButton:
-                source: "icones/add.png"
+                source: "icones/user.png"
                 on_release: app.mudar_tela("perfilpage")
 
         Image:
