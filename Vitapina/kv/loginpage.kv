@@ -39,7 +39,6 @@
 
         TextInput:
             id: email
-            password: True
             hint_text: "E-mail"
             pos_hint: {"right": 0.85, "top": 0.52}
             size_hint: 0.7, 0.055
@@ -61,12 +60,20 @@
             on_release: app.firebase.fazer_login(email.text, senha.text)
 
         LabelButton:
-            pos_hint: {"right": 0.55, "top": 0.120}
-            size_hint: 0.1, 0.1
+            pos_hint: {"right": 0.6, "top": 0.120}
+            size_hint: 0.2, 0.1
             text: "[color=#0000FF][u]Fazer cadastro[/u][/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.fazer_login(email.text, senha.text)
+            on_release: app.mudar_tela("cadastropage")
+
+        Label:
+            id: mensagem_erro
+            text: ""
+            bold: True
+            markup: True
+            pos_hint: {"right": 0.9, "top": 0.39}
+            size_hint: 0.8, 0.1
 
         LabelButton:
             canvas.before:
@@ -82,4 +89,4 @@
             text: "[color=#FFFFFF]Entrar[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_conta(email.text, senha.text)
+            on_release: app.firebase.fazer_login(email.text, senha.text)

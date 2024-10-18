@@ -31,6 +31,22 @@
             size_hint: 0.1, 0.38
             markup: True
 
+        LabelButton:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#eb7b29")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+
+            pos_hint: {"right": 0.82, "top": 0.72}
+            size_hint: 0.2, 0.05
+            text: "[color=#FFFFFF]Editar Perfil[/color]"
+            id: label_total_vendas
+            markup: True
+            on_release: app.mudar_tela("perfilpage")
+
         Image:
             pos_hint: {"right": 0.625, "top": 1}
             size_hint: 0.25, 0.1
@@ -120,14 +136,14 @@
                     size: self.size
                     pos: self.pos
             ImageButton:
-                source: "icones/add.png"
+                source: "icones/receita.png"
                 on_release: app.mudar_tela("receitaspage")
             ImageButton:
-                source: "icones/salesman.png"
+                source: "icones/fogo.png"
                 on_release: app.mudar_tela("caloriaspage")
             ImageButton:
-                source: "icones/settings.png"
+                source: "icones/graph.png"
                 on_release: app.mudar_tela("glicemiapage")
             ImageButton:
-                source: "icones/add.png"
+                source: "icones/user.png"
                 on_release: app.mudar_tela("perfilpage")

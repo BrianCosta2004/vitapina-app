@@ -44,8 +44,7 @@
             size_hint: 0.33, 0.055
 
         TextInput:
-            id: Nome
-            password: True
+            id: nome
             hint_text: "Nome"
             pos_hint: {"right": 0.48, "top": 0.605}
             size_hint: 0.33, 0.055
@@ -53,7 +52,6 @@
         TextInput:
             multiline: False
             id: telefone
-            password: True
             hint_text: "Telefone"
             pos_hint: {"right": 0.85, "top": 0.53}
             size_hint: 0.7, 0.055
@@ -61,7 +59,6 @@
 
         TextInput:
             id: email
-            password: True
             hint_text: "E-mail"
             pos_hint: {"right": 0.85, "top": 0.455}
             size_hint: 0.7, 0.055
@@ -81,12 +78,20 @@
             size_hint: 0.7, 0.055
 
         LabelButton:
-            pos_hint: {"right": 0.53, "top": 0.125}
-            size_hint: 0.1, 0.1
+            pos_hint: {"right": 0.635, "top": 0.125}
+            size_hint: 0.27, 0.1
             text: "[color=#000000]Já tem uma conta?[/color]  [color=#0000FF][u]Fazer login[/u][/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.fazer_login(email.text, senha.text)
+            on_release: app.mudar_tela("loginpage")
+
+        Label:
+            id: mensagem_erro
+            text: ""
+            bold: True
+            markup: True
+            pos_hint: {"right": 0.9, "top": 0.26}
+            size_hint: 0.8, 0.1
 
         LabelButton:
             canvas.before:
@@ -97,9 +102,9 @@
                     size: self.size
                     radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
 
-            pos_hint: {"right": 0.9, "top": 0.2}
+            pos_hint: {"right": 0.9, "top": 0.18}
             size_hint: 0.8, 0.065
             text: "[color=#FFFFFF]Cadastrar[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_conta(email.text, senha.text)
+            on_release: app.firebase.criar_conta(email.text, senha.text, nome.text, sobrenome.text, telefone.text)
