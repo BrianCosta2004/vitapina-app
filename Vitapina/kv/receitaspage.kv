@@ -25,52 +25,99 @@
             id: foto_perfil
 
         Label:
-            pos_hint: {"right": 0.3, "top": 0.7}
+            pos_hint: {"right": 0.3, "top": 0.85}
             size_hint: 0.1, 0.05
-            text: "Café da Manhã"
+            text: "Livro de Receitas"
             id: cafe_manha
 
         ScrollView:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#139bad")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
             pos_hint: {"right": 1, "top": 0.68}
             size_hint: 1, 0.15
             GridLayout:
                 rows: 1
-                id: lista_clientes
+                id: lista_alimentos_cafe
                 size_hint_x: None
                 width: self.minimum_width
                 col_default_width: "100dp"
                 col_force_default: True
 
         Label:
-            pos_hint: {"right": 0.3, "top": 0.7}
+            pos_hint: {"right": 0.3, "top": 0.75}
             size_hint: 0.1, 0.05
             text: "Café da Manhã"
             id: cafe_manha
 
         ScrollView:
-            pos_hint: {"right": 1, "top": 0.68}
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#139bad")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+            pos_hint: {"right": 1, "top": 0.48}
             size_hint: 1, 0.15
             GridLayout:
                 rows: 1
-                id: lista_clientes
+                id: lista_alimentos_almoco
                 size_hint_x: None
                 width: self.minimum_width
                 col_default_width: "100dp"
                 col_force_default: True
 
         Label:
-            pos_hint: {"right": 0.3, "top": 0.7}
+            pos_hint: {"right": 0.3, "top": 0.5}
             size_hint: 0.1, 0.05
-            text: "Café da Manhã"
+            text: "Almoço"
             id: cafe_manha
 
         ScrollView:
-            pos_hint: {"right": 1, "top": 0.68}
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#139bad")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+            pos_hint: {"right": 1, "top": 0.28}
             size_hint: 1, 0.15
             GridLayout:
                 rows: 1
-                id: lista_clientes
+                id: lista_alimentos_janta
                 size_hint_x: None
                 width: self.minimum_width
                 col_default_width: "100dp"
                 col_force_default: True
+
+        Label:
+            pos_hint: {"right": 0.3, "top": 0.3}
+            size_hint: 0.1, 0.05
+            text: "Janta"
+            id: cafe_manha
+
+        GridLayout:
+            rows: 1
+            pos_hint: {"right": 1, "top": 0.08}
+            size_hint: 1, 0.08
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex("#8dd0d9")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            ImageButton:
+                source: "icones/receita.png"
+                on_release: app.mudar_tela("receitaspage")
+            ImageButton:
+                source: "icones/fogo.png"
+                on_release: app.mudar_tela("caloriaspage")
+            ImageButton:
+                source: "icones/graph.png"
+                on_release: app.mudar_tela("glicemiapage")
+            ImageButton:
+                source: "icones/user.png"
+                on_release: app.mudar_tela("perfilpage")
