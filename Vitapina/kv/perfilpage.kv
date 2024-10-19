@@ -22,15 +22,18 @@
         Label:
             id: label_nome
             text: "[size=25][b]Nome Sobrenome[/b][/size]"
-            pos_hint: {"right": 0.70, "top": 0.98}
+            pos_hint: {"right": 0.75, "top": 0.98}
             size_hint: 0.1, 0.38
             markup: True
+            halign: 'left'
 
         Label:
             text: "Usuário há XX dias"
             pos_hint: {"right": 0.75, "top": 0.95}
             size_hint: 0.1, 0.38
             markup: True
+            id: label_data
+            halign: 'left'
 
         LabelButton:
             canvas.before:
@@ -42,11 +45,11 @@
                     radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
 
             pos_hint: {"right": 0.82, "top": 0.72}
-            size_hint: 0.2, 0.05
+            size_hint: 0.25, 0.05
             text: "[color=#FFFFFF]Editar Perfil[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.mudar_tela("perfilpage")
+            on_release: print("teste")
 
         Image:
             pos_hint: {"right": 0.625, "top": 1}
@@ -55,16 +58,24 @@
             id: foto_perfil
 
         Image:
-            pos_hint: {"right": 0.35, "top": 0.9}
-            size_hint: 0.2, 0.25
+            pos_hint: {"right": 0.4, "top": 0.9}
+            size_hint: 0.3, 0.25
             source: "icones/fotos_perfil/foto3.png"
             id: foto_perfil
 
-        TextInput:
+        RoundedTextInput:
+            canvas.before:
+                Color:
+                    rgba: (0.8, 0.8, 0.8, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
             id: sobrenome
             hint_text: "Sobrenome"
             pos_hint: {"right": 0.85, "top": 0.605}
             size_hint: 0.33, 0.055
+            disabled: True
 
         TextInput:
             id: Nome
@@ -72,6 +83,7 @@
             hint_text: "Nome"
             pos_hint: {"right": 0.48, "top": 0.605}
             size_hint: 0.33, 0.055
+            disabled: True
 
         TextInput:
             multiline: False
@@ -80,6 +92,7 @@
             hint_text: "Telefone"
             pos_hint: {"right": 0.85, "top": 0.53}
             size_hint: 0.7, 0.055
+            disabled: True
 
 
         TextInput:
@@ -88,6 +101,7 @@
             hint_text: "E-mail"
             pos_hint: {"right": 0.85, "top": 0.455}
             size_hint: 0.7, 0.055
+            disabled: True
 
         TextInput:
             id: dia_nas
@@ -95,6 +109,7 @@
             hint_text: "DD"
             pos_hint: {"right": 0.25, "top": 0.380}
             size_hint: 0.1, 0.055
+            disabled: True
 
         TextInput:
             id: mes_nas
@@ -102,6 +117,7 @@
             hint_text: "MM"
             pos_hint: {"right": 0.37, "top": 0.380}
             size_hint: 0.1, 0.055
+            disabled: True
 
         TextInput:
             id: ano_nas
@@ -109,6 +125,7 @@
             hint_text: "AAAA"
             pos_hint: {"right": 0.59, "top": 0.380}
             size_hint: 0.2, 0.055
+            disabled: True
 
         TextInput:
             id: sexo
@@ -116,6 +133,7 @@
             hint_text: "-"
             pos_hint: {"right": 0.85, "top": 0.380}
             size_hint: 0.1, 0.055
+            disabled: True
 
         LabelButton:
             pos_hint: {"right": 0.53, "top": 0.225}

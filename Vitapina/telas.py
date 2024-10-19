@@ -28,3 +28,6 @@ class ReceitasPage(Screen):
 class AdicionarReceitasPage(Screen):
     pass
 
+
+class EditarPerfilPage(Screen):
+    pass

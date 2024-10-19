@@ -6,25 +6,22 @@ import requests
 import os
 from functools import partial
 from myfirebase import MyFirebase
-from datetime import date
+from datetime import datetime
 
 GUI = Builder.load_file("main.kv")
 
 
 class MainApp(App):
-    cliente = None
-    produto = None
-    unidade = None
 
     def build(self):
         self.firebase = MyFirebase()
         return GUI
 
     def on_start(self):
-        print(self.root.ids["perfilpage"].ids)
         arquivos = os.listdir("icones/fotos_alimentos_cafe")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_cafe"]
+        print(self.root.ids["receitaspage"].ids["lista_alimentos_cafe"])
         for foto_produto in arquivos:
             imagem = ImageButton(source=f"icones/fotos_alimentos_cafe/{foto_produto}")
             label = LabelButton(text=foto_produto.replace(".png", "").capitalize())
@@ -62,10 +59,13 @@ class MainApp(App):
             print(requisicao_dic)
             nome = requisicao_dic["Nome"]
             sobrenome = requisicao_dic["Sobrenome"]
+            data = requisicao_dic["Data"]
             self.nome = nome
             self.sobrenome = sobrenome
+            self.data = data
             pagina_perfil = self.root.ids["perfilpage"]
             pagina_perfil.ids["label_nome"].text = f"[size=25][b]{nome} {sobrenome}[/b][/size]"
+            pagina_perfil.ids["label_data"].text = f"Usuário há {(datetime.now() - datetime.strptime(data, "%d/%m/%Y")).days} dias"
 
 
             self.mudar_tela("homepage")

@@ -6,10 +6,11 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
-from kivy.graphics import Line, Color, Rectangle
+from kivy.graphics import Line, Color, Rectangle, RoundedRectangle
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
+from kivy.properties import NumericProperty
 
 
 class ImageButton(ButtonBehavior, Image):
@@ -22,45 +23,6 @@ class LabelButton(ButtonBehavior, Label):
 
 class TextInputRounded(TextInput, FloatLayout, Image):
     pass
-
-
-class SemicircleProgressBar(Widget):
-    def __init__(self, **kwargs):
-        super(SemicircleProgressBar, self).__init__(**kwargs)
-        self.progress = 0
-        Clock.schedule_interval(self.update_progress, 0.1)
-
-    def update_progress(self, dt):
-        self.progress = (self.progress + 1) % 101
-        self.canvas.clear()
-        with self.canvas:
-            # Cor de fundo (base do arco)
-            Color(0.9, 0.9, 0.6)
-            Line(circle=(self.center_x, self.center_y, 100, -90, 90), width=10)
-
-            # Cor da barra de progresso (arco preenchido)
-            Color(0.2, 0.2, 0.8)
-            Line(circle=(self.center_x, self.center_y, 100, -90, -90 + (self.progress / 100) * 180), width=10)
-
-
-class MainWidget(BoxLayout):
-    def __init__(self, **kwargs):
-        super(MainWidget, self).__init__(**kwargs)
-        self.orientation = 'horizontal'
-
-        # ProgressBar semicircular
-        self.progress_bar = SemicircleProgressBar(size=(200, 200), size_hint=(None, None))
-        self.add_widget(self.progress_bar)
-
-        # Label para mostrar o valor da barra de progresso
-        self.value_label = Label(text="0", font_size=50)
-        self.add_widget(self.value_label)
-
-        # Atualizar o valor da label conforme o progresso
-        Clock.schedule_interval(self.update_label, 0.1)
-
-    def update_label(self, dt):
-        self.value_label.text = str(self.progress_bar.progress)
 
 
 class Retangulo(Widget):
@@ -95,3 +57,51 @@ class CurvaGlicemicaWidget(BoxLayout):
 
         # Adicionando o gráfico ao layout
         self.add_widget(canvas)
+
+
+class HeatMapLabel(Label):
+    intensity = NumericProperty(0.7)  # Propriedade que controla a intensidade de calor
+
+    def __init__(self, **kwargs):
+        super(HeatMapLabel, self).__init__(**kwargs)
+        self.bind(size=self.update_rect, pos=self.update_rect)
+        self.bind(intensity=self.update_color)
+
+        # Desenhando o fundo da Label
+        with self.canvas.before:
+            self.rect_color = Color(1, 1, 1, 0)  # Cor inicial (branco)
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+
+    def update_rect(self, *args):
+        self.rect.pos = self.pos
+        self.rect.size = self.size
+
+    def update_color(self, *args):
+        # Atualizando a cor com base na intensidade (valor entre 0 e 1)
+        heat_color = self.get_color_for_intensity(self.intensity)
+        self.rect_color.rgba = heat_color
+
+    def get_color_for_intensity(self, intensity):
+        # Define as cores de acordo com a intensidade (0 = frio, 1 = quente)
+        # Transição de azul (frio) -> verde -> amarelo -> vermelho (quente)
+        if intensity < 0.33:
+            return (0, 0, 1, 1)  # Azul (frio)
+        elif intensity < 0.66:
+            return (0, 1, 0, 1)  # Verde (médio)
+        else:
+            return (1, 0, 0, 1)  # Vermelho (quente)
+
+class RoundedTextInput(TextInput):
+    def __init__(self, **kwargs):
+        super(RoundedTextInput, self).__init__(**kwargs)
+        self.background_normal = ''  # Remove o background padrão
+        self.background_active = ''  # Remove o background quando ativo
+        self.bind(pos=self.update_background, size=self.update_background)
+
+        with self.canvas.before:
+            Color(0.8, 0.8, 0.8, 1)  # Cor de fundo cinza claro
+            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[15])  # Raio para cantos arredondados
+
+    def update_background(self, *args):
+        self.rect.pos = self.pos
+        self.rect.size = self.size

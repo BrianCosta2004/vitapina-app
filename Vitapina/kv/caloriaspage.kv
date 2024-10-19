@@ -14,7 +14,7 @@
                 RoundedRectangle:
                     pos: self.pos
                     size: self.size
-                    radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+                    radius: [(0, 0), (0, 0), (40, 40), (40, 40)]
             text: ""
             pos_hint: {"right": 1, "top": 1}
             size_hint: 1, 0.45
@@ -29,6 +29,68 @@
                     radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
             pos_hint: {"right": 0.9, "top": 0.60}
             size_hint: 0.8, 0.45
+
+        GridLayout:
+            cols: 1
+            pos_hint: {"right": 0.70, "top": 0.9}
+            size_hint: 0.4, 0.01
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "40dp"
+            row_force_default: True
+            Label:
+                text: "[color=#000000][b]Restantes[/b][/color]"
+                markup: True
+            Label:
+                text: "[color=#000000][size=90][b]850[/b][/size][/color]"
+                markup: True
+            Label:
+                text: "[color=#000000]Kcal[/color]"
+                markup: True
+
+        GridLayout:
+            cols: 2
+            pos_hint: {"right": 0.70, "top": 0.9}
+            size_hint: 0.4, 0.01
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "170dp"
+            row_force_default: True
+            GridLayout:
+                pos_hint: {"right": 0.1, "top": 1}
+                size_hint: 1, 0.01
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "40dp"
+                row_force_default: True
+
+                Label:
+                    text: "[color=#000000][size=90][b]850[/b][/size][/color]"
+                    markup: True
+                Label:
+                    text: "[color=#000000][b]Consumidas[/b][/color]"
+                    markup: True
+
+            GridLayout:
+                pos_hint: {"right": 1, "top": 1}
+                size_hint: 1, 0.01
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "40dp"
+                row_force_default: True
+
+                Label:
+                    text: "[color=#000000][size=90][b]1700[/b][/size][/color]"
+                    markup: True
+                Label:
+                    text: "[color=#000000][b]Total[/b][/color]"
+                    markup: True
 
         LabelButton:
             canvas.before:
@@ -56,6 +118,7 @@
             rows: 1
             pos_hint: {"right": 1, "top": 0.08}
             size_hint: 1, 0.08
+
             canvas:
                 Color:
                     rgb: utils.get_color_from_hex("#006D7E")

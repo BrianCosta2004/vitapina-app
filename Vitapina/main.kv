@@ -5,6 +5,7 @@
 #:include kv/perfilpage.kv
 #:include kv/receitaspage.kv
 #:include kv/adicionarreceitaspage.kv
+#:include kv/editarperfilpage.kv
 #:import utils kivy.utils
 
 FloatLayout:
@@ -12,25 +13,28 @@ FloatLayout:
         pos_hint: {"right": 1, "top": 1}
         size_hint: 1, 1
         id: screen_manager
-        LoginPage:
-            name: "loginpage"
-            id: loginpage
+        CaloriasPage:
+            name: "caloriaspage"
+            id: caloriaspage
         PerfilPage:
             name: "perfilpage"
             id: perfilpage
+        GlicemiaPage:
+            name: "glicemiapage"
+            id: glicemiapage
+        LoginPage:
+            name: "loginpage"
+            id: loginpage
         CadastroPage:
             name: "cadastropage"
             id: cadastropage
         ReceitasPage:
             name: "receitaspage"
             id: receitaspage
-        GlicemiaPage:
-            name: "glicemiapage"
-            id: glicemiapage
-        CaloriasPage:
-            name: "caloriaspage"
-            id: caloriaspage
         AdicionarReceitasPage:
             name: "adicionarreceitaspage"
             id: adicionarreceitaspage
+        EditarPerfilPage:
+            name: "editarperfilpage"
+            id: editarperfilpage
 
