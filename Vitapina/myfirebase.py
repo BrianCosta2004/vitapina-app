@@ -26,17 +26,18 @@ class MyFirebase():
             with open("refreshtoken.txt", "w") as arquivo:
                 arquivo.write(refresh_token)
 
-            req_id = requests.get("https://vitapinabd-default-rtdb.firebaseio.com//proximo_id.json")
+            req_id = requests.get("https://vitapinabd-default-rtdb.firebaseio.com/proximo_id.json")
             id_vendedor = req_id.json()
 
-            link = f"https://vitapinabd-default-rtdb.firebaseio.com//{local_id}.json"
+            link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
             info_usuario = f'{{"Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}"}}'
             requisicao_usuario = requests.patch(link, data=info_usuario)
 
             proximo_id = int(id_vendedor) + 1
             info_id = f'{{"proximo_id": "{proximo_id}"}}'
-            requests.patch("https://vitapinabd-default-rtdb.firebaseio.com//.json", data=info_id)
+            requests.patch("https://vitapinabd-default-rtdb.firebaseio.com/.json", data=info_id)
 
+            meu_aplicativo.carregar_infos_usuario()
             meu_aplicativo.mudar_tela("glicemiapage")
 
         else:
@@ -68,6 +69,7 @@ class MyFirebase():
             with open("refreshtoken.txt", "w") as arquivo:
                 arquivo.write(refresh_token)
 
+            meu_aplicativo.carregar_infos_usuario()
             meu_aplicativo.mudar_tela("glicemiapage")
 
         else:
