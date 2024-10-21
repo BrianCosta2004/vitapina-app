@@ -169,10 +169,10 @@
 
             pos_hint: {"right": 0.8, "top": 0.19}
             size_hint: 0.6, 0.065
-            text: "[color=#FFFFFF]Refeição[/color]"
+            text: "[color=#FFFFFF]+ Refeição[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_conta(email.text, senha.text)
+            on_release: app.show_popup()
 
         Image:
             pos_hint: {"right": 0.625, "top": 0.95}

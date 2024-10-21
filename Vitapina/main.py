@@ -1,5 +1,8 @@
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.uix.popup import Popup
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.button import Button
 from telas import *
 from elementos import *
 import requests
@@ -71,6 +74,50 @@ class MainApp(App):
             self.mudar_tela("homepage")
         except:
             pass
+
+    def show_popup(self):
+        popup_layout = GridLayout(cols=2, padding=[20, 20, 20, 20], spacing=[20, 20])
+
+        with popup_layout.canvas.before:
+            Color(0.8, 0.9, 1, 1)
+            self.bg_rect = RoundedRectangle(pos=popup_layout.pos, size=popup_layout.size, radius=[20])
+            popup_layout.bind(pos=self.update_bg, size=self.update_bg)
+
+        buttons = [
+            ('Café da manhã', self.on_button_press),
+            ('Almoço', self.on_button_press),
+            ('Jantar', self.on_button_press),
+            ('Lanche', self.on_button_press)
+        ]
+
+        for text, callback in buttons:
+            btn = Button(
+                text=text,
+                background_normal='',
+                background_color=(1, 1, 1, 1),
+                color=(0, 0, 0, 1),
+                size_hint=(0.8, 0.8)
+            )
+
+            btn.bind(on_release=callback)
+            popup_layout.add_widget(btn)
+
+        popup = Popup(
+            title='',
+            content=popup_layout,
+            size_hint=(0.9, 0.6),
+            auto_dismiss=True,
+            separator_height=0,
+            background_color=(0, 0, 0, 0),
+        )
+        popup.open()
+
+    def on_button_press(self, instance):
+        print(f"Botão '{instance.text}' pressionado!")
+
+    def update_bg(self, instance, value):
+        self.bg_rect.pos = instance.pos
+        self.bg_rect.size = instance.size
 
     def mudar_tela(self, id_tela):
         gerenciador = self.root.ids["screen_manager"]
