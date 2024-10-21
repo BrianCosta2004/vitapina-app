@@ -14,10 +14,10 @@
                 RoundedRectangle:
                     pos: self.pos
                     size: self.size
-                    radius: [(0, 0), (0, 0), (40, 40), (40, 40)]
+                    radius: [(0, 0), (0, 0), (60, 40), (60, 40)]
             text: ""
             pos_hint: {"right": 1, "top": 1}
-            size_hint: 1, 0.45
+            size_hint: 1, 0.5
 
         Retangulo:
             canvas.before:
@@ -27,23 +27,24 @@
                     pos: self.pos
                     size: self.size
                     radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
-            pos_hint: {"right": 0.9, "top": 0.60}
-            size_hint: 0.8, 0.45
+            pos_hint: {"right": 0.9, "top": 0.53}
+            size_hint: 0.8, 0.35
 
         GridLayout:
             cols: 1
-            pos_hint: {"right": 0.70, "top": 0.9}
+            pos_hint: {"right": 0.70, "top": 0.82}
             size_hint: 0.4, 0.01
             size_hint_y: None
             spacing: 2, 2
             height: self.minimum_height
-            row_default_height: "40dp"
+            row_default_height: "30dp"
             row_force_default: True
             Label:
                 text: "[color=#000000][b]Restantes[/b][/color]"
                 markup: True
+
             Label:
-                text: "[color=#000000][size=90][b]850[/b][/size][/color]"
+                text: "[color=#000000][size=60][b]850[/b][/size][/color]"
                 markup: True
             Label:
                 text: "[color=#000000]Kcal[/color]"
@@ -51,45 +52,110 @@
 
         GridLayout:
             cols: 2
-            pos_hint: {"right": 0.70, "top": 0.9}
-            size_hint: 0.4, 0.01
+            pos_hint: {"right": 0.95, "top": 0.85}
+            size_hint: 0.9, 0.01
             size_hint_y: None
             spacing: 2, 2
             height: self.minimum_height
-            row_default_height: "170dp"
+            row_default_height: "140dp"
             row_force_default: True
             GridLayout:
                 pos_hint: {"right": 0.1, "top": 1}
-                size_hint: 1, 0.01
+                size_hint: 1, 0.45
                 cols: 1
                 size_hint_y: None
                 spacing: 2, 2
                 height: self.minimum_height
-                row_default_height: "40dp"
+                row_default_height: "17dp"
                 row_force_default: True
 
                 Label:
-                    text: "[color=#000000][size=90][b]850[/b][/size][/color]"
+                    text: "[color=#000000][size=32][b]850[/b][/size][/color]"
                     markup: True
                 Label:
-                    text: "[color=#000000][b]Consumidas[/b][/color]"
+                    text: "[color=#000000][size=17][b]Consumidas[/b][/color]"
                     markup: True
 
             GridLayout:
                 pos_hint: {"right": 1, "top": 1}
-                size_hint: 1, 0.01
+                size_hint: 1, 0.45
                 cols: 1
                 size_hint_y: None
                 spacing: 2, 2
                 height: self.minimum_height
-                row_default_height: "40dp"
+                row_default_height: "17dp"
                 row_force_default: True
 
                 Label:
-                    text: "[color=#000000][size=90][b]1700[/b][/size][/color]"
+                    text: "[color=#000000][size=32][b]1700[/b][/size][/color]"
                     markup: True
                 Label:
-                    text: "[color=#000000][b]Total[/b][/color]"
+                    text: "[color=#000000][size=17][b]Total[/b][/color]"
+                    markup: True
+
+        GridLayout:
+            pos_hint: {"right": 0.85, "top": 0.5}
+            size_hint: 0.7, 0.45
+            cols: 1
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "20dp"
+            row_force_default: True
+
+            Label:
+                text: "[color=#000000][b]Macronutrientes:[/b][/color]"
+                markup: True
+            Label:
+                text: "[color=#000000][b]____________________________[/b][/color]"
+                markup: True
+
+            GridLayout:
+                pos_hint: {"right": 0.85, "top": 0.5}
+                size_hint: 0.7, 0.45
+                cols: 2
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "20dp"
+                row_force_default: True
+                Label:
+                    text: "[color=#000000][b]Proteínas[/b][/color]"
+                    markup: True
+                Label:
+                    text: "[color=#000000][b]35g[/b][/color]"
+                    markup: True
+
+            GridLayout:
+                pos_hint: {"right": 0.85, "top": 0.5}
+                size_hint: 0.7, 0.45
+                cols: 2
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "20dp"
+                row_force_default: True
+                Label:
+                    text: "[color=#000000][b]Carboidratos[/b][/color]"
+                    markup: True
+                Label:
+                    text: "[color=#000000][b]30g[/b][/color]"
+                    markup: True
+
+            GridLayout:
+                pos_hint: {"right": 0.85, "top": 0.5}
+                size_hint: 0.7, 0.45
+                cols: 2
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "20dp"
+                row_force_default: True
+                Label:
+                    text: "[color=#000000][b]Gorduras[/b][/color]"
+                    markup: True
+                Label:
+                    text: "[color=#000000][b]30g[/b][/color]"
                     markup: True
 
         LabelButton:
@@ -109,32 +175,56 @@
             on_release: app.firebase.criar_conta(email.text, senha.text)
 
         Image:
-            pos_hint: {"right": 0.625, "top": 1}
+            pos_hint: {"right": 0.625, "top": 0.95}
             size_hint: 0.25, 0.1
             source: "icones/logotipo.png"
             id: foto_perfil
 
         GridLayout:
-            rows: 1
+            cols: 4
             pos_hint: {"right": 1, "top": 0.08}
             size_hint: 1, 0.08
-
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "40dp"
+            row_force_default: True
             canvas:
                 Color:
-                    rgb: utils.get_color_from_hex("#006D7E")
+                    rgb: utils.get_color_from_hex("#8dd0d9")
                 Rectangle:
                     size: self.size
                     pos: self.pos
-            ImageButton:
-                source: "icones/receita.png"
-                on_release: app.mudar_tela("receitaspage")
-            ImageButton:
-                source: "icones/fogo.png"
-                on_release: app.mudar_tela("caloriaspage")
-            ImageButton:
-                source: "icones/graph.png"
-                on_release: app.mudar_tela("glicemiapage")
-            ImageButton:
-                source: "icones/user.png"
-                on_release: app.mudar_tela("perfilpage")
+
+            GridLayout:
+                cols: 1
+                pos_hint: {"right": 1, "top": 0.05}
+                size_hint: 1, 0.01
+                ImageButton:
+                    source: "icones/receita.png"
+                    on_release: app.mudar_tela("receitaspage")
+
+            GridLayout:
+                cols: 1
+                pos_hint: {"right": 1, "top": 0.08}
+                size_hint: 1, 0.08
+                ImageButton:
+                    source: "icones/fogo.png"
+                    on_release: app.mudar_tela("caloriaspage")
+
+            GridLayout:
+                cols: 1
+                pos_hint: {"right": 1, "top": 0.08}
+                size_hint: 1, 0.08
+                ImageButton:
+                    source: "icones/graph.png"
+                    on_release: app.mudar_tela("glicemiapage")
+
+            GridLayout:
+                cols: 1
+                pos_hint: {"right": 1, "top": 0.08}
+                size_hint: 1, 0.08
+                ImageButton:
+                    source: "icones/user.png"
+                    on_release: app.mudar_tela("perfilpage")
 
