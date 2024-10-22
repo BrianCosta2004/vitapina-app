@@ -3,13 +3,13 @@ from kivy.uix.label import Label
 from kivy.uix.button import ButtonBehavior
 from kivy.uix.textinput import TextInput
 from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
-from kivy.clock import Clock
+from kivy.uix.effectwidget import EffectWidget, HorizontalBlurEffect
+from kivy.animation import Animation
+from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color, Rectangle, RoundedRectangle
 from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
 from kivy.properties import NumericProperty
 
 
@@ -105,3 +105,36 @@ class RoundedTextInput(TextInput):
     def update_background(self, *args):
         self.rect.pos = self.pos
         self.rect.size = self.size
+
+
+class AnimatedImage(ButtonBehavior, BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        # Container com efeito de desfoque
+        self.effect_widget = EffectWidget()
+        self.blur_effect = HorizontalBlurEffect(size=10)  # Desfoque inicial
+        self.effect_widget.effects = [self.blur_effect]  # Adicione o efeito aqui
+
+        # Adiciona a imagem no widget de efeito
+        self.img = Image(source='icones/pina.png', size_hint=(None, None), size=(250, 250),)
+        self.effect_widget.add_widget(self.img)
+
+        self.add_widget(self.effect_widget)
+
+        # Iniciar a animação
+        self.animate_image()
+
+    def animate_image(self):
+        anim1 = Animation(size=(300, 300), d=0.4) + Animation(size=(250, 250), d=0.4)
+        anim1.bind(on_start=self.focus_in)
+        anim1.bind(on_complete=self.focus_out)
+        anim1.start(self.img)
+
+    def focus_in(self, *args):
+        anim_blur = Animation(size=0, d=0.2)  # Remover o desfoque
+        anim_blur.start(self.blur_effect)
+
+    def focus_out(self, *args):
+        anim_blur = Animation(size=2, d=0.2)  # Adicionar o desfoque
+        anim_blur.start(self.blur_effect)

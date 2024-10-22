@@ -1,3 +1,4 @@
+#:include kv/splashscreen.kv
 #:include kv/cadastropage.kv
 #:include kv/loginpage.kv
 #:include kv/caloriaspage.kv
@@ -13,21 +14,24 @@ FloatLayout:
         pos_hint: {"right": 1, "top": 1}
         size_hint: 1, 1
         id: screen_manager
-        PerfilPage:
-            name: "perfilpage"
-            id: perfilpage
-        EditarPerfilPage:
-            name: "editarperfilpage"
-            id: editarperfilpage
-        LoginPage:
-            name: "loginpage"
-            id: loginpage
         CaloriasPage:
             name: "caloriaspage"
             id: caloriaspage
+        SplashScreen:
+            name: "splashscreen"
+            id: splashscreen
+        LoginPage:
+            name: "loginpage"
+            id: loginpage
         CadastroPage:
             name: "cadastropage"
             id: cadastropage
+        EditarPerfilPage:
+            name: "editarperfilpage"
+            id: editarperfilpage
+        PerfilPage:
+            name: "perfilpage"
+            id: perfilpage
         GlicemiaPage:
             name: "glicemiapage"
             id: glicemiapage

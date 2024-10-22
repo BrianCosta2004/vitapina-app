@@ -102,7 +102,7 @@ class MainApp(App):
             btn.bind(on_release=callback)
             popup_layout.add_widget(btn)
 
-        popup = Popup(
+        self.popup = Popup(
             title='',
             content=popup_layout,
             size_hint=(0.9, 0.6),
@@ -110,10 +110,16 @@ class MainApp(App):
             separator_height=0,
             background_color=(0, 0, 0, 0),
         )
-        popup.open()
+        self.popup.open()
 
     def on_button_press(self, instance):
-        print(f"Botão '{instance.text}' pressionado!")
+        info = f'{{"tipo": "{instance.text}"}}'
+        requisicao = requests.post(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}/Refeicoes.json", data=info)
+        requisicao_dic = requisicao.json()
+
+        if requisicao.ok:
+            self.popup.dismiss()
+            self.mudar_tela("perfilpage")
 
     def update_bg(self, instance, value):
         self.bg_rect.pos = instance.pos

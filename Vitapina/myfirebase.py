@@ -31,7 +31,7 @@ class MyFirebase():
             id_vendedor = req_id.json()
 
             link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
-            info_usuario = f'{{"Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data": "{datetime.now().strftime("%d/%m/%Y")}"}}'
+            info_usuario = f'{{"Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data": "{datetime.now().strftime("%d/%m/%Y")}", "Refeicoes": ""}}'
             requisicao_usuario = requests.patch(link, data=info_usuario)
 
             proximo_id = int(id_vendedor) + 1
