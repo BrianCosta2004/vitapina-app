@@ -90,6 +90,10 @@
                 hint_text: "Nome"
                 pos_hint: {"right": 0.48, "top": 0.605}
                 size_hint: 0.33, 0.055
+                background_normal: ''  # Remove o fundo quando não está focado
+                background_active: ''  # Remove o fundo quando está focado
+                foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
 
         TextInput:
             multiline: False
@@ -98,7 +102,6 @@
             hint_text: "Telefone"
             pos_hint: {"right": 0.85, "top": 0.53}
             size_hint: 0.7, 0.055
-
 
         TextInput:
             id: email

@@ -63,51 +63,193 @@
             source: "icones/fotos_perfil/foto3.png"
             id: foto_perfil
 
-        RoundedTextInput:
-            canvas.before:
-                Color:
-                    rgba: (0.8, 0.8, 0.8, 1)
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
-                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
-            id: sobrenome
-            hint_text: "Sobrenome"
-            pos_hint: {"right": 0.85, "top": 0.605}
-            size_hint: 0.33, 0.055
-            disabled: True
+# ------------------------------------------------------------------------------
 
-        TextInput:
-            id: Nome
-            password: True
-            hint_text: "Nome"
-            pos_hint: {"right": 0.48, "top": 0.605}
-            size_hint: 0.33, 0.055
-            disabled: True
-
-        TextInput:
-            multiline: False
-            id: telefone
-            password: True
-            hint_text: "Telefone"
-            pos_hint: {"right": 0.85, "top": 0.53}
+        GridLayout: #NOME E SOBRENOME
+            pos_hint: {"right": 0.85, "top": 0.55}
             size_hint: 0.7, 0.055
-            disabled: True
+            cols: 2
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+            spacing: 25, 0
+
+            GridLayout: #NOME
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "30dp"
+                row_force_default: True
+                halign: 'left'
+                Label:
+                    text: "[color=#000000][size=17][b]Nome:[/b][/size][/color]"
+                    markup: True
+                    halign: 'left'
+                    size_hint_x: None  # Remove o comportamento de dimensionamento automático
+
+                TextInput:
+                    background_normal: ''  # Remove o fundo
+                    disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                    disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                    foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                    cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                    id: nome
+                    hint_text: "Nome"
+
+                    canvas.before:
+                        Color:
+                            rgb: utils.get_color_from_hex("#feeebe")
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15]  # Cantos arredondados
+
+                        Color:
+                            rgb: utils.get_color_from_hex("#000000")
+                        Line:
+                            width: 0.8  # Espessura da borda
+                            rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
 
 
-        TextInput:
-            id: email
-            password: True
-            hint_text: "E-mail"
-            pos_hint: {"right": 0.85, "top": 0.455}
+            GridLayout: # SOBRENOME
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "30dp"
+                row_force_default: True
+                halign: 'left'
+                Label:
+                    text: "[color=#000000][size=17][b]Sobrenome:[/b][/size][/color]"
+                    markup: True
+                    halign: 'left'
+                    size_hint_x: None  # Remove o comportamento de dimensionamento automático
+
+                TextInput:
+                    background_normal: ''  # Remove o fundo
+                    disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                    disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                    foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                    cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                    id: sobrenome
+                    hint_text: "Sobrenome"
+
+                    canvas.before:
+                        Color:
+                            rgb: utils.get_color_from_hex("#feeebe")
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15]  # Cantos arredondados
+
+                        Color:
+                            rgb: utils.get_color_from_hex("#000000")
+                        Line:
+                            width: 0.8  # Espessura da borda
+                            rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+    # ------------------------------------------------------------------------------
+        GridLayout: # TELEFONE
+            pos_hint: {"right": 0.85, "top": 0.495}
             size_hint: 0.7, 0.055
-            disabled: True
+            cols: 1
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+            Label:
+                text: "[color=#000000][size=17][b]Telefone:[/b][/size][/color]"
+                markup: True
+                halign: 'left'
+                size_hint_x: None  # Remove o comportamento de dimensionamento automático
+                width: 100  # Define largura fixa
+
+            TextInput:
+                background_normal: ''  # Remove o fundo
+                disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                id: telefone
+                hint_text: "Telefone"
+
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex("#feeebe")
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]  # Cantos arredondados
+
+                    Color:
+                        rgb: utils.get_color_from_hex("#000000")
+                    Line:
+                        width: 0.8  # Espessura da borda
+                        rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+        GridLayout:
+            pos_hint: {"right": 0.85, "top": 0.390}
+            size_hint: 0.7, 0.055
+            cols: 1
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+            Label:
+                text: "[color=#000000][size=17][b]E-mail:[/b][/size][/color]"
+                markup: True
+                halign: 'left'
+                size_hint_x: None  # Remove o comportamento de dimensionamento automático
+                width: 100  # Define largura fixa
+
+            TextInput:
+                background_normal: ''  # Remove o fundo
+                disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                id: email
+                hint_text: "E-mail"
+
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex("#feeebe")
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]  # Cantos arredondados
+
+                    Color:
+                        rgb: utils.get_color_from_hex("#000000")
+                    Line:
+                        width: 0.8  # Espessura da borda
+                        rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+        GridLayout:
+            pos_hint: {"right": 0.85, "top": 0.575}
+            size_hint: 0.7, 0.055
+            cols: 2
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+
 
         TextInput:
             id: dia_nas
             password: True
             hint_text: "DD"
-            pos_hint: {"right": 0.25, "top": 0.380}
+            pos_hint: {"right": 0.25, "top": 0.250}
             size_hint: 0.1, 0.055
             disabled: True
 
@@ -115,7 +257,7 @@
             id: mes_nas
             password: True
             hint_text: "MM"
-            pos_hint: {"right": 0.37, "top": 0.380}
+            pos_hint: {"right": 0.37, "top": 0.250}
             size_hint: 0.1, 0.055
             disabled: True
 
@@ -123,7 +265,7 @@
             id: ano_nas
             password: True
             hint_text: "AAAA"
-            pos_hint: {"right": 0.59, "top": 0.380}
+            pos_hint: {"right": 0.59, "top": 0.250}
             size_hint: 0.2, 0.055
             disabled: True
 
@@ -131,12 +273,12 @@
             id: sexo
             password: True
             hint_text: "-"
-            pos_hint: {"right": 0.85, "top": 0.380}
+            pos_hint: {"right": 0.85, "top": 0.250}
             size_hint: 0.1, 0.055
             disabled: True
 
         LabelButton:
-            pos_hint: {"right": 0.53, "top": 0.225}
+            pos_hint: {"right": 0.53, "top": 0.200}
             size_hint: 0.1, 0.1
             text: "[color=#0000FF][u]Alterar minha senha[/u][/color]"
             id: label_total_vendas
