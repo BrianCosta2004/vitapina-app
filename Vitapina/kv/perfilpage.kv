@@ -100,6 +100,7 @@
                     id: nome
                     hint_text: "Nome"
 
+
                     canvas.before:
                         Color:
                             rgb: utils.get_color_from_hex("#feeebe")
@@ -131,23 +132,24 @@
 
                 TextInput:
                     background_normal: ''  # Remove o fundo
-                    disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
-                    disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                    background_disabled_normal: ''
                     foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
                     cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
                     id: sobrenome
                     hint_text: "Sobrenome"
+                    disabled: True
 
                     canvas.before:
                         Color:
-                            rgb: utils.get_color_from_hex("#feeebe")
+                            # Verifica se está desabilitado para mudar a cor de fundo
+                            rgba: (1, 0.984, 0.941, 1) if self.disabled else utils.get_color_from_hex("##fffbf0")
                         RoundedRectangle:
                             pos: self.pos
                             size: self.size
                             radius: [15]  # Cantos arredondados
 
                         Color:
-                            rgb: utils.get_color_from_hex("#000000")
+                            rgba: (0, 0, 0, 1)  # Cor da borda
                         Line:
                             width: 0.8  # Espessura da borda
                             rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
@@ -192,7 +194,7 @@
                     Line:
                         width: 0.8  # Espessura da borda
                         rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
-
+    # ---------------------------------------------------------------
         GridLayout:
             pos_hint: {"right": 0.85, "top": 0.390}
             size_hint: 0.7, 0.055
@@ -288,23 +290,32 @@
 
         GridLayout:
             rows: 1
-            pos_hint: {"right": 1, "top": 0.07}
-            size_hint: 1, 0.07
+            pos_hint: {"right": 1, "top": 0.1}
+            size_hint: 1, 0.1
             canvas:
                 Color:
-                    rgb: utils.get_color_from_hex("#8dd0d9")
+                    rgba: (0.553, 0.816, 0.851, 0.3)
                 Rectangle:
                     size: self.size
                     pos: self.pos
             ImageButton:
+                size_hint: (None, None)  # Desabilita o redimensionamento automático
+                size: 40,40
+                pos_hint: {"right": 1, "top": 0.1}
                 source: "icones/receita.png"
                 on_release: app.mudar_tela("receitaspage")
             ImageButton:
+                size_hint: (None, None)  # Desabilita o redimensionamento automático
+                size: 40,40
                 source: "icones/fogo.png"
                 on_release: app.mudar_tela("caloriaspage")
             ImageButton:
+                size_hint: (None, None)  # Desabilita o redimensionamento automático
+                size: 40,40
                 source: "icones/graph.png"
                 on_release: app.mudar_tela("glicemiapage")
             ImageButton:
+                size_hint: (None, None)  # Desabilita o redimensionamento automático
+                size: 40,40
                 source: "icones/user.png"
                 on_release: app.mudar_tela("perfilpage")
