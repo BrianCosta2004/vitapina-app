@@ -28,13 +28,13 @@ class MyFirebase():
                 arquivo.write(refresh_token)
 
             req_id = requests.get("https://vitapinabd-default-rtdb.firebaseio.com/proximo_id.json")
-            id_vendedor = req_id.json()
+            id_usuario = req_id.json()
 
             link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
-            info_usuario = f'{{"Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data": "{datetime.now().strftime("%d/%m/%Y")}", "Refeicoes": ""}}'
+            info_usuario = f'{{"ID": "{id_usuario}", "Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data de Cadastro": "{datetime.now().strftime("%d/%m/%Y")}", "Refeicoes": ""}}'
             requisicao_usuario = requests.patch(link, data=info_usuario)
 
-            proximo_id = int(id_vendedor) + 1
+            proximo_id = int(id_usuario) + 1
             info_id = f'{{"proximo_id": "{proximo_id}"}}'
             requests.patch("https://vitapinabd-default-rtdb.firebaseio.com/.json", data=info_id)
 
@@ -90,3 +90,12 @@ class MyFirebase():
         id_token = requisicao_dic["id_token"]
 
         return local_id, id_token
+
+    def criar_refeicao(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, quantidade):
+        link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json"
+        info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Quantidade": "{quantidade}", "Horario": "{datetime.now().strftime("%H:%M:%S")}"}}'
+        requisicao = requests.post(link, data=info_usuario)
+
+        if requisicao.ok:
+            App.get_running_app().carregar_calorias()
+            App.get_running_app().mudar_tela("caloriaspage")

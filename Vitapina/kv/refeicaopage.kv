@@ -1,0 +1,329 @@
+<RefeicaoPage>
+    FloatLayout:
+        canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#FFFBF0")
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        Label:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#139bad")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+            text: ""
+            pos_hint: {"right": 1, "top": 1}
+            size_hint: 1, 0.1
+
+        Image:
+            pos_hint: {"right": 0.625, "top": 1}
+            size_hint: 0.25, 0.1
+            source: "icones/logotipo.png"
+            id: foto_perfil
+
+        Label:
+            id: tipo_refeicao
+            text: ""
+            pos_hint: {"right": 0.8, "top": 0.85}
+            size_hint: 0.1, 0.01
+
+
+
+    # ------------------------------------------------------------------------------
+        GridLayout: # Nome da refeição
+            pos_hint: {"right": 0.85, "top": 0.75}
+            size_hint: 0.7, 0.055
+            cols: 1
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+            Label:
+                text: "[color=#000000][size=17][b]Nome da Refeição:[/b][/size][/color]"
+                markup: True
+                halign: 'left'
+                size_hint_x: None  # Remove o comportamento de dimensionamento automático
+                width: 100  # Define largura fixa
+
+            TextInput:
+                background_normal: ''  # Remove o fundo
+                disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                id: nome
+                hint_text: "Nome da Refeição"
+
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex("#FFFFFF")
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]  # Cantos arredondados
+
+                    Color:
+                        rgb: utils.get_color_from_hex("#000000")
+                    Line:
+                        width: 0.8  # Espessura da borda
+                        rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+        GridLayout: #Calorias e Carboidratos
+            pos_hint: {"right": 0.85, "top": 0.60}
+            size_hint: 0.7, 0.055
+            cols: 2
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+            spacing: 25, 0
+
+            GridLayout: #Calorias
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "30dp"
+                row_force_default: True
+                halign: 'left'
+                Label:
+                    text: "[color=#000000][size=17][b]Calorias/g:[/b][/size][/color]"
+                    markup: True
+                    halign: 'left'
+                    size_hint_x: None  # Remove o comportamento de dimensionamento automático
+
+                TextInput:
+                    background_normal: ''  # Remove o fundo
+                    disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                    disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                    foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                    cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                    id: calorias
+                    hint_text: "Calorias"
+
+                    canvas.before:
+                        Color:
+                            rgb: utils.get_color_from_hex("#FFFFFF")
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15]  # Cantos arredondados
+
+                        Color:
+                            rgb: utils.get_color_from_hex("#000000")
+                        Line:
+                            width: 0.8  # Espessura da borda
+                            rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+
+            GridLayout: # Carboidratos
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "30dp"
+                row_force_default: True
+                halign: 'left'
+                Label:
+                    text: "[color=#000000][size=17][b]Carboidratos/g:[/b][/size][/color]"
+                    markup: True
+                    halign: 'left'
+                    size_hint_x: None  # Remove o comportamento de dimensionamento automático
+
+                TextInput:
+                    background_normal: ''  # Remove o fundo
+                    disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                    disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                    foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                    cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                    id: carboidratos
+                    hint_text: "Carboidratos"
+
+                    canvas.before:
+                        Color:
+                            rgb: utils.get_color_from_hex("#FFFFFF")
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15]  # Cantos arredondados
+
+                        Color:
+                            rgb: utils.get_color_from_hex("#000000")
+                        Line:
+                            width: 0.8  # Espessura da borda
+                            rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+        GridLayout: #Proteínas e Gorduras
+            pos_hint: {"right": 0.85, "top": 0.50}
+            size_hint: 0.7, 0.055
+            cols: 2
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+            spacing: 25, 0
+
+            GridLayout: #Proteinas
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "30dp"
+                row_force_default: True
+                halign: 'left'
+                Label:
+                    text: "[color=#000000][size=17][b]Proteínas/g:[/b][/size][/color]"
+                    markup: True
+                    halign: 'left'
+                    size_hint_x: None  # Remove o comportamento de dimensionamento automático
+
+                TextInput:
+                    background_normal: ''  # Remove o fundo
+                    disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                    disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                    foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                    cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                    id: proteinas
+                    hint_text: "Proteínas"
+
+                    canvas.before:
+                        Color:
+                            rgb: utils.get_color_from_hex("#FFFFFF")
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15]  # Cantos arredondados
+
+                        Color:
+                            rgb: utils.get_color_from_hex("#000000")
+                        Line:
+                            width: 0.8  # Espessura da borda
+                            rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+
+            GridLayout: # Gorduras
+                cols: 1
+                size_hint_y: None
+                spacing: 2, 2
+                height: self.minimum_height
+                row_default_height: "30dp"
+                row_force_default: True
+                halign: 'left'
+                Label:
+                    text: "[color=#000000][size=17][b]Gorduras/g:[/b][/size][/color]"
+                    markup: True
+                    halign: 'left'
+                    size_hint_x: None  # Remove o comportamento de dimensionamento automático
+
+                TextInput:
+                    background_normal: ''  # Remove o fundo
+                    disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                    disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                    foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                    cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                    id: gorduras
+                    hint_text: "Gorduras"
+
+                    canvas.before:
+                        Color:
+                            rgb: utils.get_color_from_hex("#FFFFFF")
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15]  # Cantos arredondados
+
+                        Color:
+                            rgb: utils.get_color_from_hex("#000000")
+                        Line:
+                            width: 0.8  # Espessura da borda
+                            rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+        GridLayout: #Quantidade
+            pos_hint: {"right": 0.65, "top": 0.45}
+            size_hint: 0.3, 0.055
+            cols: 1
+            size_hint_y: None
+            spacing: 2, 2
+            height: self.minimum_height
+            row_default_height: "30dp"
+            row_force_default: True
+            halign: 'left'
+            Label:
+                text: "[color=#000000][size=17][b]Quantidade (em gramas):[/b][/size][/color]"
+                markup: True
+                halign: 'left'
+                size_hint_x: None  # Remove o comportamento de dimensionamento automático
+
+            TextInput:
+                background_normal: ''  # Remove o fundo
+                disabled_foreground_color: 0, 0, 0, 1  # Cor do texto (preto) quando desabilitado
+                disabled_background_color: 1, 1, 1, 0  # Fundo transparente quando desabilitado
+                foreground_color: 0, 0, 0, 1  # Cor do texto (preto)
+                cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
+                id: quantidade
+                hint_text: "Quantidade"
+
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex("#FFFFFF")
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]  # Cantos arredondados
+
+                    Color:
+                        rgb: utils.get_color_from_hex("#000000")
+                    Line:
+                        width: 0.8  # Espessura da borda
+                        rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
+
+        LabelButton:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#eb7b29")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+
+            pos_hint: {"right": 0.9, "top": 0.18}
+            size_hint: 0.8, 0.065
+            text: "[color=#FFFFFF]Cadastrar[/color]"
+            id: label_total_vendas
+            markup: True
+            on_release: app.firebase.criar_refeicao(tipo_refeicao.text, nome.text, calorias.text, carboidratos.text, proteinas.text, gorduras.text, quantidade.text)
+
+
+        GridLayout:
+            rows: 1
+            pos_hint: {"right": 1, "top": 0.08}
+            size_hint: 1, 0.08
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex("#006D7E")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            ImageButton:
+                source: "icones/receita.png"
+                on_release: app.mudar_tela("receitaspage")
+            ImageButton:
+                source: "icones/fogo.png"
+                on_release: app.mudar_tela("caloriaspage")
+            ImageButton:
+                source: "icones/graph.png"
+                on_release: app.mudar_tela("glicemiapage")
+            ImageButton:
+                source: "icones/user.png"
+                on_release: app.mudar_tela("perfilpage")
+

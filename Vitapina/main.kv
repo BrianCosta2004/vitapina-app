@@ -1,6 +1,8 @@
 #:include kv/splashscreen.kv
 #:include kv/cadastropage.kv
 #:include kv/loginpage.kv
+#:include kv/refeicaopage.kv
+#:include kv/historicorefeicoespage.kv
 #:include kv/caloriaspage.kv
 #:include kv/glicemiapage.kv
 #:include kv/perfilpage.kv
@@ -14,15 +16,21 @@ FloatLayout:
         pos_hint: {"right": 1, "top": 1}
         size_hint: 1, 1
         id: screen_manager
-        CaloriasPage:
-            name: "caloriaspage"
-            id: caloriaspage
-        SplashScreen:
-            name: "splashscreen"
-            id: splashscreen
         LoginPage:
             name: "loginpage"
             id: loginpage
+        RefeicaoPage:
+            name: "refeicaopage"
+            id: refeicaopage
+        HistoricoRefeicoesPage:
+            name: "historicorefeicaopage"
+            id: historicorefeicaopage
+        SplashScreen:
+            name: "splashscreen"
+            id: splashscreen
+        CaloriasPage:
+            name: "caloriaspage"
+            id: caloriaspage
         CadastroPage:
             name: "cadastropage"
             id: cadastropage

@@ -1,6 +1,5 @@
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.clock import Clock
-from kivy.animation import Animation
+from kivy.uix.screenmanager import Screen
+
 
 class SplashScreen(Screen):
     pass
@@ -35,4 +34,12 @@ class AdicionarReceitasPage(Screen):
 
 
 class EditarPerfilPage(Screen):
+    pass
+
+
+class HistoricoRefeicoesPage(Screen):
+    pass
+
+
+class RefeicaoPage(Screen):
     pass

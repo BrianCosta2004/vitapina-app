@@ -44,8 +44,9 @@
                 markup: True
 
             Label:
-                text: "[color=#000000][size=60][b]850[/b][/size][/color]"
+                text: "1700"
                 markup: True
+                id: calorias_restantes
             Label:
                 text: "[color=#000000]Kcal[/color]"
                 markup: True
@@ -70,8 +71,9 @@
                 row_force_default: True
 
                 Label:
-                    text: "[color=#000000][size=32][b]850[/b][/size][/color]"
+                    text: "0"
                     markup: True
+                    id: calorias_consumidas
                 Label:
                     text: "[color=#000000][size=17][b]Consumidas[/b][/color]"
                     markup: True
@@ -87,8 +89,9 @@
                 row_force_default: True
 
                 Label:
-                    text: "[color=#000000][size=32][b]1700[/b][/size][/color]"
+                    text: "1700"
                     markup: True
+                    id: calorias_total
                 Label:
                     text: "[color=#000000][size=17][b]Total[/b][/color]"
                     markup: True
@@ -125,6 +128,7 @@
                 Label:
                     text: "[color=#000000][b]35g[/b][/color]"
                     markup: True
+                    id: proteinas
 
             GridLayout:
                 pos_hint: {"right": 0.85, "top": 0.5}
@@ -141,6 +145,7 @@
                 Label:
                     text: "[color=#000000][b]30g[/b][/color]"
                     markup: True
+                    id: carboidratos
 
             GridLayout:
                 pos_hint: {"right": 0.85, "top": 0.5}
@@ -157,6 +162,7 @@
                 Label:
                     text: "[color=#000000][b]30g[/b][/color]"
                     markup: True
+                    id: gorduras
 
         LabelButton:
             canvas.before:

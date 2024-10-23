@@ -136,5 +136,5 @@ class AnimatedImage(ButtonBehavior, BoxLayout):
         anim_blur.start(self.blur_effect)
 
     def focus_out(self, *args):
-        anim_blur = Animation(size=2, d=0.2)  # Adicionar o desfoque
+        anim_blur = Animation(size=1, d=0.2)  # Adicionar o desfoque
         anim_blur.start(self.blur_effect)
