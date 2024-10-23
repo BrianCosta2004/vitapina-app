@@ -79,7 +79,7 @@ class MainApp(App):
             self.data = data
             pagina_perfil = self.root.ids["perfilpage"]
             pagina_perfil.ids["label_nome"].text = f"[size=25][b]{nome} {sobrenome}[/b][/size]"
-            pagina_perfil.ids["label_data"].text = f"Usuário há {(datetime.now() - datetime.strptime(data, "%d/%m/%Y")).days} dias"
+            pagina_perfil.ids["label_data"].text = f"Usuário há {(datetime.now() - datetime.strptime(data, '%d/%m/%Y')).days} dias"
 
 
             self.mudar_tela("homepage")
@@ -162,7 +162,11 @@ class MainApp(App):
 
 
         pagina_calorias.ids["calorias_consumidas"].text = "[color=#000000][size=32][b]" + str(aux_calorias) + "[/b][/size][/color]"
-        pagina_calorias.ids["calorias_restantes"].text = "[color=#000000][size=60][b]" + str(int(pagina_calorias.ids["calorias_total"].text) - int(aux_calorias)) + "[/b][/size][/color]"
+        if int(pagina_calorias.ids["calorias_total"].text) - int(aux_calorias) > 0:
+            pagina_calorias.ids["calorias_restantes"].text = "[color=#000000][size=60][b]" + str(int(pagina_calorias.ids["calorias_total"].text) - int(aux_calorias)) + "[/b][/size][/color]"
+        else:
+            pagina_calorias.ids["calorias_restantes"].text = "[color=#000000][size=60][b]0[/b][/size][/color]"
+        pagina_calorias.ids["calorias_total"].text = "[color=#000000][size=32][b]1700[/b][/size][/color]"
         pagina_calorias.ids["carboidratos"].text = "[color=#000000][b]" + str(aux_carboidratos) + "g" + "[/b][/color]"
         pagina_calorias.ids["proteinas"].text = "[color=#000000][b]" + str(aux_proteinas) + "g" + "[/b][/color]"
         pagina_calorias.ids["gorduras"].text = "[color=#000000][b]" + str(aux_gorduras) + "g" + "[/b][/color]"

@@ -37,39 +37,33 @@ class CurvaGlicemicaWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(CurvaGlicemicaWidget, self).__init__(**kwargs)
 
-        # Dados fictícios da curva glicêmica (tempo em minutos e nível de glicose em mg/dL)
-        tempo = [0, 30, 60, 90, 120, 150, 180]  # Tempo em minutos
-        glicose = [90, 140, 160, 130, 110, 100, 90]  # Nível de glicose (mg/dL)
+        tempo = [0, 30, 60, 90, 120, 150, 180]
+        glicose = [90, 98, 75, 102, 97, 88, 91]
 
-        # Criando o gráfico
         fig, ax = plt.subplots(figsize=(3, 1))
         ax.plot(tempo, glicose, marker='o', linestyle='-', color='b', label='Nível de Glicose')
 
-        # Configurações do gráfico
         ax.set_title("Histórico")
         ax.set_xlabel("Tempo (min)")
         ax.set_ylabel("Glicose (mg/dL)")
         ax.legend()
         ax.grid(False)
 
-        # Convertendo o gráfico para um widget do Kivy
         canvas = FigureCanvasKivyAgg(fig)
 
-        # Adicionando o gráfico ao layout
         self.add_widget(canvas)
 
 
 class HeatMapLabel(Label):
-    intensity = NumericProperty(0.7)  # Propriedade que controla a intensidade de calor
+    intensity = NumericProperty(0.7)
 
     def __init__(self, **kwargs):
         super(HeatMapLabel, self).__init__(**kwargs)
         self.bind(size=self.update_rect, pos=self.update_rect)
         self.bind(intensity=self.update_color)
 
-        # Desenhando o fundo da Label
         with self.canvas.before:
-            self.rect_color = Color(1, 1, 1, 0)  # Cor inicial (branco)
+            self.rect_color = Color(1, 1, 1, 0)
             self.rect = Rectangle(size=self.size, pos=self.pos)
 
     def update_rect(self, *args):
@@ -77,30 +71,27 @@ class HeatMapLabel(Label):
         self.rect.size = self.size
 
     def update_color(self, *args):
-        # Atualizando a cor com base na intensidade (valor entre 0 e 1)
         heat_color = self.get_color_for_intensity(self.intensity)
         self.rect_color.rgba = heat_color
 
     def get_color_for_intensity(self, intensity):
-        # Define as cores de acordo com a intensidade (0 = frio, 1 = quente)
-        # Transição de azul (frio) -> verde -> amarelo -> vermelho (quente)
         if intensity < 0.33:
-            return (0, 0, 1, 1)  # Azul (frio)
+            return (0, 0, 1, 1)
         elif intensity < 0.66:
-            return (0, 1, 0, 1)  # Verde (médio)
+            return (0, 1, 0, 1)
         else:
-            return (1, 0, 0, 1)  # Vermelho (quente)
+            return (1, 0, 0, 1)
 
 class RoundedTextInput(TextInput):
     def __init__(self, **kwargs):
         super(RoundedTextInput, self).__init__(**kwargs)
-        self.background_normal = ''  # Remove o background padrão
-        self.background_active = ''  # Remove o background quando ativo
+        self.background_normal = ''
+        self.background_active = ''
         self.bind(pos=self.update_background, size=self.update_background)
 
         with self.canvas.before:
-            Color(0.8, 0.8, 0.8, 1)  # Cor de fundo cinza claro
-            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[15])  # Raio para cantos arredondados
+            Color(0.8, 0.8, 0.8, 1)
+            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[15])
 
     def update_background(self, *args):
         self.rect.pos = self.pos
@@ -111,18 +102,15 @@ class AnimatedImage(ButtonBehavior, BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Container com efeito de desfoque
         self.effect_widget = EffectWidget()
-        self.blur_effect = HorizontalBlurEffect(size=10)  # Desfoque inicial
-        self.effect_widget.effects = [self.blur_effect]  # Adicione o efeito aqui
+        self.blur_effect = HorizontalBlurEffect(size=10)
+        self.effect_widget.effects = [self.blur_effect]
 
-        # Adiciona a imagem no widget de efeito
         self.img = Image(source='icones/pina.png', size_hint=(None, None), size=(250, 250),)
         self.effect_widget.add_widget(self.img)
 
         self.add_widget(self.effect_widget)
 
-        # Iniciar a animação
         self.animate_image()
 
     def animate_image(self):
@@ -132,9 +120,9 @@ class AnimatedImage(ButtonBehavior, BoxLayout):
         anim1.start(self.img)
 
     def focus_in(self, *args):
-        anim_blur = Animation(size=0, d=0.2)  # Remover o desfoque
+        anim_blur = Animation(size=0, d=0.2)
         anim_blur.start(self.blur_effect)
 
     def focus_out(self, *args):
-        anim_blur = Animation(size=1, d=0.2)  # Adicionar o desfoque
+        anim_blur = Animation(size=1, d=0.2)
         anim_blur.start(self.blur_effect)

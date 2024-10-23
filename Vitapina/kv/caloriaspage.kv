@@ -187,50 +187,25 @@
             id: foto_perfil
 
         GridLayout:
-            cols: 4
-            pos_hint: {"right": 1, "top": 0.08}
-            size_hint: 1, 0.08
-            size_hint_y: None
-            spacing: 2, 2
-            height: self.minimum_height
-            row_default_height: "40dp"
-            row_force_default: True
+            rows: 1
+            pos_hint: {"right": 1, "top": 0.07}
+            size_hint: 1, 0.07
             canvas:
                 Color:
                     rgb: utils.get_color_from_hex("#8dd0d9")
                 Rectangle:
                     size: self.size
                     pos: self.pos
-
-            GridLayout:
-                cols: 1
-                pos_hint: {"right": 1, "top": 0.05}
-                size_hint: 1, 0.01
-                ImageButton:
-                    source: "icones/receita.png"
-                    on_release: app.mudar_tela("receitaspage")
-
-            GridLayout:
-                cols: 1
-                pos_hint: {"right": 1, "top": 0.08}
-                size_hint: 1, 0.08
-                ImageButton:
-                    source: "icones/fogo.png"
-                    on_release: app.mudar_tela("caloriaspage")
-
-            GridLayout:
-                cols: 1
-                pos_hint: {"right": 1, "top": 0.08}
-                size_hint: 1, 0.08
-                ImageButton:
-                    source: "icones/graph.png"
-                    on_release: app.mudar_tela("glicemiapage")
-
-            GridLayout:
-                cols: 1
-                pos_hint: {"right": 1, "top": 0.08}
-                size_hint: 1, 0.08
-                ImageButton:
-                    source: "icones/user.png"
-                    on_release: app.mudar_tela("perfilpage")
+            ImageButton:
+                source: "icones/receita.png"
+                on_release: app.mudar_tela("receitaspage")
+            ImageButton:
+                source: "icones/fogo.png"
+                on_release: app.mudar_tela("caloriaspage")
+            ImageButton:
+                source: "icones/graph.png"
+                on_release: app.mudar_tela("glicemiapage")
+            ImageButton:
+                source: "icones/user.png"
+                on_release: app.mudar_tela("perfilpage")
 
