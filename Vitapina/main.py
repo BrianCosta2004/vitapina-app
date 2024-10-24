@@ -16,7 +16,7 @@ from kivy.core.window import Window
 from bannerrefeicao import BannerRefeicao
 
 GUI = Builder.load_file("main.kv")
-Window.size = (400, 600)
+Window.size = (450, 600)
 
 class MainApp(App):
 
@@ -30,28 +30,28 @@ class MainApp(App):
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_cafe"]
         for foto_produto in arquivos:
-            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            card = CardReceita(nome=foto_produto.replace(".png", ""), pasta="icones/fotos_alimentos_cafe/")
             lista_produtos.add_widget(card)
 
         arquivos = os.listdir("icones/fotos_alimentos_almoco")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_almoco"]
         for foto_produto in arquivos:
-            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            card = CardReceita(nome=foto_produto.replace(".png", ""), pasta="icones/fotos_alimentos_almoco/")
             lista_produtos.add_widget(card)
 
         arquivos = os.listdir("icones/fotos_alimentos_lanche")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_lanche"]
         for foto_produto in arquivos:
-            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            card = CardReceita(nome=foto_produto.replace(".png", ""), pasta="icones/fotos_alimentos_lanche/")
             lista_produtos.add_widget(card)
 
         arquivos = os.listdir("icones/fotos_alimentos_janta")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_janta"]
         for foto_produto in arquivos:
-            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            card = CardReceita(nome=foto_produto.replace(".png", ""), pasta="icones/fotos_alimentos_janta/")
             lista_produtos.add_widget(card)
 
     def carregar_infos_usuario(self):
@@ -72,21 +72,13 @@ class MainApp(App):
             self.local_id = local_id
             self.id_token = id_token
 
-            requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}/Refeicoes.json")
-            requisicao_dic = requisicao.json()
-            for data in requisicao_dic:
-                print(data)
-            for data, refeicao in requisicao_dic.items():
-                print(data, refeicao)
-                for ref, info in refeicao.items():
-                    print(ref, info)
-                    print(info["Calorias"])
 
             requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}.json")
             requisicao_dic = requisicao.json()
+            print(requisicao_dic)
             nome = requisicao_dic["Nome"]
             sobrenome = requisicao_dic["Sobrenome"]
-            data = requisicao_dic["Data"]
+            data = requisicao_dic["Data de Cadastro"]
             self.nome = nome
             self.sobrenome = sobrenome
             self.data = data
@@ -99,21 +91,36 @@ class MainApp(App):
         except:
             pass
 
+        try:
+            requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}/Refeicoes.json")
+            requisicao_dic = requisicao.json()
 
-        requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}/Refeicoes.json")
-        requisicao_dic = requisicao.json()
+            pagina_historico = self.root.ids["historicorefeicoespage"]
+            lista_vendas = pagina_historico.ids["lista_refeicoes"]
+            lista_vendas.clear_widgets()
+            for data, refeicao in reversed(list(requisicao_dic.items())):
+                dia = Label(text="[color=#000000][size=25][b]" + data.replace("-", "/") + "[/b][/size][/color]", markup=True)
+                lista_vendas.add_widget(dia)
+                for ref, info in refeicao.items():
+                    banner = BannerRefeicao(carboidratos=info["Carboidratos"], calorias=info["Calorias"],
+                                         gorduras=info["Gorduras"], nome=info["Nome"],
+                                         proteinas=info["Proteinas"], quantidade=info["Quantidade"],
+                                         tipo=info["Tipo"], horario=info["Horario"])
+                    lista_vendas.add_widget(banner)
+        except:
+            pass
 
-        pagina_historico = self.root.ids["historicorefeicoespage"]
-        lista_vendas = pagina_historico.ids["lista_refeicoes"]
-        for data, refeicao in reversed(list(requisicao_dic.items())):
-            dia = Label(text="[color=#000000][size=25][b]" + data.replace("-", "/") + "[/b][/size][/color]", markup=True)
-            lista_vendas.add_widget(dia)
-            for ref, info in refeicao.items():
-                banner = BannerRefeicao(carboidratos=info["Carboidratos"], calorias=info["Calorias"],
-                                     gorduras=info["Gorduras"], nome=info["Nome"],
-                                     proteinas=info["Proteinas"], quantidade=info["Quantidade"],
-                                     tipo=info["Tipo"], horario=info["Horario"])
-                lista_vendas.add_widget(banner)
+        try:
+            perfil = self.root.ids["perfilpage"]
+            requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}.json")
+            requisicao_dic = requisicao.json()
+            perfil.ids["nome"].text = self.nome
+            perfil.ids["sobrenome"].text = self.sobrenome
+            perfil.ids["telefone"].text = requisicao_dic["telefone"]
+            perfil.ids["email"].text = requisicao_dic["E-mail"]
+
+        except:
+            pass
 
 
     def show_popup(self):
@@ -209,16 +216,12 @@ class MainApp(App):
 
         for info in requisicao_dic:
             if isinstance(info, dict):
-                print(info)
-                print(info.get("Nome"))
-                print(info.get("Tipo"))
-                print(info.get("Calorias"))
                 if info.get('Nome') == nome:
                     self.firebase.criar_refeicao(carboidratos=info.get("Carboidratos"), calorias=info.get("Calorias"),
                                              gorduras=info.get("Gorduras"), nome=info.get("Nome"),
                                              proteinas=info.get("Proteinas"), quantidade=info.get("Quantidade"),
                                              tipo=info.get("Tipo"), foto=info.get("Foto"), horario=info.get("Horario"))
-
+                    break
 
         self.mudar_tela("caloriaspage")
 
@@ -267,7 +270,51 @@ class MainApp(App):
         pagina_calorias.ids["gorduras"].text = "[color=#000000][b]" + str(aux_gorduras) + "g" + "[/b][/color]"
 
 
+    def alterar_campos(self):
+        perfil = self.root.ids["perfilpage"]
+        if perfil.ids["nome"].disabled:
+            perfil.ids["nome"].disabled = False
+            perfil.ids["sobrenome"].disabled = False
+            perfil.ids["telefone"].disabled = False
+            perfil.ids["email"].disabled = False
+            perfil.ids["dia_nas"].disabled = False
+            perfil.ids["ano_nas"].disabled = False
+            perfil.ids["mes_nas"].disabled = False
+            perfil.ids["sexo"].disabled = False
+        else:
+            requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}.json")
+            requisicao_dic = requisicao.json()
+            nome = requisicao_dic["Nome"]
+
+            data = requisicao_dic["Data de Cadastro"]
+
+
+            self.data = data
+            perfil.ids["nome"].disabled = True
+            perfil.ids["nome"].text = self.nome
+            perfil.ids["sobrenome"].disabled = True
+            perfil.ids["sobrenome"].text = self.sobrenome
+            perfil.ids["telefone"].disabled = True
+            perfil.ids["telefone"].text = requisicao_dic["telefone"]
+            perfil.ids["email"].disabled = True
+            perfil.ids["email"].text = requisicao_dic["E-mail"]
+            perfil.ids["dia_nas"].disabled = True
+            perfil.ids["ano_nas"].disabled = True
+            perfil.ids["mes_nas"].disabled = True
+            perfil.ids["sexo"].disabled = True
+
     def mudar_tela(self, id_tela):
+        login = self.root.ids["loginpage"]
+        login.ids["email"].text = ""
+        login.ids["senha"].text = ""
+
+        refeicao = self.root.ids["refeicaopage"]
+        refeicao.ids["quantidade"].text = ""
+        refeicao.ids["nome"].text = ""
+        refeicao.ids["calorias"].text = ""
+        refeicao.ids["carboidratos"].text = ""
+        refeicao.ids["proteinas"].text = ""
+        refeicao.ids["gorduras"].text = ""
         gerenciador = self.root.ids["screen_manager"]
         gerenciador.current = id_tela
 

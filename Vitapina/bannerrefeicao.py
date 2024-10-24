@@ -22,12 +22,11 @@ class BannerRefeicao(GridLayout):
         nome = kwargs["nome"]
         quantidade = kwargs["quantidade"]
         tipo = (kwargs["tipo"])
-        #foto_refeicao = (kwargs["foto"])
         horario = (kwargs["horario"])
 
         esquerda = FloatLayout()
         esquerda_imagem = Image(pos_hint={"right": 1, "top": 0.95}, size_hint= (1, 0.75),
-                                source=f"icones/fotos_alimentos_almoco/Feijoada.png")
+                                source=f"icones/refeicoes.png")
         esquerda_label = Label(text="[color=#000000][b]" + nome + "[/b][/color]",
                                size_hint=(1, 0.2), pos_hint={"right": 1, "top": 0.2}, markup=True)
         esquerda.add_widget(esquerda_imagem)

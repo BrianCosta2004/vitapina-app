@@ -49,7 +49,7 @@
             text: "[color=#FFFFFF]Editar Perfil[/color]"
             id: label_total_vendas
             markup: True
-            on_release: print("teste")
+            on_release: app.alterar_campos()
 
         Image:
             pos_hint: {"right": 0.625, "top": 1}
@@ -410,10 +410,10 @@
         LabelButton:
             pos_hint: {"right": 0.53, "top": 0.180}
             size_hint: 0.1, 0.1
-            text: "[color=#0000FF][u]Alterar minha senha[/u][/color]"
+            text: "[color=#0000FF][u]Sair[/u][/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.fazer_login(email.text, senha.text)
+            on_release: app.mudar_tela("loginpage")
         GridLayout:
             rows: 1
             pos_hint: {"right": 1, "top": 0.07}
