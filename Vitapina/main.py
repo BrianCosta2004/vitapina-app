@@ -40,6 +40,13 @@ class MainApp(App):
             card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
             lista_produtos.add_widget(card)
 
+        arquivos = os.listdir("icones/fotos_alimentos_lanche")
+        pagina_receitas = self.root.ids["receitaspage"]
+        lista_produtos = pagina_receitas.ids["lista_alimentos_lanche"]
+        for foto_produto in arquivos:
+            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            lista_produtos.add_widget(card)
+
         arquivos = os.listdir("icones/fotos_alimentos_janta")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_janta"]

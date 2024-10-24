@@ -24,28 +24,24 @@
             source: "icones/logotipo.png"
             id: foto_perfil
 
-        Label:
-            pos_hint: {"right": 0.3, "top": 0.85}
-            size_hint: 0.1, 0.05
-            text: "Livro de Receitas"
-            id: cafe_manha
         ScrollView:
-            pos_hint: {"right": 1, "top": 0.75}
-            size_hint: 1, 0.63
+            pos_hint: {"right": 1, "top": 0.85}
+            size_hint: 1, 0.78
             GridLayout:
                 cols: 1
                 id: lista_refeicoes
                 size_hint_y: None
                 height: self.minimum_height
-                row_default_height: "80dp"
+                row_default_height: "90dp"
                 row_force_default: True
 
 
                 Label:
-                    text: "Café da Manhã"
+                    text: "[color=#000000][size=20][b]Café da Manhã[/b][/size][/color]"
                     id: cafe_manha
                     size_hint_y: None
-                    height: 30
+                    height: 130
+                    markup: True
 
                 ScrollView:
                     size_hint_y: None
@@ -62,10 +58,11 @@
 
 
                 Label:
-                    text: "Almoço"
+                    text: "[color=#000000][size=20][b]Almoço[/b][/size][/color]"
                     id: almoco
                     size_hint_y: None
-                    height: 30
+                    height: 130
+                    markup: True
 
                 ScrollView:
                     size_hint_y: None
@@ -75,16 +72,38 @@
                         id: lista_alimentos_almoco
                         size_hint_x: None
                         width: self.minimum_width
-                        col_default_width: "160dp"
+                        col_default_width: "150dp"
+                        spacing: 20, 2
+                        col_force_default: True
+                        row_default_height: 150
+
+                Label:
+                    text: "[color=#000000][size=20][b]Lanche[/b][/size][/color]"
+                    id: lanche
+                    size_hint_y: None
+                    height: 130
+                    markup: True
+
+                ScrollView:
+                    size_hint_y: None
+                    height: 130
+                    GridLayout:
+                        rows: 1
+                        id: lista_alimentos_lanche
+                        size_hint_x: None
+                        width: self.minimum_width
+                        col_default_width: "150dp"
+                        spacing: 20, 2
                         col_force_default: True
                         row_default_height: 150
 
 
                 Label:
-                    text: "Janta"
+                    text: "[color=#000000][size=20][b]Janta[/b][/size][/color]"
                     id: janta
                     size_hint_y: None
-                    height: 30
+                    height: 130
+                    markup: True
 
                 ScrollView:
                     size_hint_y: None
@@ -94,10 +113,17 @@
                         id: lista_alimentos_janta
                         size_hint_x: None
                         width: self.minimum_width
-                        col_default_width: "160dp"
+                        col_default_width: "150dp"
+                        spacing: 20, 2
                         col_force_default: True
                         row_default_height: 150
 
+        Label:
+            pos_hint: {"right": 0.4, "top": 0.89}
+            size_hint: 0.4, 0.04
+            text: "[color=#000000][b]Livro de Receitas[/b][/color]"
+            id: cafe_manha
+            markup: True
 
         GridLayout:
             rows: 1
