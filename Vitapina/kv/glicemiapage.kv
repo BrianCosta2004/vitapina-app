@@ -48,10 +48,10 @@
 
             pos_hint: {"right": 0.9, "top": 0.19}
             size_hint: 0.8, 0.065
-            text: "[color=#FFFFFF]Gerar Relatório[/color]"
+            text: "[color=#FFFFFF]Ver Histórico[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_conta(email.text, senha.text)
+            on_release: app.mudar_tela("historicorefeicoespage")
 
         GridLayout:
             rows: 1

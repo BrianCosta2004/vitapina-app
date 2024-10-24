@@ -2,7 +2,7 @@
     FloatLayout:
         canvas:
             Color:
-                rgb: utils.get_color_from_hex("#feeebe")
+                rgb: utils.get_color_from_hex("#fffbf0")
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -29,75 +29,75 @@
             size_hint: 0.1, 0.05
             text: "Livro de Receitas"
             id: cafe_manha
-
         ScrollView:
-            canvas.before:
-                Color:
-                    rgb: utils.get_color_from_hex("#139bad")
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-            pos_hint: {"right": 1, "top": 0.68}
-            size_hint: 1, 0.15
+            pos_hint: {"right": 1, "top": 0.75}
+            size_hint: 1, 0.63
             GridLayout:
-                rows: 2
-                id: lista_alimentos_cafe
-                size_hint_x: None
-                width: self.minimum_width
-                col_default_width: "100dp"
-                col_force_default: True
+                cols: 1
+                id: lista_refeicoes
+                size_hint_y: None
+                height: self.minimum_height
+                row_default_height: "80dp"
+                row_force_default: True
 
-        Label:
-            pos_hint: {"right": 0.3, "top": 0.75}
-            size_hint: 0.1, 0.05
-            text: "Café da Manhã"
-            id: cafe_manha
 
-        ScrollView:
-            canvas.before:
-                Color:
-                    rgb: utils.get_color_from_hex("#139bad")
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-            pos_hint: {"right": 1, "top": 0.48}
-            size_hint: 1, 0.15
-            GridLayout:
-                rows: 1
-                id: lista_alimentos_almoco
-                size_hint_x: None
-                width: self.minimum_width
-                col_default_width: "100dp"
-                col_force_default: True
+                Label:
+                    text: "Café da Manhã"
+                    id: cafe_manha
+                    size_hint_y: None
+                    height: 30
 
-        Label:
-            pos_hint: {"right": 0.3, "top": 0.5}
-            size_hint: 0.1, 0.05
-            text: "Almoço"
-            id: cafe_manha
+                ScrollView:
+                    size_hint_y: None
+                    height: 130
+                    GridLayout:
+                        rows: 1
+                        id: lista_alimentos_cafe
+                        size_hint_x: None
+                        width: self.minimum_width
+                        spacing: 20, 2
+                        col_default_width: "150dp"
+                        col_force_default: True
+                        row_default_height: 150
 
-        ScrollView:
-            canvas.before:
-                Color:
-                    rgb: utils.get_color_from_hex("#139bad")
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-            pos_hint: {"right": 1, "top": 0.28}
-            size_hint: 1, 0.15
-            GridLayout:
-                rows: 1
-                id: lista_alimentos_janta
-                size_hint_x: None
-                width: self.minimum_width
-                col_default_width: "100dp"
-                col_force_default: True
 
-        Label:
-            pos_hint: {"right": 0.3, "top": 0.3}
-            size_hint: 0.1, 0.05
-            text: "Janta"
-            id: cafe_manha
+                Label:
+                    text: "Almoço"
+                    id: almoco
+                    size_hint_y: None
+                    height: 30
+
+                ScrollView:
+                    size_hint_y: None
+                    height: 130
+                    GridLayout:
+                        rows: 1
+                        id: lista_alimentos_almoco
+                        size_hint_x: None
+                        width: self.minimum_width
+                        col_default_width: "160dp"
+                        col_force_default: True
+                        row_default_height: 150
+
+
+                Label:
+                    text: "Janta"
+                    id: janta
+                    size_hint_y: None
+                    height: 30
+
+                ScrollView:
+                    size_hint_y: None
+                    height: 130
+                    GridLayout:
+                        rows: 1
+                        id: lista_alimentos_janta
+                        size_hint_x: None
+                        width: self.minimum_width
+                        col_default_width: "160dp"
+                        col_force_default: True
+                        row_default_height: 150
+
 
         GridLayout:
             rows: 1

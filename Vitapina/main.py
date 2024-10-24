@@ -3,6 +3,8 @@ from kivy.lang import Builder
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
+
+from Vitapina.cardreceita import CardReceita
 from telas import *
 from elementos import *
 import requests
@@ -11,6 +13,7 @@ from functools import partial
 from myfirebase import MyFirebase
 from datetime import datetime
 from kivy.core.window import Window
+from bannerrefeicao import BannerRefeicao
 
 GUI = Builder.load_file("main.kv")
 Window.size = (400, 600)
@@ -22,33 +25,27 @@ class MainApp(App):
         return GUI
 
     def on_start(self):
+
         arquivos = os.listdir("icones/fotos_alimentos_cafe")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_cafe"]
-        print(self.root.ids["receitaspage"].ids["lista_alimentos_cafe"])
         for foto_produto in arquivos:
-            imagem = ImageButton(source=f"icones/fotos_alimentos_cafe/{foto_produto}")
-            label = LabelButton(text=foto_produto.replace(".png", "").capitalize())
-            lista_produtos.add_widget(imagem)
-            lista_produtos.add_widget(label)
+            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            lista_produtos.add_widget(card)
 
         arquivos = os.listdir("icones/fotos_alimentos_almoco")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_almoco"]
         for foto_produto in arquivos:
-            imagem = ImageButton(source=f"icones/fotos_alimentos_almoco/{foto_produto}")
-            label = LabelButton(text=foto_produto.replace(".png", "").capitalize())
-            lista_produtos.add_widget(imagem)
-            lista_produtos.add_widget(label)
+            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            lista_produtos.add_widget(card)
 
         arquivos = os.listdir("icones/fotos_alimentos_janta")
         pagina_receitas = self.root.ids["receitaspage"]
         lista_produtos = pagina_receitas.ids["lista_alimentos_janta"]
         for foto_produto in arquivos:
-            imagem = ImageButton(source=f"icones/fotos_alimentos_janta/{foto_produto}")
-            label = LabelButton(text=foto_produto.replace(".png", "").capitalize())
-            lista_produtos.add_widget(imagem)
-            lista_produtos.add_widget(label)
+            card = CardReceita(nome=foto_produto.replace(".png", "").capitalize())
+            lista_produtos.add_widget(card)
 
     def carregar_infos_usuario(self):
         try:
@@ -68,9 +65,18 @@ class MainApp(App):
             self.local_id = local_id
             self.id_token = id_token
 
+            requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}/Refeicoes.json")
+            requisicao_dic = requisicao.json()
+            for data in requisicao_dic:
+                print(data)
+            for data, refeicao in requisicao_dic.items():
+                print(data, refeicao)
+                for ref, info in refeicao.items():
+                    print(ref, info)
+                    print(info["Calorias"])
+
             requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}.json")
             requisicao_dic = requisicao.json()
-            print(requisicao_dic)
             nome = requisicao_dic["Nome"]
             sobrenome = requisicao_dic["Sobrenome"]
             data = requisicao_dic["Data"]
@@ -85,6 +91,23 @@ class MainApp(App):
             self.mudar_tela("homepage")
         except:
             pass
+
+
+        requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}/Refeicoes.json")
+        requisicao_dic = requisicao.json()
+
+        pagina_historico = self.root.ids["historicorefeicoespage"]
+        lista_vendas = pagina_historico.ids["lista_refeicoes"]
+        for data, refeicao in reversed(list(requisicao_dic.items())):
+            dia = Label(text="[color=#000000][size=25][b]" + data.replace("-", "/") + "[/b][/size][/color]", markup=True)
+            lista_vendas.add_widget(dia)
+            for ref, info in refeicao.items():
+                banner = BannerRefeicao(carboidratos=info["Carboidratos"], calorias=info["Calorias"],
+                                     gorduras=info["Gorduras"], nome=info["Nome"],
+                                     proteinas=info["Proteinas"], quantidade=info["Quantidade"],
+                                     tipo=info["Tipo"], horario=info["Horario"])
+                lista_vendas.add_widget(banner)
+
 
     def show_popup(self):
         popup_layout = GridLayout(cols=2, padding=[20, 20, 20, 20], spacing=[20, 20])
@@ -123,11 +146,77 @@ class MainApp(App):
         )
         self.popup.open()
 
+    def show_popup_receita(self, nome):
+        popup_layout = GridLayout(cols=2, padding=[20, 20, 20, 20], spacing=[20, 20])
+
+        with popup_layout.canvas.before:
+            Color(0.8, 0.9, 1, 1)
+            self.bg_rect = RoundedRectangle(pos=popup_layout.pos, size=popup_layout.size, radius=[20])
+            popup_layout.bind(pos=self.update_bg, size=self.update_bg)
+        buttons = [
+            ('Fechar', self.fechar_popup),
+            ('Cadastrar', partial(self.on_button_press_receita, nome=nome))
+        ]
+
+        for text, callback in buttons:
+            if text == "Cadastrar":
+                btn = Button(
+                    text=text,
+                    background_normal='',
+                    background_color=(1, 1, 1, 1),
+                    color=(0, 0, 0, 1),
+                    size_hint=(0.8, 0.8)
+                )
+            else:
+                btn = Button(
+                    text=text,
+                    background_normal='',
+                    background_color=(1, 0, 0, 0.6),
+                    color=(0, 0, 0, 1),
+                    size_hint=(0.8, 0.8)
+                )
+
+            btn.bind(on_release=callback)
+            popup_layout.add_widget(btn)
+
+        self.popup_receita = Popup(
+            title='',
+            content=popup_layout,
+            size_hint=(0.9, 0.3),
+            auto_dismiss=True,
+            separator_height=0,
+            background_color=(0, 0, 0, 0)
+        )
+        self.popup_receita.open()
+
     def on_button_press(self, instance):
         self.popup.dismiss()
         self.root.ids["refeicaopage"].ids["tipo_refeicao"].text = instance.text
-        print(self.root.ids["refeicaopage"].ids["tipo_refeicao"].text)
         self.mudar_tela("refeicaopage")
+
+    def on_button_press_receita(self, instance, nome):
+        self.popup_receita.dismiss()
+        requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json")
+        requisicao_dic = requisicao.json()
+
+
+        for info in requisicao_dic:
+            if isinstance(info, dict):
+                print(info)
+                print(info.get("Nome"))
+                print(info.get("Tipo"))
+                print(info.get("Calorias"))
+                if info.get('Nome') == nome:
+                    self.firebase.criar_refeicao(carboidratos=info.get("Carboidratos"), calorias=info.get("Calorias"),
+                                             gorduras=info.get("Gorduras"), nome=info.get("Nome"),
+                                             proteinas=info.get("Proteinas"), quantidade=info.get("Quantidade"),
+                                             tipo=info.get("Tipo"), foto=info.get("Foto"), horario=info.get("Horario"))
+
+
+        self.mudar_tela("caloriaspage")
+
+    def fechar_popup(self, instance):
+        self.popup_receita.dismiss()
 
     def update_bg(self, instance, value):
         self.bg_rect.pos = instance.pos
@@ -143,7 +232,6 @@ class MainApp(App):
         pagina_calorias.ids["gorduras"].text = "0"
         requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json")
         requisicao_dic = requisicao.json()
-        print(requisicao_dic)
         aux_calorias = 0
         aux_carboidratos = 0
         aux_proteinas = 0

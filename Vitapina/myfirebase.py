@@ -71,7 +71,7 @@ class MyFirebase():
                 arquivo.write(refresh_token)
 
             meu_aplicativo.carregar_infos_usuario()
-            meu_aplicativo.mudar_tela("glicemiapage")
+            meu_aplicativo.mudar_tela("historicorefeicoespage")
 
         else:
             mensagem_erro = requisicao_dic["error"]["message"]
@@ -91,7 +91,7 @@ class MyFirebase():
 
         return local_id, id_token
 
-    def criar_refeicao(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, quantidade):
+    def criar_refeicao(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, quantidade, horario="", foto=""):
         link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json"
         info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Quantidade": "{quantidade}", "Horario": "{datetime.now().strftime("%H:%M:%S")}"}}'
         requisicao = requests.post(link, data=info_usuario)
