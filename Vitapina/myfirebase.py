@@ -1,6 +1,12 @@
 import requests
 from datetime import datetime
 from kivy.app import App
+from elementos import LabelButton
+from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+from kivy.uix.gridlayout import GridLayout
+from kivy.graphics import Color, RoundedRectangle
+from kivy.clock import Clock
 
 class MyFirebase():
     API_KEY = "AIzaSyC-Xb5RIUljluE8_KI2W5kxWLT_eXZRnpk"
@@ -107,6 +113,39 @@ class MyFirebase():
             link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
             info_usuario = f'{{"Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data de Nascimento": "{dia_nas}/{mes_nas}/{ano_nas}", "Sexo": "{sexo}"}}'
             requisicao_usuario = requests.patch(link, data=info_usuario)
+
+            popup_layout = GridLayout(cols=1, padding=[20, 20, 20, 20], spacing=[20, 20])
+
+            with popup_layout.canvas.before:
+                Color(0.8, 0.9, 1, 0)
+                self.bg_rect = RoundedRectangle(pos=popup_layout.pos, size=popup_layout.size, radius=[20])
+                popup_layout.bind(pos=self.update_bg, size=self.update_bg)
+
+                lbl = LabelButton(
+                    text="[b]Dados Alterados![/b]",
+                    color=(0, 0, 0, 1),
+                    size_hint=(0.8, 0.8),
+                    markup=True
+                )
+                with lbl.canvas.before:
+                    Color(0, 1, 0, 1)
+                    self.bg_rect = RoundedRectangle(pos=lbl.pos, size=lbl.size, radius=[20])
+                popup_layout.add_widget(lbl)
+
+            self.popup_confirm = Popup(
+                title='',
+                content=popup_layout,
+                size_hint=(0.9, 0.3),
+                auto_dismiss=True,
+                separator_height=0,
+                background_color=(0, 0, 0, 0)
+            )
+            self.popup_confirm.open()
+
             App.get_running_app().carregar_infos_usuario()
         else:
             App.get_running_app().mudar_tela("loginpage")
+
+    def update_bg(self, instance, value):
+        self.bg_rect.pos = instance.pos
+        self.bg_rect.size = instance.size

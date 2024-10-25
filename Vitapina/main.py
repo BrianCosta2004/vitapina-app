@@ -118,7 +118,14 @@ class MainApp(App):
             perfil.ids["sobrenome"].text = self.sobrenome
             perfil.ids["telefone"].text = requisicao_dic["telefone"]
             perfil.ids["email"].text = requisicao_dic["E-mail"]
-            dia, mes, ano = requisicao_dic["Data de Nascimento"].split("/")
+            perfil.ids["sexo"].text = requisicao_dic["Sexo"]
+            try:
+                dia, mes, ano = requisicao_dic["Data de Nascimento"].split("/")
+                perfil.ids["dia_nas"].text = dia
+                perfil.ids["mes_nas"].text = mes
+                perfil.ids["ano_nas"].text = ano
+            except:
+                pass
 
         except:
             pass
@@ -290,6 +297,14 @@ class MainApp(App):
                     size=perfil.ids["botao_logoff"].size,
                     radius=[(20, 20), (20, 20), (20, 20), (20, 20)]
                 )
+            perfil.ids["botao_editar_perfil"].text = "[color=#FFFFFF]Cancelar[/color]"
+            with perfil.ids["botao_editar_perfil"].canvas.before:
+                Color(255 / 255, 0 / 255, 0 / 255)
+                RoundedRectangle(
+                    pos=perfil.ids["botao_editar_perfil"].pos,
+                    size=perfil.ids["botao_editar_perfil"].size,
+                    radius=[(20, 20), (20, 20), (20, 20), (20, 20)]
+                )
 
         else:
             requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}.json")
@@ -313,6 +328,14 @@ class MainApp(App):
             perfil.ids["ano_nas"].disabled = True
             perfil.ids["mes_nas"].disabled = True
             perfil.ids["sexo"].disabled = True
+            perfil.ids["botao_editar_perfil"].text = "[color=#FFFFFF]Editar Perfil[/color]"
+            with perfil.ids["botao_editar_perfil"].canvas.before:
+                Color(31 / 255, 69 / 255, 153 / 255)
+                RoundedRectangle(
+                    pos=perfil.ids["botao_editar_perfil"].pos,
+                    size=perfil.ids["botao_editar_perfil"].size,
+                    radius=[(20, 20), (20, 20), (20, 20), (20, 20)]
+                )
 
     def mudar_tela(self, id_tela):
         login = self.root.ids["loginpage"]
