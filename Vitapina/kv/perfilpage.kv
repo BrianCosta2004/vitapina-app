@@ -408,12 +408,12 @@
                             rounded_rectangle: [self.x, self.y, self.width, self.height, 15]  # Bordas arredondadas
 
         LabelButton:
-            pos_hint: {"right": 0.53, "top": 0.180}
-            size_hint: 0.1, 0.1
+            pos_hint: {"right": 0.65, "top": 0.16}
+            size_hint: 0.3, 0.05
             text: "[color=#0000FF][u]Sair[/u][/color]"
-            id: label_total_vendas
+            id: botao_logoff
             markup: True
-            on_release: app.mudar_tela("loginpage")
+            on_release: app.firebase.alterar_dados(nome.text, sobrenome.text, telefone.text, email.text, dia_nas.text, mes_nas.text, ano_nas.text, sexo.text, app.local_id)
         GridLayout:
             rows: 1
             pos_hint: {"right": 1, "top": 0.07}

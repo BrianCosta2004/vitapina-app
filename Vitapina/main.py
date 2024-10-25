@@ -118,6 +118,7 @@ class MainApp(App):
             perfil.ids["sobrenome"].text = self.sobrenome
             perfil.ids["telefone"].text = requisicao_dic["telefone"]
             perfil.ids["email"].text = requisicao_dic["E-mail"]
+            dia, mes, ano = requisicao_dic["Data de Nascimento"].split("/")
 
         except:
             pass
@@ -281,13 +282,23 @@ class MainApp(App):
             perfil.ids["ano_nas"].disabled = False
             perfil.ids["mes_nas"].disabled = False
             perfil.ids["sexo"].disabled = False
+            perfil.ids["botao_logoff"].text = "[color=#FFFFFF]Alterar Dados[/color]"
+            with perfil.ids["botao_logoff"].canvas.before:
+                Color(31 / 255, 69 / 255, 153 / 255)
+                RoundedRectangle(
+                    pos=perfil.ids["botao_logoff"].pos,
+                    size=perfil.ids["botao_logoff"].size,
+                    radius=[(20, 20), (20, 20), (20, 20), (20, 20)]
+                )
+
         else:
             requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{self.local_id}.json")
             requisicao_dic = requisicao.json()
             nome = requisicao_dic["Nome"]
 
             data = requisicao_dic["Data de Cadastro"]
-
+            perfil.ids["botao_logoff"].text = "[color=#0000FF][u]Sair[/u][/color]"
+            perfil.ids["botao_logoff"].canvas.before.clear()
 
             self.data = data
             perfil.ids["nome"].disabled = True

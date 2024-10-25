@@ -31,7 +31,7 @@ class MyFirebase():
             id_usuario = req_id.json()
 
             link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
-            info_usuario = f'{{"ID": "{id_usuario}", "Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data de Cadastro": "{datetime.now().strftime("%d/%m/%Y")}", "Refeicoes": ""}}'
+            info_usuario = f'{{"ID": "{id_usuario}", "Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data de Cadastro": "{datetime.now().strftime("%d/%m/%Y")}", "Refeicoes": "", "Data de Nascimento": "", "Sexo": ""}}'
             requisicao_usuario = requests.patch(link, data=info_usuario)
 
             proximo_id = int(id_usuario) + 1
@@ -100,3 +100,13 @@ class MyFirebase():
                 App.get_running_app().carregar_calorias()
                 App.get_running_app().carregar_infos_usuario()
                 App.get_running_app().mudar_tela("caloriaspage")
+
+    def alterar_dados(self, nome, sobrenome, telefone, email, dia_nas, mes_nas, ano_nas, sexo, local_id):
+        perfil = App.get_running_app().root.ids["perfilpage"]
+        if not perfil.ids["nome"].disabled:
+            link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
+            info_usuario = f'{{"Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data de Nascimento": "{dia_nas}/{mes_nas}/{ano_nas}", "Sexo": "{sexo}"}}'
+            requisicao_usuario = requests.patch(link, data=info_usuario)
+            App.get_running_app().carregar_infos_usuario()
+        else:
+            App.get_running_app().mudar_tela("loginpage")
