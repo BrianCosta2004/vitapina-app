@@ -2,12 +2,18 @@
     FloatLayout:
         canvas.before:
             Color:
-                rgba: 1, 0.5, 0, 1  # Fundo laranja
+                rgb: 0.8, 0.4, 0.19, 1
             Rectangle:
                 pos: self.pos
                 size: self.size
 
-        AnimatedImage:
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        Video:
+            source: 'icones/vitapinasplash.mp4'
+            state: 'play'
+            options: {'eos': 'loop'}
+            allow_stretch: True
+            size_hint: None, None
+            size: root.size
+            pos: root.pos
 
 

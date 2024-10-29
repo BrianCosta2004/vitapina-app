@@ -3,7 +3,6 @@ from kivy.lang import Builder
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
-
 from Vitapina.cardreceita import CardReceita
 from telas import *
 from elementos import *
@@ -96,17 +95,17 @@ class MainApp(App):
             requisicao_dic = requisicao.json()
 
             pagina_historico = self.root.ids["historicorefeicoespage"]
-            lista_vendas = pagina_historico.ids["lista_refeicoes"]
-            lista_vendas.clear_widgets()
+            lista_refeicoes = pagina_historico.ids["lista_refeicoes"]
+            lista_refeicoes.clear_widgets()
             for data, refeicao in reversed(list(requisicao_dic.items())):
                 dia = Label(text="[color=#000000][size=25][b]" + data.replace("-", "/") + "[/b][/size][/color]", markup=True)
-                lista_vendas.add_widget(dia)
+                lista_refeicoes.add_widget(dia)
                 for ref, info in refeicao.items():
                     banner = BannerRefeicao(carboidratos=info["Carboidratos"], calorias=info["Calorias"],
                                          gorduras=info["Gorduras"], nome=info["Nome"],
                                          proteinas=info["Proteinas"], quantidade=info["Quantidade"],
                                          tipo=info["Tipo"], horario=info["Horario"])
-                    lista_vendas.add_widget(banner)
+                    lista_refeicoes.add_widget(banner)
         except:
             pass
 
