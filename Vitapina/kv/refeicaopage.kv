@@ -2,7 +2,7 @@
     FloatLayout:
         canvas:
             Color:
-                rgb: utils.get_color_from_hex("#FFFBF0")
+                rgb: utils.get_color_from_hex("#8DD0D9")
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -34,8 +34,20 @@
 
 
     # ------------------------------------------------------------------------------
-        GridLayout: # Nome da refeição
-            pos_hint: {"right": 0.85, "top": 0.75}
+        Spinner:
+            pos_hint: {"right": 0.9, "top": 0.75}
+            size_hint: 0.8, 0.055
+            id: tipo_refeicao_spinner
+            text: "Almoço"  # Texto padrão
+            values: ["Café da manhã", "Almoço", "Jantar", "Lanche"]
+            size_hint_y: None
+            height: '40dp'
+            background_normal: ''
+            background_color: (0.9, 0.9, 0.9, 1)
+            color: (0, 0, 0, 1)
+
+        GridLayout: # Tipo da refeição
+            pos_hint: {"right": 0.85, "top": 0.35}
             size_hint: 0.7, 0.055
             cols: 1
             size_hint_y: None

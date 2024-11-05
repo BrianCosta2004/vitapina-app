@@ -41,7 +41,7 @@ class CurvaGlicemicaWidget(BoxLayout):
         glicose = [90, 98, 75, 102, 97, 88, 91]
 
         fig, ax = plt.subplots(figsize=(3, 1))
-        ax.plot(tempo, glicose, marker='o', linestyle='-', color='b', label='Nível de Glicose')
+        ax.plot(tempo, glicose, marker='o', linestyle='-', color='k', label='Nível de Glicose')
 
         ax.set_title("Histórico")
         ax.set_xlabel("Tempo (min)")

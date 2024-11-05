@@ -97,15 +97,15 @@ class MyFirebase():
 
         return local_id, id_token
 
-    def criar_refeicao(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, quantidade, horario="", foto=""):
-            link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json"
-            info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Quantidade": "{quantidade}", "Horario": "{datetime.now().strftime("%H:%M")}"}}'
-            requisicao = requests.post(link, data=info_usuario)
-
-            if requisicao.ok:
-                App.get_running_app().carregar_calorias()
-                App.get_running_app().carregar_infos_usuario()
-                App.get_running_app().mudar_tela("caloriaspage")
+    # def criar_refeicao(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, quantidade, horario="", foto=""):
+    #         link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json"
+    #         info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Quantidade": "{quantidade}", "Horario": "{datetime.now().strftime("%H:%M")}"}}'
+    #         requisicao = requests.post(link, data=info_usuario)
+    #
+    #         if requisicao.ok:
+    #             App.get_running_app().carregar_calorias()
+    #             App.get_running_app().carregar_infos_usuario()
+    #             App.get_running_app().mudar_tela("caloriaspage")
 
     def alterar_dados(self, nome, sobrenome, telefone, email, dia_nas, mes_nas, ano_nas, sexo, local_id):
         perfil = App.get_running_app().root.ids["perfilpage"]

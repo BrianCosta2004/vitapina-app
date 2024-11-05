@@ -1,11 +1,12 @@
 from kivy.uix.label import Label
 from kivy.uix.image import Image
+from kivy.uix.button import ButtonBehavior
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color, Rectangle
 
 
-class BannerRefeicao(GridLayout):
+class BannerRefeicao(GridLayout, ButtonBehavior):
     def __init__(self, **kwargs):
         self.rows = 1
         super().__init__()
