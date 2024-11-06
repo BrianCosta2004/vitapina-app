@@ -6,6 +6,8 @@ from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
 from kivy.graphics import Color, RoundedRectangle
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 from kivy.clock import Clock
 
 class MyFirebase():
@@ -97,15 +99,55 @@ class MyFirebase():
 
         return local_id, id_token
 
-    # def criar_refeicao(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, quantidade, horario="", foto=""):
-    #         link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json"
-    #         info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Quantidade": "{quantidade}", "Horario": "{datetime.now().strftime("%H:%M")}"}}'
-    #         requisicao = requests.post(link, data=info_usuario)
-    #
-    #         if requisicao.ok:
-    #             App.get_running_app().carregar_calorias()
-    #             App.get_running_app().carregar_infos_usuario()
-    #             App.get_running_app().mudar_tela("caloriaspage")
+    def criar_refeicao(self, tipo, quantidade, data, ingredientes, horario, foto=""):
+        calorias = 0
+        carboidratos = 0
+        proteinas = 0
+        gorduras = 0
+        link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
+        requisicao = requests.get(link_ingredientes)
+        requisicao_dic = requisicao.json()
+        for ingrediente in ingredientes:
+            for alimento in requisicao_dic:
+                if isinstance(alimento, dict):
+                    if ingrediente["Nome"] == alimento["Nome"]:
+                        calorias += float(alimento["Calorias"]) * float(ingrediente["Quantidade"])
+                        carboidratos += float(alimento["Carboidratos"]) * float(ingrediente["Quantidade"])
+                        proteinas += float(alimento["Proteinas"]) * float(ingrediente["Quantidade"])
+                        gorduras += float(alimento["Gorduras"]) * float(ingrediente["Quantidade"])
+
+
+        link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data}.json"
+        info_refeicao = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Quantidade": "{quantidade}", "Horario": "{horario}"}}'
+        requisicao = requests.post(link, data=info_refeicao)
+
+        if requisicao.ok:
+            App.get_running_app().carregar_calorias()
+            App.get_running_app().carregar_infos_usuario()
+            App.get_running_app().mudar_tela("caloriaspage")
+
+    def adicionar_ingrediente(self, nome, quantidade):
+        tela_refeicao = App.get_running_app().root.ids["refeicaopage"]
+        lista_ingredientes = tela_refeicao.ids["lista_ingredientes"]
+
+        ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
+
+        nome_label = Label(text=nome)
+        quantidade_label = Label(text=quantidade)
+
+        btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
+        btn_remover.bind(on_press=lambda instance: self.remover_ingrediente(instance))
+
+        ingrediente_layout.add_widget(nome_label)
+        ingrediente_layout.add_widget(quantidade_label)
+        ingrediente_layout.add_widget(btn_remover)
+
+        lista_ingredientes.add_widget(ingrediente_layout)
+
+
+    def remover_ingrediente(self, button):
+        layout = button.parent
+        layout.parent.remove_widget(layout)
 
     def alterar_dados(self, nome, sobrenome, telefone, email, dia_nas, mes_nas, ano_nas, sexo, local_id):
         perfil = App.get_running_app().root.ids["perfilpage"]
