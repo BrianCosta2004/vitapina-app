@@ -235,9 +235,6 @@ class MainApp(App):
     def fechar_popup(self, instance):
         self.popup_receita.dismiss()
 
-    def update_bg(self, instance, value):
-        self.bg_rect.pos = instance.pos
-        self.bg_rect.size = instance.size
 
     def carregar_calorias(self):
         pagina_calorias = self.root.ids["caloriaspage"]
@@ -344,11 +341,13 @@ class MainApp(App):
         refeicao = self.root.ids["refeicaopage"]
         refeicao.ids["quantidade"].text = ""
         refeicao.ids["nome"].text = ""
-        refeicao.ids["calorias"].text = ""
-        refeicao.ids["carboidratos"].text = ""
-        refeicao.ids["proteinas"].text = ""
-        refeicao.ids["gorduras"].text = ""
+        refeicao.ids["data"].text = ""
+        refeicao.ids["hora"].text = ""
         gerenciador = self.root.ids["screen_manager"]
         gerenciador.current = id_tela
+        
+    def update_bg(self, instance, value):
+        self.bg_rect.pos = instance.pos
+        self.bg_rect.size = instance.size
 
 MainApp().run()
