@@ -4,7 +4,8 @@ from kivy.clock import Clock
 
 
 class SplashScreen(Screen):
-    Clock.schedule_once(lambda dt: App.get_running_app().mudar_tela("loginpage"), 4.1)
+    pass
+    #Clock.schedule_once(lambda dt: App.get_running_app().mudar_tela("loginpage"), 4.1)
 
 
 class LoginPage(Screen):
