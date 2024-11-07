@@ -37,7 +37,7 @@
         Spinner:
             pos_hint: {"right": 0.9, "top": 0.75}
             size_hint: 0.8, 0.055
-            id: tipo_refeicao_spinner
+            id: tipo_refeicao
             text: "Almoço"  # Texto padrão
             values: ["Café da manhã", "Almoço", "Jantar", "Lanche"]
             size_hint_y: None
@@ -99,7 +99,7 @@
             text: "[color=#FFFFFF]Cadastrar[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_refeicao(tipo_refeicao.text, nome.text, calorias.text, carboidratos.text, proteinas.text, gorduras.text, quantidade.text)
+            on_release: app.firebase.criar_refeicao(tipo=tipo_refeicao.text, ingredientes=app.firebase.ingredientes, data=data.text, horario=hora.text)
 
 
         GridLayout:

@@ -99,7 +99,7 @@ class MyFirebase():
 
         return local_id, id_token
 
-    def criar_refeicao(self, tipo, quantidade, data, ingredientes, horario, foto=""):
+    def criar_refeicao(self, tipo, data, ingredientes, horario, foto=""):
         calorias = 0
         carboidratos = 0
         proteinas = 0
@@ -107,14 +107,14 @@ class MyFirebase():
         link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
         requisicao = requests.get(link_ingredientes)
         requisicao_dic = requisicao.json()
-        for ingrediente in ingredientes:
+        for ingrediente, quantidade in ingredientes.items():
             for alimento in requisicao_dic:
                 if isinstance(alimento, dict):
-                    if ingrediente["Nome"] == alimento["Nome"]:
-                        calorias += float(alimento["Calorias"]) * float(ingrediente["Quantidade"])
-                        carboidratos += float(alimento["Carboidratos"]) * float(ingrediente["Quantidade"])
-                        proteinas += float(alimento["Proteinas"]) * float(ingrediente["Quantidade"])
-                        gorduras += float(alimento["Gorduras"]) * float(ingrediente["Quantidade"])
+                    if ingrediente == alimento["Nome"]:
+                        calorias += float(alimento["Calorias"]) * float(quantidade)
+                        carboidratos += float(alimento["Carboidratos"]) * float(quantidade)
+                        proteinas += float(alimento["Proteinas"]) * float(quantidade)
+                        gorduras += float(alimento["Gorduras"]) * float(quantidade)
 
 
         link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data}.json"
@@ -143,6 +143,9 @@ class MyFirebase():
         ingrediente_layout.add_widget(btn_remover)
 
         lista_ingredientes.add_widget(ingrediente_layout)
+
+        self.ingredientes = {}
+        self.ingredientes[nome] = quantidade
 
 
     def remover_ingrediente(self, button):

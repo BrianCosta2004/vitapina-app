@@ -257,10 +257,10 @@ class MainApp(App):
             proteinas = valor["Proteinas"]
             gorduras = valor["Gorduras"]
             quantidade = valor["Quantidade"]
-            aux_calorias += int(calorias) * int(quantidade)
-            aux_carboidratos += int(carboidratos) * int(quantidade)
-            aux_proteinas += int(proteinas) * int(quantidade)
-            aux_gorduras += int(gorduras) * int(quantidade)
+            aux_calorias += float(calorias) * float(quantidade)
+            aux_carboidratos += float(carboidratos) * float(quantidade)
+            aux_proteinas += float(proteinas) * float(quantidade)
+            aux_gorduras += float(gorduras) * float(quantidade)
 
 
         pagina_calorias.ids["calorias_consumidas"].text = "[color=#000000][size=32][b]" + str(aux_calorias) + "[/b][/size][/color]"
