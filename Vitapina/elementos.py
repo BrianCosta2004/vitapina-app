@@ -7,8 +7,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.effectwidget import EffectWidget, HorizontalBlurEffect
 from kivy.animation import Animation
 from kivy.uix.widget import Widget
-from kivy.graphics import Line, Color, Rectangle, RoundedRectangle
-from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+from kivy.graphics import Line, Color, Rectangle, RoundedRectangle, Ellipse
+#from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.pyplot as plt
 from kivy.properties import NumericProperty
 
@@ -33,25 +33,25 @@ class Retangulo(Widget):
             self.rect = Rectangle(pos=(0, 0), size=(200, 150))
 
 
-class CurvaGlicemicaWidget(BoxLayout):
-    def __init__(self, **kwargs):
-        super(CurvaGlicemicaWidget, self).__init__(**kwargs)
-
-        tempo = [0, 30, 60, 90, 120, 150, 180]
-        glicose = [90, 98, 75, 102, 97, 88, 91]
-
-        fig, ax = plt.subplots(figsize=(3, 1))
-        ax.plot(tempo, glicose, marker='o', linestyle='-', color='k', label='Nível de Glicose')
-
-        ax.set_title("Histórico")
-        ax.set_xlabel("Tempo (min)")
-        ax.set_ylabel("Glicose (mg/dL)")
-        ax.legend()
-        ax.grid(False)
-
-        canvas = FigureCanvasKivyAgg(fig)
-
-        self.add_widget(canvas)
+# class CurvaGlicemicaWidget(BoxLayout):
+#     def __init__(self, **kwargs):
+#         super(CurvaGlicemicaWidget, self).__init__(**kwargs)
+#
+#         tempo = [0, 30, 60, 90, 120, 150, 180]
+#         glicose = [90, 98, 75, 102, 97, 88, 91]
+#
+#         fig, ax = plt.subplots(figsize=(3, 1))
+#         ax.plot(tempo, glicose, marker='o', linestyle='-', color='k', label='Nível de Glicose')
+#
+#         ax.set_title("Histórico")
+#         ax.set_xlabel("Tempo (min)")
+#         ax.set_ylabel("Glicose (mg/dL)")
+#         ax.legend()
+#         ax.grid(False)
+#
+#         canvas = FigureCanvasKivyAgg(fig)
+#
+#         self.add_widget(canvas)
 
 
 class HeatMapLabel(Label):
@@ -126,3 +126,19 @@ class AnimatedImage(ButtonBehavior, BoxLayout):
     def focus_out(self, *args):
         anim_blur = Animation(size=1, d=0.2)
         anim_blur.start(self.blur_effect)
+
+
+class CircleAroundButton(Widget):
+
+    def show_circle(self, pos, size):
+        # Limpa o círculo anterior
+        self.canvas.clear()
+
+        # Desenha um novo círculo na posição do botão
+        with self.canvas:
+            Color(19/255, 155/255, 173/255, 1)  # Define a cor e a opacidade do círculo
+            diameter = max(size) * 0.5  # Define o diâmetro do círculo
+            Ellipse(pos=(pos[0] - diameter / 2, pos[1] - diameter / 2), size=(diameter, diameter))
+
+class CircleLayout(FloatLayout):
+    pass

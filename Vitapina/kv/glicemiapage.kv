@@ -53,28 +53,35 @@
             markup: True
             on_release: app.mudar_tela("historicorefeicoespage")
 
+        CircleAroundButton:
+            id: circle_widget
+
         GridLayout:
             rows: 1
             pos_hint: {"right": 1, "top": 0.07}
             size_hint: 1, 0.07
             canvas:
                 Color:
-                    rgb: utils.get_color_from_hex("#8dd0d9")
+                    rgba: 0, 0, 0, 0
                 Rectangle:
                     size: self.size
                     pos: self.pos
             ImageButton:
                 source: "icones/receita.png"
                 on_release: app.mudar_tela("receitaspage")
+                on_press: circle_widget.show_circle(self.center, self.size)
             ImageButton:
                 source: "icones/fogo.png"
                 on_release: app.mudar_tela("caloriaspage")
+                on_press: circle_widget.show_circle(self.center, self.size)
             ImageButton:
                 source: "icones/graph.png"
                 on_release: app.mudar_tela("glicemiapage")
+                on_press: circle_widget.show_circle(self.center, self.size)
             ImageButton:
                 source: "icones/user.png"
                 on_release: app.mudar_tela("perfilpage")
+                on_press: circle_widget.show_circle(self.center, self.size)
 
         Image:
             pos_hint: {"right": 0.625, "top": 1}
@@ -82,7 +89,7 @@
             source: "icones/logotipo.png"
             id: foto_perfil
 
-        CurvaGlicemicaWidget:
-            pos_hint: {"right": 0.86, "top": 0.55}
-            size_hint: 0.75, 0.33
+        #CurvaGlicemicaWidget:
+         #   pos_hint: {"right": 0.86, "top": 0.55}
+          #  size_hint: 0.75, 0.33
 

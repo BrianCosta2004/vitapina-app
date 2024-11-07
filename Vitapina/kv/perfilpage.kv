@@ -414,25 +414,33 @@
             id: botao_logoff
             markup: True
             on_release: app.firebase.alterar_dados(nome.text, sobrenome.text, telefone.text, email.text, dia_nas.text, mes_nas.text, ano_nas.text, sexo.text, app.local_id)
+
+        CircleAroundButton:
+            id: circle_widget
+
         GridLayout:
             rows: 1
             pos_hint: {"right": 1, "top": 0.07}
             size_hint: 1, 0.07
             canvas:
                 Color:
-                    rgb: utils.get_color_from_hex("#8dd0d9")
+                    rgba: 0, 0, 0, 0
                 Rectangle:
                     size: self.size
                     pos: self.pos
             ImageButton:
                 source: "icones/receita.png"
                 on_release: app.mudar_tela("receitaspage")
+                on_press: circle_widget.show_circle(self.center, self.size)
             ImageButton:
                 source: "icones/fogo.png"
                 on_release: app.mudar_tela("caloriaspage")
+                on_press: circle_widget.show_circle(self.center, self.size)
             ImageButton:
                 source: "icones/graph.png"
                 on_release: app.mudar_tela("glicemiapage")
+                on_press: circle_widget.show_circle(self.center, self.size)
             ImageButton:
                 source: "icones/user.png"
                 on_release: app.mudar_tela("perfilpage")
+                on_press: circle_widget.show_circle(self.center, self.size)
