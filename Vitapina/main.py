@@ -100,12 +100,15 @@ class MainApp(App):
             for data, refeicao in reversed(list(requisicao_dic.items())):
                 dia = Label(text="[color=#000000][size=25][b]" + data.replace("-", "/") + "[/b][/size][/color]", markup=True)
                 lista_refeicoes.add_widget(dia)
+                lista_aux = GridLayout(cols=2, spacing=[2,2], size_hint_y=None, row_default_height="90dp", row_force_default=True)
+                lista_aux.bind(minimum_height=lista_aux.setter('height'))
                 for ref, info in refeicao.items():
                     banner = BannerRefeicao(carboidratos=info["Carboidratos"], calorias=info["Calorias"],
                                          gorduras=info["Gorduras"], nome=info["Nome"],
                                          proteinas=info["Proteinas"], quantidade=info["Quantidade"],
                                          tipo=info["Tipo"], horario=info["Horario"])
-                    lista_refeicoes.add_widget(banner)
+                    lista_aux.add_widget(banner)
+                lista_refeicoes.add_widget(lista_aux)
         except:
             pass
 
@@ -224,7 +227,7 @@ class MainApp(App):
         for info in requisicao_dic:
             if isinstance(info, dict):
                 if info.get('Nome') == nome:
-                    self.firebase.criar_refeicao(carboidratos=info.get("Carboidratos"), calorias=info.get("Calorias"),
+                    self.firebase.cadastrar_receita(carboidratos=info.get("Carboidratos"), calorias=info.get("Calorias"),
                                              gorduras=info.get("Gorduras"), nome=info.get("Nome"),
                                              proteinas=info.get("Proteinas"), quantidade=info.get("Quantidade"),
                                              tipo=info.get("Tipo"), foto=info.get("Foto"), horario=info.get("Horario"))
