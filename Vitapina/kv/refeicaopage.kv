@@ -34,54 +34,64 @@
 
 
     # ------------------------------------------------------------------------------
-        Spinner:
-            pos_hint: {"right": 0.9, "top": 0.75}
-            size_hint: 0.8, 0.055
-            id: tipo_refeicao
-            text: "Almoço"  # Texto padrão
-            values: ["Café da manhã", "Almoço", "Jantar", "Lanche"]
-            size_hint_y: None
-            height: '40dp'
-            background_normal: ''
-            background_color: (0.9, 0.9, 0.9, 1)
-            color: (0, 0, 0, 1)
-
-        TextInput:
-            id: data
-            hint_text: "Data"
-            pos_hint: {"right": 0.45, "top": 0.67}
-            size_hint: 0.35, 0.055
-
-        TextInput:
-            id: hora
-            hint_text: "Hora"
-            pos_hint: {"right": 0.9, "top": 0.67}
-            size_hint: 0.35, 0.055
-
-        ImageButton:
-            pos_hint: {"right": 0.9, "top": 0.46}
-            size_hint: 0.1, 0.055
-            source: "icones/add.png"
-            on_release: app.firebase.adicionar_ingrediente(nome.text, quantidade.text)
-
-        TextInput:
-            id: nome
-            hint_text: "Nome"
-            pos_hint: {"right": 0.7, "top": 0.5}
-            size_hint: 0.6, 0.055
-
-        TextInput:
-            id: quantidade
-            hint_text: "Quantidade"
-            pos_hint: {"right": 0.7, "top": 0.43}
-            size_hint: 0.6, 0.055
-
         ScrollView:
-            pos_hint: {"right": 0.9, "top": 0.36}
-            size_hint: 0.8, 0.2
+            pos_hint: {"right": 0.9, "top": 0.79}
+            size_hint: 0.8, 0.6
             GridLayout:
                 cols: 1
-                id:lista_ingredientes
+                size_hint_y: None
+                spacing: 2, 10
+                height: self.minimum_height
+                row_default_height: "40dp"
+                row_force_default: True
+                size_hint_y: None
+                height: "900dp"
+
+                Spinner:
+                    id: tipo_refeicao
+                    text: "Almoço"  # Texto padrão
+                    values: ["Café da manhã", "Almoço", "Jantar", "Lanche"]
+                    size_hint_y: None
+                    height: '40dp'
+                    background_normal: ''
+                    background_color: (0.9, 0.9, 0.9, 1)
+                    color: (0, 0, 0, 1)
+
+                TextInput:
+                    id: data
+                    hint_text: "Data"
+
+                TextInput:
+                    id: hora
+                    hint_text: "Hora"
+
+                FloatLayout:
+                    ImageButton:
+                        source: "icones/add.png"
+                        on_release: app.firebase.adicionar_ingrediente(nome.text, quantidade.text)
+                        pos_hint: {"right": 0.98, "top": 0.6}
+                        size_hint: 0.1, 0.9
+                    TextInput:
+                        id: nome
+                        hint_text: "Nome"
+                        pos_hint: {"right": 0.85, "top": 1}
+                        size_hint: 0.85, 1
+                    TextInput:
+                        id: quantidade
+                        hint_text: "Quantidade"
+                        pos_hint: {"right": 0.85, "top": 0.06}
+                        size_hint: 0.85, 1
+
+                Label:
+                    text: ""
+
+                GridLayout:
+                    cols: 1
+                    id:lista_ingredientes
+                    spacing: 2, 2
+                    height: self.minimum_height
+                    row_default_height: "40dp"
+                    row_force_default: True
 
 
 
