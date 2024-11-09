@@ -98,17 +98,17 @@ class MainApp(App):
             lista_refeicoes = pagina_historico.ids["lista_refeicoes"]
             lista_refeicoes.clear_widgets()
             for data, refeicao in reversed(list(requisicao_dic.items())):
-                dia = Label(text="[color=#000000][size=25][b]" + data.replace("-", "/") + "[/b][/size][/color]", markup=True)
-                lista_refeicoes.add_widget(dia)
-                lista_aux = GridLayout(cols=2, spacing=[2,2], size_hint_y=None, row_default_height="90dp", row_force_default=True)
+                dia = Label(text="[color=#000000][size=25][b]" + data.replace("-", "/") + "[/b][/size][/color]", size_hint_y=None, markup=True, height=40, valign='middle', halign='center')
+                lista_aux = GridLayout(cols=2, spacing=[5, 5], size_hint_y=None, row_default_height="90dp", row_force_default=True)
                 lista_aux.bind(minimum_height=lista_aux.setter('height'))
+                data_layout = BoxLayout(orientation='vertical', size_hint_y=None)
+                data_layout.bind(minimum_height=data_layout.setter('height'))
+                data_layout.add_widget(dia)
                 for ref, info in refeicao.items():
-                    banner = BannerRefeicao(carboidratos=info["Carboidratos"], calorias=info["Calorias"],
-                                         gorduras=info["Gorduras"], nome=info["Nome"],
-                                         proteinas=info["Proteinas"], quantidade=info["Quantidade"],
-                                         tipo=info["Tipo"], horario=info["Horario"])
+                    banner = BannerRefeicao(calorias=info["Calorias"], tipo=info["Tipo"], horario=info["Horario"])
                     lista_aux.add_widget(banner)
-                lista_refeicoes.add_widget(lista_aux)
+                data_layout.add_widget(lista_aux)
+                lista_refeicoes.add_widget(data_layout)
         except:
             pass
 

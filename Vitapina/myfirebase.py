@@ -157,6 +157,8 @@ class MyFirebase():
         self.ingredientes = {}
         self.ingredientes[nome] = quantidade
 
+        tela_refeicao.ids["scroll"].bind(minimum_height=tela_refeicao.ids["scroll"].setter('height'))
+
 
     def remover_ingrediente(self, button):
         layout = button.parent

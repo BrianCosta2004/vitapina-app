@@ -3,52 +3,47 @@ from kivy.uix.image import Image
 from kivy.uix.button import ButtonBehavior
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
-from kivy.graphics import Color, Rectangle
+from kivy.uix.boxlayout import BoxLayout
+from kivy.graphics import Color, RoundedRectangle
 
 
 class BannerRefeicao(GridLayout, ButtonBehavior):
     def __init__(self, **kwargs):
-        self.rows = 1
+        self.cols = 1
         super().__init__()
 
         with self.canvas:
-            Color(rgb=(1, 1, 1, 1))
-            self.rec = Rectangle(size=self.size, pos=self.pos)
+            Color(rgb=(1, 0.949, 0.871, 1))
+            self.rec = RoundedRectangle(size=self.size, pos=self.pos, radius=[10, 10, 10, 10])
         self.bind(pos=self.atualizar_rec, size=self.atualizar_rec)
 
-        carboidratos = kwargs["carboidratos"]
         calorias = kwargs["calorias"]
-        gorduras = kwargs["gorduras"]
-        proteinas = kwargs["proteinas"]
-        nome = kwargs["nome"]
-        quantidade = kwargs["quantidade"]
         tipo = (kwargs["tipo"])
         horario = (kwargs["horario"])
 
-        esquerda = FloatLayout()
-        esquerda_imagem = Image(pos_hint={"right": 1, "top": 0.95}, size_hint= (1, 0.75),
-                                source=f"icones/refeicoes.png")
-        esquerda_label = Label(text="[color=#000000][b]" + nome + "[/b][/color]",
-                               size_hint=(1, 0.2), pos_hint={"right": 1, "top": 0.2}, markup=True)
-        esquerda.add_widget(esquerda_imagem)
-        esquerda.add_widget(esquerda_label)
+        layout_texto = BoxLayout(orientation='vertical', padding=(10, 5), spacing=1)
 
-        meio = FloatLayout()
-        meio_label = Label(text="[color=#000000][b]" + calorias + " Kcal[/b][/color]",
-                               size_hint=(1, 0.2), pos_hint={"right": 1, "top": 0.6}, markup=True)
-        meio.add_widget(meio_label)
+        tipo_label = Label(text=f"[color=#000000][b]{tipo}[/b][/color]", markup=True,
+                           size_hint_y=None, height=20, halign='left', valign='middle')
+        tipo_label.bind(size=tipo_label.setter('text_size'))
 
-        direita = FloatLayout()
-        direita_label_data = Label(text=f"[color=#000000][b]{tipo}[/b][/color]", size_hint= (1, 0.33), pos_hint={"right": 1, "top": 0.9}, markup=True)
-        direita_label_preco = Label(text=f"[color=#000000][b]Quantidade: {quantidade}g[/b][/color]", size_hint= (1, 0.33), pos_hint={"right": 1, "top": 0.65}, markup=True)
-        direita_label_quantidade = Label(text=f"[color=#000000][b]{horario}[/b][/color]", size_hint= (1, 0.33), pos_hint={"right": 1, "top": 0.4}, markup=True)
-        direita.add_widget(direita_label_data)
-        direita.add_widget(direita_label_preco)
-        direita.add_widget(direita_label_quantidade)
+        calorias_label = Label(text=f"[color=#000000]{calorias} Kcal[/color]", markup=True,
+                               size_hint_y=None, height=20, halign='left', valign='middle')
+        calorias_label.bind(size=calorias_label.setter('text_size'))
 
-        self.add_widget(esquerda)
-        self.add_widget(meio)
-        self.add_widget(direita)
+        horario_label = Label(text=f"[color=#000000]{horario}[/color]", markup=True,
+                              size_hint_y=None, height=20, halign='left', valign='middle')
+        horario_label.bind(size=horario_label.setter('text_size'))
+
+        aux_label = Label(text="", size_hint_y=None, height=15, halign='left', valign='middle')
+        aux_label.bind(size=aux_label.setter('text_size'))
+
+        layout_texto.add_widget(tipo_label)
+        layout_texto.add_widget(calorias_label)
+        layout_texto.add_widget(aux_label)
+        layout_texto.add_widget(horario_label)
+
+        self.add_widget(layout_texto)
 
     def atualizar_rec(self, *args):
         self.rec.pos = self.pos
