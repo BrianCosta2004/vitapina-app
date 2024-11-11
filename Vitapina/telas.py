@@ -46,3 +46,11 @@ class HistoricoRefeicoesPage(Screen):
 
 class RefeicaoPage(Screen):
     pass
+
+
+class DetalhesReceitaPage(Screen):
+    pass
+
+
+class DetalhesRefeicaoPage(Screen):
+    pass

@@ -9,6 +9,8 @@
 #:include kv/receitaspage.kv
 #:include kv/adicionarreceitaspage.kv
 #:include kv/editarperfilpage.kv
+#:include kv/detalhesreceitapage.kv
+#:include kv/detalhesrefeicaopage.kv
 #:import utils kivy.utils
 
 FloatLayout:
@@ -16,6 +18,9 @@ FloatLayout:
         pos_hint: {"right": 1, "top": 1}
         size_hint: 1, 1
         id: screen_manager
+        DetalhesRefeicaoPage:
+            name: "detalhesrefeicaopage"
+            id: detalhesrefeicaopage
         LoginPage:
             name: "loginpage"
             id: loginpage
@@ -49,4 +54,7 @@ FloatLayout:
         AdicionarReceitasPage:
             name: "adicionarreceitaspage"
             id: adicionarreceitaspage
+        DetalhesReceitaPage:
+            name: "detalhesreceitapage"
+            id: detalhesreceitapage
 
