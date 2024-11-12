@@ -5,9 +5,11 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Color, RoundedRectangle
+from kivy.app import App
+from myfirebase import MyFirebase
 
 
-class BannerRefeicao(GridLayout, ButtonBehavior):
+class BannerRefeicao(ButtonBehavior, GridLayout):
     def __init__(self, **kwargs):
         self.cols = 1
         super().__init__()
@@ -20,6 +22,10 @@ class BannerRefeicao(GridLayout, ButtonBehavior):
         calorias = kwargs["calorias"]
         tipo = (kwargs["tipo"])
         horario = (kwargs["horario"])
+        id_ref = kwargs["id"]
+        data = kwargs["data"]
+
+        self.on_release = lambda : MyFirebase().infos_card(id_ref, data)
 
         layout_texto = BoxLayout(orientation='vertical', padding=(10, 5), spacing=1)
 
@@ -44,6 +50,7 @@ class BannerRefeicao(GridLayout, ButtonBehavior):
         layout_texto.add_widget(horario_label)
 
         self.add_widget(layout_texto)
+
 
     def atualizar_rec(self, *args):
         self.rec.pos = self.pos

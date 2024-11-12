@@ -203,6 +203,37 @@ class MyFirebase():
         else:
             App.get_running_app().mudar_tela("loginpage")
 
+    def infos_card(self, id_refeicao, data):
+        pagina_detalhesrefeicao = App.get_running_app().root.ids["detalhesrefeicaopage"]
+        requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data}/{id_refeicao}.json")
+        requisicao_dic = requisicao.json()
+        pagina_detalhesrefeicao.ids["calorias"].text = f"[color=#000000][b]Calorias: {requisicao_dic["Calorias"]}Kcal[/b][/color]"
+        pagina_detalhesrefeicao.ids["carboidratos"].text = f"[color=#000000][b]{requisicao_dic["Carboidratos"]}[/b][/color]"
+        pagina_detalhesrefeicao.ids["proteinas"].text = f"[color=#000000][b]{requisicao_dic["Proteinas"]}[/b][/color]"
+        pagina_detalhesrefeicao.ids["gorduras"].text = f"[color=#000000][b]{requisicao_dic["Gorduras"]}[/b][/color]"
+        App.get_running_app().mudar_tela("detalhesrefeicaopage")
+
+    def criar_receita(self, tipo, ingredientes, usuario, foto=""):
+        calorias = 0
+        carboidratos = 0
+        proteinas = 0
+        gorduras = 0
+        link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
+        requisicao = requests.get(link_ingredientes)
+        requisicao_dic = requisicao.json()
+        for ingrediente, quantidade in ingredientes.items():
+            for alimento in requisicao_dic:
+                if isinstance(alimento, dict):
+                    if ingrediente == alimento["Nome"]:
+                        calorias += float(alimento["Calorias"]) * float(quantidade)
+                        carboidratos += float(alimento["Carboidratos"]) * float(quantidade)
+                        proteinas += float(alimento["Proteinas"]) * float(quantidade)
+                        gorduras += float(alimento["Gorduras"]) * float(quantidade)
+
+        link_receitas = f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json"
+        info_receita = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Usuario": "{usuario}"}}'
+        requisicao = requests.post(link_receitas, data=info_receita)
+
     def update_bg(self, instance, value):
         self.bg_rect.pos = instance.pos
         self.bg_rect.size = instance.size

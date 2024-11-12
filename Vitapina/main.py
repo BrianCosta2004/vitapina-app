@@ -105,7 +105,7 @@ class MainApp(App):
                 data_layout.bind(minimum_height=data_layout.setter('height'))
                 data_layout.add_widget(dia)
                 for ref, info in refeicao.items():
-                    banner = BannerRefeicao(calorias=info["Calorias"], tipo=info["Tipo"], horario=info["Horario"])
+                    banner = BannerRefeicao(calorias=info["Calorias"], tipo=info["Tipo"], horario=info["Horario"], id=ref, data=data)
                     lista_aux.add_widget(banner)
                 data_layout.add_widget(lista_aux)
                 lista_refeicoes.add_widget(data_layout)
