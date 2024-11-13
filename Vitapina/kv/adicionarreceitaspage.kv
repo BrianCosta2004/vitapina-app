@@ -38,6 +38,7 @@
             pos_hint: {"right": 0.9, "top": 0.79}
             size_hint: 0.8, 0.6
             GridLayout:
+                id: tela
                 cols: 1
                 size_hint_y: None
                 spacing: 2, 10
@@ -45,7 +46,7 @@
                 row_default_height: "40dp"
                 row_force_default: True
                 size_hint_y: None
-                height: "900dp"
+                height: "400dp"
 
                 Label:
                     text: "[color=#000000][b]Titulo[/b][/color]"
@@ -76,22 +77,26 @@
                 FloatLayout:
                     ImageButton:
                         source: "icones/add.png"
-                        on_release: app.firebase.adicionar_ingrediente(nome.text, quantidade.text)
+                        on_release: app.firebase.adicionar_ingrediente_receita(tela.height, nome.text, quantidade.text)
                         pos_hint: {"right": 0.98, "top": 0.6}
                         size_hint: 0.1, 0.9
-                    TextInput:
-                        id: nome
-                        hint_text: "Nome"
-                        pos_hint: {"right": 0.85, "top": 1}
-                        size_hint: 0.85, 1
                     TextInput:
                         id: quantidade
                         hint_text: "Quantidade"
                         pos_hint: {"right": 0.85, "top": 0.06}
                         size_hint: 0.85, 1
+                    SearchBox:
+                        id: nome
+                        hint_text: "Nome"
+                        pos_hint: {"right": 0.85, "top": 1}
+                        size_hint: 0.85, 1
 
                 Label:
                     text: ""
+
+                TextInput:
+                    id: modo
+                    hint_text: "Modo de Fazer"
 
                 GridLayout:
                     cols: 1
@@ -100,6 +105,7 @@
                     height: self.minimum_height
                     row_default_height: "40dp"
                     row_force_default: True
+
 
 
 
@@ -117,7 +123,7 @@
             text: "[color=#FFFFFF]Cadastrar[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_receita(tipo=tipo_refeicao.text, ingredientes=app.firebase.ingredientes, usuario=app.local_id)
+            on_release: app.firebase.criar_receita(tipo=tipo_refeicao.text, ingredientes=app.firebase.ingredientes, usuario=app.local_id, modo=modo.text)
 
 
         GridLayout:

@@ -39,13 +39,14 @@
             size_hint: 0.8, 0.6
             GridLayout:
                 cols: 1
+                id: tela
                 size_hint_y: None
                 spacing: 2, 10
                 height: self.minimum_height
                 row_default_height: "40dp"
                 row_force_default: True
                 size_hint_y: None
-                height: "900dp"
+                height: "300dp"
 
                 Spinner:
                     id: tipo_refeicao
@@ -68,10 +69,10 @@
                 FloatLayout:
                     ImageButton:
                         source: "icones/add.png"
-                        on_release: app.firebase.adicionar_ingrediente(nome.text, quantidade.text)
+                        on_release: app.firebase.adicionar_ingrediente_refeicao(tela.height, nome.text, quantidade.text)
                         pos_hint: {"right": 0.98, "top": 0.6}
                         size_hint: 0.1, 0.9
-                    TextInput:
+                    SearchBox:
                         id: nome
                         hint_text: "Nome"
                         pos_hint: {"right": 0.85, "top": 1}

@@ -1,6 +1,6 @@
 from kivy.uix.image import Image
 from kivy.uix.label import Label
-from kivy.uix.button import ButtonBehavior
+from kivy.uix.button import ButtonBehavior, Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
@@ -8,9 +8,11 @@ from kivy.uix.effectwidget import EffectWidget, HorizontalBlurEffect
 from kivy.animation import Animation
 from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color, Rectangle, RoundedRectangle, Ellipse
+from kivy.uix.dropdown import DropDown
 #from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.pyplot as plt
 from kivy.properties import NumericProperty
+from kivy.app import App
 
 
 class ImageButton(ButtonBehavior, Image):
@@ -142,3 +144,46 @@ class CircleAroundButton(Widget):
 
 class CircleLayout(FloatLayout):
     pass
+
+
+class SearchBox(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = 'vertical'
+
+        self.search_input = TextInput(hint_text="Digite para buscar...", multiline=False)
+        self.search_input.bind(text=self.on_text)
+        self.add_widget(self.search_input)
+
+        self.dropdown = DropDown()
+        self.suggestions = []
+
+    def on_text(self, instance, value):
+        self.dropdown.clear_widgets()
+
+        if value == "":
+            self.dropdown.dismiss()
+            return
+
+        todos_alimentos = App.get_running_app().firebase.pegar_opcoes(value)
+
+        self.suggestions = [option for option in todos_alimentos if value.lower() in option.lower()]
+
+        if self.suggestions:
+            for option in self.suggestions:
+                btn = Button(text=option, size_hint_y=None, height=30)
+                btn.bind(on_release=lambda btn: self.select_option(btn.text))
+                self.dropdown.add_widget(btn)
+
+            if not self.dropdown.attach_to:
+                self.dropdown.open(self.search_input)
+        else:
+            self.dropdown.dismiss()
+
+    def select_option(self, text):
+        self.search_input.text = text
+        self.dropdown.dismiss()
+
+    def validate(self):
+        if self.search_input.text not in self.suggestions:
+            self.search_input.text = ""

@@ -136,7 +136,7 @@ class MyFirebase():
             App.get_running_app().carregar_infos_usuario()
             App.get_running_app().mudar_tela("caloriaspage")
 
-    def adicionar_ingrediente(self, nome, quantidade):
+    def adicionar_ingrediente_refeicao(self, altura_grid, nome, quantidade):
         tela_refeicao = App.get_running_app().root.ids["refeicaopage"]
         lista_ingredientes = tela_refeicao.ids["lista_ingredientes"]
 
@@ -146,7 +146,7 @@ class MyFirebase():
         quantidade_label = Label(text=quantidade)
 
         btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
-        btn_remover.bind(on_press=lambda instance: self.remover_ingrediente(instance))
+        btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_refeicao(instance))
 
         ingrediente_layout.add_widget(nome_label)
         ingrediente_layout.add_widget(quantidade_label)
@@ -157,12 +157,50 @@ class MyFirebase():
         self.ingredientes = {}
         self.ingredientes[nome] = quantidade
 
-        tela_refeicao.ids["scroll"].bind(minimum_height=tela_refeicao.ids["scroll"].setter('height'))
+        altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) + 40)
+        tela_refeicao.ids["tela"].height = f"{altura_grid_nova}dp"
+
+    def adicionar_ingrediente_receita(self, altura_grid, nome, quantidade):
+        tela_addreceitas = App.get_running_app().root.ids["adicionarreceitaspage"]
+        lista_ingredientes = tela_addreceitas.ids["lista_ingredientes"]
+
+        ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
+
+        nome_label = Label(text=nome)
+        quantidade_label = Label(text=quantidade)
+
+        btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
+        btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_receita(instance))
+
+        ingrediente_layout.add_widget(nome_label)
+        ingrediente_layout.add_widget(quantidade_label)
+        ingrediente_layout.add_widget(btn_remover)
+
+        lista_ingredientes.add_widget(ingrediente_layout)
+
+        self.ingredientes = {}
+        self.ingredientes[nome] = quantidade
+
+        altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) + 40)
+        tela_addreceitas.ids["tela"].height = f"{altura_grid_nova}dp"
 
 
-    def remover_ingrediente(self, button):
+    def remover_ingrediente_refeicao(self, button):
         layout = button.parent
         layout.parent.remove_widget(layout)
+        tela_refeicao = App.get_running_app().root.ids["refeicaopage"]
+        altura_grid =  tela_refeicao.ids["tela"].height
+        altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) - 40)
+        tela_refeicao.ids["tela"].height = f"{altura_grid_nova}dp"
+
+
+    def remover_ingrediente_receita(self, button):
+        layout = button.parent
+        layout.parent.remove_widget(layout)
+        tela_addreceitas = App.get_running_app().root.ids["adicionarreceitaspage"]
+        altura_grid = tela_addreceitas.ids["tela"].height
+        altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) - 40)
+        tela_addreceitas.ids["tela"].height = f"{altura_grid_nova}dp"
 
     def alterar_dados(self, nome, sobrenome, telefone, email, dia_nas, mes_nas, ano_nas, sexo, local_id):
         perfil = App.get_running_app().root.ids["perfilpage"]
@@ -213,7 +251,7 @@ class MyFirebase():
         pagina_detalhesrefeicao.ids["gorduras"].text = f"[color=#000000][b]{requisicao_dic["Gorduras"]}[/b][/color]"
         App.get_running_app().mudar_tela("detalhesrefeicaopage")
 
-    def criar_receita(self, tipo, ingredientes, usuario, foto=""):
+    def criar_receita(self, tipo, ingredientes, usuario, modo, foto=""):
         calorias = 0
         carboidratos = 0
         proteinas = 0
@@ -231,9 +269,20 @@ class MyFirebase():
                         gorduras += float(alimento["Gorduras"]) * float(quantidade)
 
         link_receitas = f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json"
-        info_receita = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Usuario": "{usuario}"}}'
+        info_receita = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Usuario": "{usuario}", "Modo": "{modo}"}}'
         requisicao = requests.post(link_receitas, data=info_receita)
 
     def update_bg(self, instance, value):
         self.bg_rect.pos = instance.pos
         self.bg_rect.size = instance.size
+
+    def pegar_opcoes(self, valor):
+        self.todos_alimentos = []
+        link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
+        requisicao = requests.get(link_ingredientes)
+        requisicao_dic = requisicao.json()
+        for alimento in requisicao_dic:
+            if isinstance(alimento, dict):
+                self.todos_alimentos.append(alimento["Nome"])
+
+        return self.todos_alimentos
