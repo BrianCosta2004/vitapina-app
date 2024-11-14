@@ -99,9 +99,9 @@ class MyFirebase():
 
         return local_id, id_token
 
-    def cadastrar_receita(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, quantidade, horario="", foto=""):
+    def cadastrar_receita(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, horario="", foto=""):
         link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json"
-        info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Quantidade": "{quantidade}", "Horario": "{datetime.now().strftime("%H:%M")}"}}'
+        info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Horario": "{datetime.now().strftime("%H:%M")}"}}'
         requisicao = requests.post(link, data=info_usuario)
 
         if requisicao.ok:
@@ -127,13 +127,13 @@ class MyFirebase():
                         gorduras += float(alimento["Gorduras"]) * float(quantidade)
 
 
-        link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data}.json"
-        info_refeicao = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Quantidade": "{quantidade}", "Horario": "{horario}"}}'
+        link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data.replace("/", "-")}.json"
+        info_refeicao = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str("{:.2f}".format(calorias))}", "Carboidratos": "{str("{:.2f}".format(carboidratos))}","Proteinas": "{str("{:.2f}".format(proteinas))}", "Gorduras": "{str("{:.2f}".format(gorduras))}", "Quantidade": "{quantidade}", "Horario": "{horario}"}}'
         requisicao = requests.post(link, data=info_refeicao)
 
         if requisicao.ok:
-            App.get_running_app().carregar_calorias()
             App.get_running_app().carregar_infos_usuario()
+            App.get_running_app().carregar_calorias()
             App.get_running_app().mudar_tela("caloriaspage")
 
     def adicionar_ingrediente_refeicao(self, altura_grid, nome, quantidade):
@@ -269,8 +269,10 @@ class MyFirebase():
                         gorduras += float(alimento["Gorduras"]) * float(quantidade)
 
         link_receitas = f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json"
-        info_receita = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Usuario": "{usuario}", "Modo": "{modo}"}}'
+        info_receita = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Usuario": "{usuario}", "Modo": "{modo}", "Foto": "receitas.png"}}'
         requisicao = requests.post(link_receitas, data=info_receita)
+        App.get_running_app().carregar_infos_usuario()
+        App.get_running_app().mudar_tela("receitaspage")
 
     def update_bg(self, instance, value):
         self.bg_rect.pos = instance.pos

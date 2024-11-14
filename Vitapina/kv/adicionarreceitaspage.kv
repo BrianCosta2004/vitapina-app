@@ -56,12 +56,21 @@
                     id: titulo
                     hint_text: "Título da Receita"
 
-                Label:
-                    text: "[color=#000000][b]Titulo[/b][/color]"
-                    markup: True
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '40dp'
 
-                CheckBox:
-                    id: my_checkbox
+                    CheckBox:
+                        id: my_checkbox
+                        size_hint: None, None
+                        size: 50, 50
+                        active: True
+                        height: '40dp'
+
+                    Label:
+                        text: "[color=#000000][b]Tornar receita pública[/b][/color]"
+                        markup: True
 
 
                 Spinner:
@@ -75,11 +84,6 @@
                     color: (0, 0, 0, 1)
 
                 FloatLayout:
-                    ImageButton:
-                        source: "icones/add.png"
-                        on_release: app.firebase.adicionar_ingrediente_receita(tela.height, nome.text, quantidade.text)
-                        pos_hint: {"right": 0.98, "top": 0.6}
-                        size_hint: 0.1, 0.9
                     TextInput:
                         id: quantidade
                         hint_text: "Quantidade"
@@ -90,6 +94,11 @@
                         hint_text: "Nome"
                         pos_hint: {"right": 0.85, "top": 1}
                         size_hint: 0.85, 1
+                    ImageButton:
+                        source: "icones/add.png"
+                        on_release: app.firebase.adicionar_ingrediente_receita(tela.height, nome.search_input.text, quantidade.text)
+                        pos_hint: {"right": 0.98, "top": 0.6}
+                        size_hint: 0.1, 0.9
 
                 Label:
                     text: ""

@@ -69,7 +69,7 @@
                 FloatLayout:
                     ImageButton:
                         source: "icones/add.png"
-                        on_release: app.firebase.adicionar_ingrediente_refeicao(tela.height, nome.text, quantidade.text)
+                        on_release: app.firebase.adicionar_ingrediente_refeicao(tela.height, nome.search_input.text, quantidade.text)
                         pos_hint: {"right": 0.98, "top": 0.6}
                         size_hint: 0.1, 0.9
                     SearchBox:

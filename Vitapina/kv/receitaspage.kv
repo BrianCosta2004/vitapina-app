@@ -31,7 +31,7 @@
                 cols: 1
                 id: lista_refeicoes
                 size_hint_y: None
-                height: self.minimum_height
+                height: "800dp"
                 row_default_height: "90dp"
                 row_force_default: True
 
@@ -54,7 +54,7 @@
                         spacing: 20, 2
                         col_default_width: "150dp"
                         col_force_default: True
-                        row_default_height: 150
+                        row_default_height: 130
 
 
                 Label:
@@ -75,7 +75,7 @@
                         col_default_width: "150dp"
                         spacing: 20, 2
                         col_force_default: True
-                        row_default_height: 150
+                        row_default_height: 130
 
                 Label:
                     text: "[color=#000000][size=20][b]Lanche[/b][/size][/color]"
@@ -95,7 +95,7 @@
                         col_default_width: "150dp"
                         spacing: 20, 2
                         col_force_default: True
-                        row_default_height: 150
+                        row_default_height: 130
 
 
                 Label:
@@ -116,7 +116,23 @@
                         col_default_width: "150dp"
                         spacing: 20, 2
                         col_force_default: True
-                        row_default_height: 150
+                        row_default_height: 130
+
+        LabelButton:
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#eb7b29")
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+
+            pos_hint: {"right": 0.9, "top": 0.18}
+            size_hint: 0.8, 0.065
+            text: "[color=#FFFFFF]Cadastrar Receita[/color]"
+            id: label_total_vendas
+            markup: True
+            on_release: app.mudar_tela("adicionarreceitaspage")
 
         Label:
             pos_hint: {"right": 0.4, "top": 0.89}

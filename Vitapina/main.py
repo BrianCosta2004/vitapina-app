@@ -223,14 +223,16 @@ class MainApp(App):
         requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json")
         requisicao_dic = requisicao.json()
 
-
+        print(requisicao_dic)
+        print(nome)
         for info in requisicao_dic:
             if isinstance(info, dict):
                 if info.get('Nome') == nome:
+                    print("aaaaaa")
                     self.firebase.cadastrar_receita(carboidratos=info.get("Carboidratos"), calorias=info.get("Calorias"),
                                              gorduras=info.get("Gorduras"), nome=info.get("Nome"),
-                                             proteinas=info.get("Proteinas"), quantidade=info.get("Quantidade"),
-                                             tipo=info.get("Tipo"), foto=info.get("Foto"), horario=info.get("Horario"))
+                                             proteinas=info.get("Proteinas"), tipo=info.get("Tipo"), foto=info.get("Foto"),
+                                             horario=info.get("Horario"))
                     break
 
         self.mudar_tela("caloriaspage")
@@ -259,22 +261,21 @@ class MainApp(App):
             carboidratos = valor["Carboidratos"]
             proteinas = valor["Proteinas"]
             gorduras = valor["Gorduras"]
-            quantidade = valor["Quantidade"]
-            aux_calorias += float(calorias) * float(quantidade)
-            aux_carboidratos += float(carboidratos) * float(quantidade)
-            aux_proteinas += float(proteinas) * float(quantidade)
-            aux_gorduras += float(gorduras) * float(quantidade)
+            aux_calorias += float(calorias)
+            aux_carboidratos += float(carboidratos)
+            aux_proteinas += float(proteinas)
+            aux_gorduras += float(gorduras)
 
 
-        pagina_calorias.ids["calorias_consumidas"].text = "[color=#000000][size=32][b]" + str(aux_calorias) + "[/b][/size][/color]"
+        pagina_calorias.ids["calorias_consumidas"].text = "[color=#000000][size=32][b]" + "{:.1f}".format(aux_calorias) + "[/b][/size][/color]"
         if int(pagina_calorias.ids["calorias_total"].text) - int(aux_calorias) > 0:
-            pagina_calorias.ids["calorias_restantes"].text = "[color=#000000][size=60][b]" + str(int(pagina_calorias.ids["calorias_total"].text) - int(aux_calorias)) + "[/b][/size][/color]"
+            pagina_calorias.ids["calorias_restantes"].text = "[color=#000000][size=60][b]" + "{:.1f}".format(int(pagina_calorias.ids["calorias_total"].text) - int(aux_calorias)) + "[/b][/size][/color]"
         else:
             pagina_calorias.ids["calorias_restantes"].text = "[color=#000000][size=60][b]0[/b][/size][/color]"
         pagina_calorias.ids["calorias_total"].text = "[color=#000000][size=32][b]1700[/b][/size][/color]"
-        pagina_calorias.ids["carboidratos"].text = "[color=#000000][b]" + str(aux_carboidratos) + "g" + "[/b][/color]"
-        pagina_calorias.ids["proteinas"].text = "[color=#000000][b]" + str(aux_proteinas) + "g" + "[/b][/color]"
-        pagina_calorias.ids["gorduras"].text = "[color=#000000][b]" + str(aux_gorduras) + "g" + "[/b][/color]"
+        pagina_calorias.ids["carboidratos"].text = "[color=#000000][b]" + str("{:.1f}".format(aux_carboidratos)) + "g" + "[/b][/color]"
+        pagina_calorias.ids["proteinas"].text = "[color=#000000][b]" + str("{:.1f}".format(aux_proteinas)) + "g" + "[/b][/color]"
+        pagina_calorias.ids["gorduras"].text = "[color=#000000][b]" + str("{:.1f}".format(aux_gorduras)) + "g" + "[/b][/color]"
 
 
     def alterar_campos(self):
