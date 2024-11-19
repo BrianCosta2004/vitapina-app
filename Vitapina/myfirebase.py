@@ -238,6 +238,7 @@ class MyFirebase():
             self.popup_confirm.open()
 
             App.get_running_app().carregar_infos_usuario()
+            App.get_running_app().alterar_campos()
         else:
             App.get_running_app().mudar_tela("loginpage")
 
