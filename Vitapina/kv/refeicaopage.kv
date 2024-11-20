@@ -110,7 +110,7 @@
             text: "[color=#FFFFFF]Cadastrar[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_refeicao(tipo=tipo_refeicao.text, ingredientes=app.firebase.ingredientes, data=data.text, horario=hora.text)
+            on_release: app.firebase.criar_refeicao(tipo=tipo_refeicao.text, ingredientes=app.firebase.ingredientes, data=data.text, horario=hora.text) if lista_ingredientes.children else print("aaa")
 
 
         GridLayout:
