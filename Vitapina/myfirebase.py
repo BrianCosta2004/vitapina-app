@@ -13,6 +13,10 @@ from kivy.clock import Clock
 class MyFirebase():
     API_KEY = "AIzaSyC-Xb5RIUljluE8_KI2W5kxWLT_eXZRnpk"
 
+    def __init__(self):
+        self.ingredientes = {}
+
+
     def criar_conta(self, email, senha, nome, sobrenome, telefone):
         link = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={self.API_KEY}"
 
