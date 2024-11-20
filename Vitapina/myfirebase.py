@@ -1,4 +1,5 @@
 import requests
+import json
 from datetime import datetime
 from kivy.app import App
 from elementos import LabelButton
@@ -114,79 +115,154 @@ class MyFirebase():
             App.get_running_app().mudar_tela("caloriaspage")
 
     def criar_refeicao(self, tipo, data, ingredientes, horario, foto=""):
-        calorias = 0
-        carboidratos = 0
-        proteinas = 0
-        gorduras = 0
-        link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
-        requisicao = requests.get(link_ingredientes)
-        requisicao_dic = requisicao.json()
-        for ingrediente, quantidade in ingredientes.items():
-            for alimento in requisicao_dic:
-                if isinstance(alimento, dict):
-                    if ingrediente == alimento["Nome"]:
-                        calorias += float(alimento["Calorias"]) * float(quantidade)
-                        carboidratos += float(alimento["Carboidratos"]) * float(quantidade)
-                        proteinas += float(alimento["Proteinas"]) * float(quantidade)
-                        gorduras += float(alimento["Gorduras"]) * float(quantidade)
+        if data != "" and horario != "":
+            calorias = 0
+            carboidratos = 0
+            proteinas = 0
+            gorduras = 0
+            link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
+            requisicao = requests.get(link_ingredientes)
+            requisicao_dic = requisicao.json()
+            for ingrediente, quantidade in ingredientes.items():
+                for alimento in requisicao_dic:
+                    if isinstance(alimento, dict):
+                        if ingrediente == alimento["Nome"]:
+                            calorias += float(alimento["Calorias"]) * float(quantidade)
+                            carboidratos += float(alimento["Carboidratos"]) * float(quantidade)
+                            proteinas += float(alimento["Proteinas"]) * float(quantidade)
+                            gorduras += float(alimento["Gorduras"]) * float(quantidade)
 
 
-        link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data.replace("/", "-")}.json"
-        info_refeicao = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str("{:.2f}".format(calorias))}", "Carboidratos": "{str("{:.2f}".format(carboidratos))}","Proteinas": "{str("{:.2f}".format(proteinas))}", "Gorduras": "{str("{:.2f}".format(gorduras))}", "Quantidade": "{quantidade}", "Horario": "{horario}"}}'
-        requisicao = requests.post(link, data=info_refeicao)
+            link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data.replace('/', '-')}.json"
+            info_refeicao = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str("{:.2f}".format(calorias))}", "Carboidratos": "{str("{:.2f}".format(carboidratos))}","Proteinas": "{str("{:.2f}".format(proteinas))}", "Gorduras": "{str("{:.2f}".format(gorduras))}", "Quantidade": "{quantidade}", "Horario": "{horario}", "Ingredientes": "{ingredientes}"}}'
+            requisicao = requests.post(link, data=info_refeicao)
 
-        if requisicao.ok:
-            App.get_running_app().carregar_infos_usuario()
-            App.get_running_app().carregar_calorias()
-            App.get_running_app().mudar_tela("caloriaspage")
+            if requisicao.ok:
+                App.get_running_app().carregar_infos_usuario()
+                App.get_running_app().carregar_calorias()
+                App.get_running_app().mudar_tela("caloriaspage")
+                self.ingredientes = {}
+        else:
+            pagina_addrefeicao = App.get_running_app().root.ids["refeicaopage"]
+            pagina_addrefeicao.ids["label_erro"].text = "PREENCHA AS INFORMAÇÕES CORRETAMENTE"
+            pagina_addrefeicao.ids["label_erro"].color = (1, 0, 0, 1)
 
     def adicionar_ingrediente_refeicao(self, altura_grid, nome, quantidade):
-        tela_refeicao = App.get_running_app().root.ids["refeicaopage"]
-        lista_ingredientes = tela_refeicao.ids["lista_ingredientes"]
+        if nome in self.pegar_opcoes(nome) and quantidade != "":
+            tela_refeicao = App.get_running_app().root.ids["refeicaopage"]
+            lista_ingredientes = tela_refeicao.ids["lista_ingredientes"]
 
-        ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
+            ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
 
-        nome_label = Label(text=nome)
-        quantidade_label = Label(text=quantidade)
+            nome_label = Label(text=f"[color=#000000]{nome}[/color]", markup=True)
+            quantidade_label = Label(text=f"[color=#000000]{quantidade}[/color]", markup=True)
 
-        btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
-        btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_refeicao(instance))
+            btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
+            btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_refeicao(instance))
 
-        ingrediente_layout.add_widget(nome_label)
-        ingrediente_layout.add_widget(quantidade_label)
-        ingrediente_layout.add_widget(btn_remover)
+            ingrediente_layout.add_widget(nome_label)
+            ingrediente_layout.add_widget(quantidade_label)
+            ingrediente_layout.add_widget(btn_remover)
 
-        lista_ingredientes.add_widget(ingrediente_layout)
+            lista_ingredientes.add_widget(ingrediente_layout)
 
-        self.ingredientes = {}
-        self.ingredientes[nome] = quantidade
+            self.ingredientes[nome] = quantidade
 
-        altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) + 40)
-        tela_refeicao.ids["tela"].height = f"{altura_grid_nova}dp"
+            altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) + 40)
+            tela_refeicao.ids["tela"].height = f"{altura_grid_nova}dp"
+        else:
+            popup_layout = GridLayout(cols=1, padding=[20, 20, 20, 20], spacing=[20, 20])
+            with popup_layout.canvas.before:
+                Color(0.8, 0.9, 1, 0)
+                self.bg_rect = RoundedRectangle(pos=popup_layout.pos, size=popup_layout.size, radius=[20])
+                popup_layout.bind(pos=self.update_bg, size=self.update_bg)
+                if quantidade != "":
+                    lbl = LabelButton(
+                        text="[b]Adicione alimentos da lista![/b]",
+                        color=(0, 0, 0, 1),
+                        size_hint=(0.8, 0.8),
+                        markup=True
+                    )
+                else:
+                    lbl = LabelButton(
+                        text="[b]Adicione uma quantia![/b]",
+                        color=(0, 0, 0, 1),
+                        size_hint=(0.8, 0.8),
+                        markup=True
+                    )
+                with lbl.canvas.before:
+                    Color(1, 0, 0, 1)
+                    self.bg_rect = RoundedRectangle(pos=lbl.pos, size=lbl.size, radius=[20])
+                popup_layout.add_widget(lbl)
+
+            self.popup_confirm = Popup(
+                title='',
+                content=popup_layout,
+                size_hint=(0.9, 0.3),
+                auto_dismiss=True,
+                separator_height=0,
+                background_color=(0, 0, 0, 0)
+            )
+            self.popup_confirm.open()
 
     def adicionar_ingrediente_receita(self, altura_grid, nome, quantidade):
-        tela_addreceitas = App.get_running_app().root.ids["adicionarreceitaspage"]
-        lista_ingredientes = tela_addreceitas.ids["lista_ingredientes"]
+        if nome in self.pegar_opcoes(nome) and quantidade != "":
+            tela_addreceitas = App.get_running_app().root.ids["adicionarreceitaspage"]
+            lista_ingredientes = tela_addreceitas.ids["lista_ingredientes"]
 
-        ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
+            ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
 
-        nome_label = Label(text=nome)
-        quantidade_label = Label(text=quantidade)
+            nome_label = Label(text=f"[color=#000000]{nome}[/color]", markup=True)
+            quantidade_label = Label(text=f"[color=#000000]{quantidade}[/color]", markup=True)
 
-        btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
-        btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_receita(instance))
+            btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
+            btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_receita(instance))
 
-        ingrediente_layout.add_widget(nome_label)
-        ingrediente_layout.add_widget(quantidade_label)
-        ingrediente_layout.add_widget(btn_remover)
+            ingrediente_layout.add_widget(nome_label)
+            ingrediente_layout.add_widget(quantidade_label)
+            ingrediente_layout.add_widget(btn_remover)
 
-        lista_ingredientes.add_widget(ingrediente_layout)
+            lista_ingredientes.add_widget(ingrediente_layout)
 
-        self.ingredientes = {}
-        self.ingredientes[nome] = quantidade
+            self.ingredientes[nome] = quantidade
 
-        altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) + 40)
-        tela_addreceitas.ids["tela"].height = f"{altura_grid_nova}dp"
+            altura_grid_nova = str(float(str(altura_grid).replace("dp", "")) + 40)
+            tela_addreceitas.ids["tela"].height = f"{altura_grid_nova}dp"
+        else:
+            popup_layout = GridLayout(cols=1, padding=[20, 20, 20, 20], spacing=[20, 20])
+            with popup_layout.canvas.before:
+                Color(0.8, 0.9, 1, 0)
+                self.bg_rect = RoundedRectangle(pos=popup_layout.pos, size=popup_layout.size, radius=[20])
+                popup_layout.bind(pos=self.update_bg, size=self.update_bg)
+
+                if quantidade != "":
+                    lbl = LabelButton(
+                        text="[b]Adicione alimentos da lista![/b]",
+                        color=(0, 0, 0, 1),
+                        size_hint=(0.8, 0.8),
+                        markup=True
+                    )
+                else:
+                    lbl = LabelButton(
+                        text="[b]Adicione uma quantia![/b]",
+                        color=(0, 0, 0, 1),
+                        size_hint=(0.8, 0.8),
+                        markup=True
+                    )
+                with lbl.canvas.before:
+                    Color(1, 0, 0, 1)
+                    self.bg_rect = RoundedRectangle(pos=lbl.pos, size=lbl.size, radius=[20])
+                popup_layout.add_widget(lbl)
+
+            self.popup_confirm = Popup(
+                title='',
+                content=popup_layout,
+                size_hint=(0.9, 0.3),
+                auto_dismiss=True,
+                separator_height=0,
+                background_color=(0, 0, 0, 0)
+            )
+            self.popup_confirm.open()
 
 
     def remover_ingrediente_refeicao(self, button):
@@ -250,34 +326,59 @@ class MyFirebase():
         pagina_detalhesrefeicao = App.get_running_app().root.ids["detalhesrefeicaopage"]
         requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data}/{id_refeicao}.json")
         requisicao_dic = requisicao.json()
-        pagina_detalhesrefeicao.ids["calorias"].text = f"[color=#000000][b]Calorias: {requisicao_dic["Calorias"]}Kcal[/b][/color]"
-        pagina_detalhesrefeicao.ids["carboidratos"].text = f"[color=#000000][b]{requisicao_dic["Carboidratos"]}[/b][/color]"
-        pagina_detalhesrefeicao.ids["proteinas"].text = f"[color=#000000][b]{requisicao_dic["Proteinas"]}[/b][/color]"
-        pagina_detalhesrefeicao.ids["gorduras"].text = f"[color=#000000][b]{requisicao_dic["Gorduras"]}[/b][/color]"
+        print(requisicao_dic["Ingredientes"])
+        try:
+            lista_ingredientes = pagina_detalhesrefeicao.ids["lista_ingredientes"]
+            ingredientes = requisicao_dic["Ingredientes"].replace("'", '"')
+            ingredientes = json.loads(ingredientes)
+            for ingrediente, quantidade in ingredientes.items():
+                ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
+
+                nome_label = Label(text=f"[color=#000000]{ingrediente}[/color]", markup=True)
+                quantidade_label = Label(text=f"[color=#000000]{quantidade}[/color]", markup=True)
+
+                ingrediente_layout.add_widget(nome_label)
+                ingrediente_layout.add_widget(quantidade_label)
+
+                lista_ingredientes.add_widget(ingrediente_layout)
+        except:
+            pass
+        pagina_detalhesrefeicao.ids["calorias"].text = f"[color=#000000][b]Calorias: {requisicao_dic['Calorias']}Kcal[/b][/color]"
+        pagina_detalhesrefeicao.ids["carboidratos"].text = f"[color=#000000][b]{requisicao_dic['Carboidratos']}[/b][/color]"
+        pagina_detalhesrefeicao.ids["proteinas"].text = f"[color=#000000][b]{requisicao_dic['Proteinas']}[/b][/color]"
+        pagina_detalhesrefeicao.ids["gorduras"].text = f"[color=#000000][b]{requisicao_dic['Gorduras']}[/b][/color]"
         App.get_running_app().mudar_tela("detalhesrefeicaopage")
 
-    def criar_receita(self, tipo, ingredientes, usuario, modo, foto=""):
-        calorias = 0
-        carboidratos = 0
-        proteinas = 0
-        gorduras = 0
-        link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
-        requisicao = requests.get(link_ingredientes)
-        requisicao_dic = requisicao.json()
-        for ingrediente, quantidade in ingredientes.items():
-            for alimento in requisicao_dic:
-                if isinstance(alimento, dict):
-                    if ingrediente == alimento["Nome"]:
-                        calorias += float(alimento["Calorias"]) * float(quantidade)
-                        carboidratos += float(alimento["Carboidratos"]) * float(quantidade)
-                        proteinas += float(alimento["Proteinas"]) * float(quantidade)
-                        gorduras += float(alimento["Gorduras"]) * float(quantidade)
+    def criar_receita(self, nome, tipo, ingredientes, usuario, modo, foto=""):
+        if nome != "" and modo != "":
+            calorias = 0
+            carboidratos = 0
+            proteinas = 0
+            gorduras = 0
+            link_ingredientes = f"https://vitapinabd-default-rtdb.firebaseio.com/Alimentos.json"
+            requisicao = requests.get(link_ingredientes)
+            requisicao_dic = requisicao.json()
+            for ingrediente, quantidade in ingredientes.items():
+                for alimento in requisicao_dic:
+                    if isinstance(alimento, dict):
+                        if ingrediente == alimento["Nome"]:
+                            calorias += float(alimento["Calorias"]) * float(quantidade)
+                            carboidratos += float(alimento["Carboidratos"]) * float(quantidade)
+                            proteinas += float(alimento["Proteinas"]) * float(quantidade)
+                            gorduras += float(alimento["Gorduras"]) * float(quantidade)
 
-        link_receitas = f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json"
-        info_receita = f'{{"Tipo": "{tipo}", "Nome": "Refeição", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Usuario": "{usuario}", "Modo": "{modo}", "Foto": "receitas.png"}}'
-        requisicao = requests.post(link_receitas, data=info_receita)
-        App.get_running_app().carregar_infos_usuario()
-        App.get_running_app().mudar_tela("receitaspage")
+            link_receitas = f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json"
+            info_receita = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{str(calorias)}", "Carboidratos": "{str(carboidratos)}","Proteinas": "{str(proteinas)}", "Gorduras": "{str(gorduras)}", "Usuario": "{usuario}", "Modo": "{modo}", "Foto": "receitas.png", "Ingredientes": "{ingredientes}"}}'
+            requisicao = requests.post(link_receitas, data=info_receita)
+            pagina_addreceitas = App.get_running_app().root.ids["adicionarreceitaspage"]
+            pagina_addreceitas.ids["label_erro"].text = ""
+            App.get_running_app().carregar_infos_usuario()
+            App.get_running_app().mudar_tela("receitaspage")
+            self.ingredientes = {}
+        else:
+            pagina_addreceitas = App.get_running_app().root.ids["adicionarreceitaspage"]
+            pagina_addreceitas.ids["label_erro"].text = "PREENCHA AS INFORMAÇÕES CORRETAMENTE"
+            pagina_addreceitas.ids["label_erro"].color = (1, 0, 0, 1)
 
     def update_bg(self, instance, value):
         self.bg_rect.pos = instance.pos

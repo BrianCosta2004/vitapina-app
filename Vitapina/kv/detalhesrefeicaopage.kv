@@ -42,6 +42,19 @@
                 row_force_default: True
 
                 Label:
+                    text: "[color=#000000][b]Ingredientes Consumidos[/b][/color]"
+                    markup: True
+
+                GridLayout:
+                    cols: 1
+                    spacing: 2, 2
+                    height: self.minimum_height
+                    row_default_height: "20dp"
+                    row_force_default: True
+                    padding: [30, 10, 30, 10]
+                    id: lista_ingredientes
+
+                Label:
                     text: ""
                     markup: True
                     id: calorias

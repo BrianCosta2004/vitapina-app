@@ -82,6 +82,7 @@
                         hint_text: "Quantidade"
                         pos_hint: {"right": 0.85, "top": 0.06}
                         size_hint: 0.85, 1
+                        input_filter: "int"
 
                 Label:
                     text: ""
@@ -94,6 +95,9 @@
                     row_default_height: "40dp"
                     row_force_default: True
 
+                Label:
+                    id: label_erro
+                    text: ""
 
 
         LabelButton:
