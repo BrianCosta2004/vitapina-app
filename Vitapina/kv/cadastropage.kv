@@ -55,6 +55,7 @@
             hint_text: "Telefone"
             pos_hint: {"right": 0.85, "top": 0.53}
             size_hint: 0.7, 0.055
+            input_filter: "int"
 
 
         TextInput:
@@ -107,4 +108,4 @@
             text: "[color=#FFFFFF]Cadastrar[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_conta(email.text, senha.text, nome.text, sobrenome.text, telefone.text)
+            on_release: app.firebase.criar_conta(email.text, senha.text, nome.text, sobrenome.text, telefone.text, repetirsenha.text)

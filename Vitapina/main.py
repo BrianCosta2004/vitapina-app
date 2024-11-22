@@ -281,6 +281,8 @@ class MainApp(App):
     def alterar_campos(self):
         perfil = self.root.ids["perfilpage"]
         if perfil.ids["nome"].disabled:
+            perfil.ids["botao_redefinir_senha"].disable = True
+            perfil.ids["botao_redefinir_senha"].text = ""
             perfil.ids["nome"].disabled = False
             perfil.ids["sobrenome"].disabled = False
             perfil.ids["telefone"].disabled = False
@@ -291,7 +293,7 @@ class MainApp(App):
             perfil.ids["sexo"].disabled = False
             perfil.ids["botao_logoff"].text = "[color=#FFFFFF]Alterar Dados[/color]"
             with perfil.ids["botao_logoff"].canvas.before:
-                Color(31 / 255, 69 / 255, 153 / 255)
+                Color(0 / 255, 100 / 255, 0 / 255)
                 RoundedRectangle(
                     pos=perfil.ids["botao_logoff"].pos,
                     size=perfil.ids["botao_logoff"].size,
@@ -312,10 +314,18 @@ class MainApp(App):
             nome = requisicao_dic["Nome"]
 
             data = requisicao_dic["Data de Cadastro"]
-            perfil.ids["botao_logoff"].text = "[color=#0000FF][u]Sair[/u][/color]"
-            perfil.ids["botao_logoff"].canvas.before.clear()
+            perfil.ids["botao_logoff"].text = "[color=#FFFFFF]Sair[/color]"
+            with perfil.ids["botao_logoff"].canvas.before:
+                Color(31 / 255, 69 / 255, 153 / 255)
+                RoundedRectangle(
+                    pos=perfil.ids["botao_logoff"].pos,
+                    size=perfil.ids["botao_logoff"].size,
+                    radius=[(20, 20), (20, 20), (20, 20), (20, 20)]
+                )
 
             self.data = data
+            perfil.ids["botao_redefinir_senha"].disable = False
+            perfil.ids["botao_redefinir_senha"].text = "[color=#0000FF][u]Redefinir Senha[/u][/color]"
             perfil.ids["nome"].disabled = True
             perfil.ids["nome"].text = self.nome
             perfil.ids["sobrenome"].disabled = True

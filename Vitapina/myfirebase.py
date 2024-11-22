@@ -18,48 +18,53 @@ class MyFirebase():
         self.ingredientes = {}
 
 
-    def criar_conta(self, email, senha, nome, sobrenome, telefone):
-        link = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={self.API_KEY}"
+    def criar_conta(self, email, senha, nome, sobrenome, telefone, conf_senha):
+        if senha == conf_senha:
+            link = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={self.API_KEY}"
 
-        info = {"email": email,
-                "password": senha,
-                "returnSecureToken": True}
+            info = {"email": email,
+                    "password": senha,
+                    "returnSecureToken": True}
 
-        requisicao = requests.post(link, data=info)
-        requisicao_dic = requisicao.json()
+            requisicao = requests.post(link, data=info)
+            requisicao_dic = requisicao.json()
 
-        if requisicao.ok:
-            refresh_token = requisicao_dic["refreshToken"]
-            local_id = requisicao_dic["localId"]
-            id_token = requisicao_dic["idToken"]
+            if requisicao.ok:
+                refresh_token = requisicao_dic["refreshToken"]
+                local_id = requisicao_dic["localId"]
+                id_token = requisicao_dic["idToken"]
 
-            meu_aplicativo = App.get_running_app()
-            meu_aplicativo.local_id = local_id
-            meu_aplicativo.id_token = id_token
+                meu_aplicativo = App.get_running_app()
+                meu_aplicativo.local_id = local_id
+                meu_aplicativo.id_token = id_token
 
-            with open("refreshtoken.txt", "w") as arquivo:
-                arquivo.write(refresh_token)
+                with open("refreshtoken.txt", "w") as arquivo:
+                    arquivo.write(refresh_token)
 
-            req_id = requests.get("https://vitapinabd-default-rtdb.firebaseio.com/proximo_id.json")
-            id_usuario = req_id.json()
+                req_id = requests.get("https://vitapinabd-default-rtdb.firebaseio.com/proximo_id.json")
+                id_usuario = req_id.json()
 
-            link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
-            info_usuario = f'{{"ID": "{id_usuario}", "Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data de Cadastro": "{datetime.now().strftime("%d/%m/%Y")}", "Refeicoes": "", "Data de Nascimento": "", "Sexo": ""}}'
-            requisicao_usuario = requests.patch(link, data=info_usuario)
+                link = f"https://vitapinabd-default-rtdb.firebaseio.com/{local_id}.json"
+                info_usuario = f'{{"ID": "{id_usuario}", "Nome": "{nome}", "Sobrenome": "{sobrenome}", "telefone": "{telefone}","E-mail": "{email}", "Data de Cadastro": "{datetime.now().strftime("%d/%m/%Y")}", "Refeicoes": "", "Data de Nascimento": "", "Sexo": ""}}'
+                requisicao_usuario = requests.patch(link, data=info_usuario)
 
-            proximo_id = int(id_usuario) + 1
-            info_id = f'{{"proximo_id": "{proximo_id}"}}'
-            requests.patch("https://vitapinabd-default-rtdb.firebaseio.com/.json", data=info_id)
+                proximo_id = int(id_usuario) + 1
+                info_id = f'{{"proximo_id": "{proximo_id}"}}'
+                requests.patch("https://vitapinabd-default-rtdb.firebaseio.com/.json", data=info_id)
 
-            meu_aplicativo.carregar_infos_usuario()
-            meu_aplicativo.mudar_tela("glicemiapage")
-
+                meu_aplicativo.carregar_infos_usuario()
+                meu_aplicativo.mudar_tela("glicemiapage")
+            else:
+                mensagem_erro = requisicao_dic["error"]["message"]
+                meu_aplicativo = App.get_running_app()
+                pagina_cadastro = meu_aplicativo.root.ids["cadastropage"]
+                pagina_cadastro.ids["mensagem_erro"].text = mensagem_erro
+                pagina_cadastro.ids["mensagem_erro"].color = (1, 0, 0, 1)
         else:
-            mensagem_erro = requisicao_dic["error"]["message"]
-            meu_aplicativo = App.get_running_app()
-            pagina_login = meu_aplicativo.root.ids["cadastropage"]
-            pagina_login.ids["mensagem_erro"].text = mensagem_erro
-            pagina_login.ids["mensagem_erro"].color = (1, 0, 0, 1)
+            pagina_cadastro = App.get_running_app().root.ids["cadastropage"]
+            pagina_cadastro.ids["mensagem_erro"].text = "SENHAS NÃO SÃO IGUAIS"
+            pagina_cadastro.ids["mensagem_erro"].color = (1, 0, 0, 1)
+
 
     def fazer_login(self, email, senha):
         link = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={self.API_KEY}"
@@ -92,6 +97,43 @@ class MyFirebase():
             pagina_login = meu_aplicativo.root.ids["loginpage"]
             pagina_login.ids["mensagem_erro"].text = mensagem_erro
             pagina_login.ids["mensagem_erro"].color = (1, 0, 0, 1)
+
+    def redefinir_senha(self, email):
+        link = f"https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key={self.API_KEY}"
+
+        info = {"requestType":"PASSWORD_RESET",
+                "email": email}
+
+        requisicao = requests.post(link, data=info)
+
+
+        popup_layout = GridLayout(cols=1, padding=[20, 20, 20, 20], spacing=[20, 20])
+        with popup_layout.canvas.before:
+            Color(0.8, 0.9, 1, 0)
+            self.bg_rect = RoundedRectangle(pos=popup_layout.pos, size=popup_layout.size, radius=[20])
+            popup_layout.bind(pos=self.update_bg, size=self.update_bg)
+
+            lbl = LabelButton(
+                text="[b]Link enviado para o E-mail cadastrado![/b]",
+                color=(0, 0, 0, 1),
+                size_hint=(0.8, 0.8),
+                markup=True
+            )
+
+            with lbl.canvas.before:
+                Color(0, 1, 0, 1)
+                self.bg_rect = RoundedRectangle(pos=lbl.pos, size=lbl.size, radius=[20])
+            popup_layout.add_widget(lbl)
+
+        self.popup_confirm = Popup(
+            title='',
+            content=popup_layout,
+            size_hint=(0.9, 0.3),
+            auto_dismiss=True,
+            separator_height=0,
+            background_color=(0, 0, 0, 0)
+        )
+        self.popup_confirm.open()
 
     def trocar_token(self, refresh_token):
         link = f"https://securetoken.googleapis.com/v1/token?key={self.API_KEY}"
@@ -144,7 +186,7 @@ class MyFirebase():
                 self.ingredientes = {}
         else:
             pagina_addrefeicao = App.get_running_app().root.ids["refeicaopage"]
-            pagina_addrefeicao.ids["label_erro"].text = "PREENCHA AS INFORMAÇÕES CORRETAMENTE"
+            pagina_addrefeicao.ids["label_erro"].text = "PREENCHA OS CAMPOS CORRETAMENTE"
             pagina_addrefeicao.ids["label_erro"].color = (1, 0, 0, 1)
 
     def adicionar_ingrediente_refeicao(self, altura_grid, nome, quantidade):
@@ -326,11 +368,21 @@ class MyFirebase():
         pagina_detalhesrefeicao = App.get_running_app().root.ids["detalhesrefeicaopage"]
         requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{data}/{id_refeicao}.json")
         requisicao_dic = requisicao.json()
-        print(requisicao_dic["Ingredientes"])
+        tela = pagina_detalhesrefeicao.ids["tela"]
+        tela.clear_widgets()
+        lista_ingredientes = GridLayout(
+            cols=1,
+            spacing=(7, 7),
+            height=0,
+            row_default_height="20dp",
+            row_force_default=True,
+            padding=[30, 10, 30, 10],
+            size_hint_y=None
+        )
         try:
-            lista_ingredientes = pagina_detalhesrefeicao.ids["lista_ingredientes"]
             ingredientes = requisicao_dic["Ingredientes"].replace("'", '"')
             ingredientes = json.loads(ingredientes)
+            lista_ingredientes.add_widget(Label(text=f"[color=#000000][b]Ingredientes Consumidos[/b][/color]", markup=True))
             for ingrediente, quantidade in ingredientes.items():
                 ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
 
@@ -343,10 +395,23 @@ class MyFirebase():
                 lista_ingredientes.add_widget(ingrediente_layout)
         except:
             pass
-        pagina_detalhesrefeicao.ids["calorias"].text = f"[color=#000000][b]Calorias: {requisicao_dic['Calorias']}Kcal[/b][/color]"
-        pagina_detalhesrefeicao.ids["carboidratos"].text = f"[color=#000000][b]{requisicao_dic['Carboidratos']}[/b][/color]"
-        pagina_detalhesrefeicao.ids["proteinas"].text = f"[color=#000000][b]{requisicao_dic['Proteinas']}[/b][/color]"
-        pagina_detalhesrefeicao.ids["gorduras"].text = f"[color=#000000][b]{requisicao_dic['Gorduras']}[/b][/color]"
+
+        titulo = Label(text="[color=#000000][b]Macronutrientes:[/b][/color]", markup=True)
+        separador = Label(text="[color=#000000][b]____________________________[/b][/color]", markup=True)
+        calorias = Label(text=f"[color=#000000][b]Calorias: {requisicao_dic['Calorias']}Kcal[/b][/color]", markup=True)
+        carboidratos = Label(text=f"[color=#000000][b]Carboidratos                    {requisicao_dic['Carboidratos']}[/b][/color]", markup=True)
+        proteinas = Label(text=f"[color=#000000][b]Proteinas                       {requisicao_dic['Proteinas']}[/b][/color]", markup=True)
+        gorduras = Label(text=f"[color=#000000][b]Gorduras                        {requisicao_dic['Gorduras']}[/b][/color]", markup=True)
+
+        lista_ingredientes.add_widget(titulo)
+        lista_ingredientes.add_widget(separador)
+        lista_ingredientes.add_widget(calorias)
+        lista_ingredientes.add_widget(carboidratos)
+        lista_ingredientes.add_widget(proteinas)
+        lista_ingredientes.add_widget(gorduras)
+
+
+        tela.add_widget(lista_ingredientes)
         App.get_running_app().mudar_tela("detalhesrefeicaopage")
 
     def criar_receita(self, nome, tipo, ingredientes, usuario, modo, foto=""):

@@ -40,10 +40,7 @@
                 height: self.minimum_height
                 row_default_height: "20dp"
                 row_force_default: True
-
-                Label:
-                    text: "[color=#000000][b]Ingredientes Consumidos[/b][/color]"
-                    markup: True
+                id: tela
 
                 GridLayout:
                     cols: 1
@@ -54,65 +51,22 @@
                     padding: [30, 10, 30, 10]
                     id: lista_ingredientes
 
-                Label:
-                    text: ""
-                    markup: True
-                    id: calorias
+                #Label:
+                    #text: ""
+                    #markup: True
+                    #id: calorias
 
-                Label:
-                    text: ""
+                #Label:
+                    #text: ""
 
-                Label:
-                    text: "[color=#000000][b]Macronutrientes:[/b][/color]"
-                    markup: True
-                Label:
-                    text: "[color=#000000][b]____________________________[/b][/color]"
-                    markup: True
+                #Label:
+                    #text: "[color=#000000][b]Macronutrientes:[/b][/color]"
+                    #markup: True
+                #Label:
+                    #text: "[color=#000000][b]____________________________[/b][/color]"
+                    #markup: True
 
-                GridLayout:
-                    cols: 2
-                    size_hint_y: None
-                    spacing: 2, 2
-                    height: self.minimum_height
-                    row_default_height: "20dp"
-                    row_force_default: True
-                    Label:
-                        text: "[color=#000000][b]Proteínas[/b][/color]"
-                        markup: True
-                    Label:
-                        text: "[color=#000000][b]35g[/b][/color]"
-                        markup: True
-                        id: proteinas
 
-                GridLayout:
-                    cols: 2
-                    size_hint_y: None
-                    spacing: 2, 2
-                    height: self.minimum_height
-                    row_default_height: "20dp"
-                    row_force_default: True
-                    Label:
-                        text: "[color=#000000][b]Carboidratos[/b][/color]"
-                        markup: True
-                    Label:
-                        text: "[color=#000000][b]30g[/b][/color]"
-                        markup: True
-                        id: carboidratos
-
-                GridLayout:
-                    cols: 2
-                    size_hint_y: None
-                    spacing: 2, 2
-                    height: self.minimum_height
-                    row_default_height: "20dp"
-                    row_force_default: True
-                    Label:
-                        text: "[color=#000000][b]Gorduras[/b][/color]"
-                        markup: True
-                    Label:
-                        text: "[color=#000000][b]30g[/b][/color]"
-                        markup: True
-                        id: gorduras
 
         LabelButton:
             canvas.before:
