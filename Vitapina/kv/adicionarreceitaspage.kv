@@ -56,26 +56,9 @@
                     id: titulo
                     hint_text: "Título da Receita"
 
-                #BoxLayout:
-                    #orientation: 'horizontal'
-                    #size_hint_y: None
-                    #height: '40dp'
-
-                    #CheckBox:
-                        #id: my_checkbox
-                        #size_hint: None, None
-                        #size: 50, 50
-                        #active: True
-                        #height: '40dp'
-
-                    #Label:
-                        #text: "[color=#000000][b]Tornar receita pública[/b][/color]"
-                        #markup: True
-
-
                 Spinner:
                     id: tipo_refeicao
-                    text: "Almoço"  # Texto padrão
+                    text: "Almoço"
                     values: ["Café da manhã", "Almoço", "Jantar", "Lanche"]
                     size_hint_y: None
                     height: '40dp'
@@ -90,13 +73,13 @@
                 FloatLayout:
                     TextInput:
                         id: quantidade
-                        hint_text: "Quantidade"
+                        hint_text: "Quantidade em gramas"
                         pos_hint: {"right": 0.85, "top": 0.06}
                         size_hint: 0.85, 1
                         input_filter: "int"
                     SearchBox:
                         id: nome
-                        hint_text: "Nome"
+                        hint_text: "Alimento"
                         pos_hint: {"right": 0.85, "top": 1}
                         size_hint: 0.85, 1
                     ImageButton:

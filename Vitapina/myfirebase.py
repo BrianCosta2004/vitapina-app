@@ -197,7 +197,7 @@ class MyFirebase():
             ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
 
             nome_label = Label(text=f"[color=#000000]{nome}[/color]", markup=True)
-            quantidade_label = Label(text=f"[color=#000000]{quantidade}[/color]", markup=True)
+            quantidade_label = Label(text=f"[color=#000000]{quantidade}g[/color]", markup=True)
 
             btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
             btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_refeicao(instance))
@@ -255,7 +255,7 @@ class MyFirebase():
             ingrediente_layout = BoxLayout(size_hint_y=None, height="40dp")
 
             nome_label = Label(text=f"[color=#000000]{nome}[/color]", markup=True)
-            quantidade_label = Label(text=f"[color=#000000]{quantidade}[/color]", markup=True)
+            quantidade_label = Label(text=f"[color=#000000]{quantidade}g[/color]", markup=True)
 
             btn_remover = Button(text="Remover", size_hint_x=None, width="100dp")
             btn_remover.bind(on_press=lambda instance: self.remover_ingrediente_receita(instance))

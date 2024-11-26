@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.app import App
 from kivy.clock import Clock
+from datetime import datetime
 
 
 class SplashScreen(Screen):

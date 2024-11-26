@@ -1,3 +1,4 @@
+#:import dt datetime.datetime
 <RefeicaoPage>
     FloatLayout:
         canvas:
@@ -48,6 +49,10 @@
                 size_hint_y: None
                 height: "300dp"
 
+                Label:
+                    text: "[color=#000000][b]Tipo da Refeição[/b][/color]"
+                    markup: True
+
                 Spinner:
                     id: tipo_refeicao
                     text: "Almoço"  # Texto padrão
@@ -58,13 +63,48 @@
                     background_color: (0.9, 0.9, 0.9, 1)
                     color: (0, 0, 0, 1)
 
-                TextInput:
-                    id: data
-                    hint_text: "Data"
 
-                TextInput:
-                    id: hora
-                    hint_text: "Hora"
+
+                GridLayout:
+                    rows: 1
+                    spacing: 5, 2
+                    row_default_height: "40dp"
+
+                    DateSelector:
+                        id: data_hora
+                        size_hint_y: None
+                        height: '40dp'
+                        background_normal: ''
+
+                        Spinner:
+                            id: dia
+                            text: "Dia"
+                            values: [f"{i:02}" for i in range(1, 32)]
+                            size_hint_y: None
+                            height: '40dp'
+                            background_normal: ''
+                            background_color: (1, 1, 1, 1)
+                            color: (0, 0, 0, 1)
+
+                        Spinner:
+                            id: mes
+                            text: "Mês"
+                            values: [f"{i:02}" for i in range(1, 13)]
+                            size_hint_y: None
+                            height: '40dp'
+                            background_normal: ''
+                            background_color: (1, 1, 1, 1)
+                            color: (0, 0, 0, 1)
+
+                        TimeInput:
+                            id: hora
+                            hint_text: "HH:MM"
+                            size_hint_y: None
+                            height: '40dp'
+                            background_normal: ''
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+
 
                 FloatLayout:
                     ImageButton:
@@ -74,15 +114,15 @@
                         size_hint: 0.1, 0.9
                     SearchBox:
                         id: nome
-                        hint_text: "Nome"
+                        hint_text: "Alimento"
                         pos_hint: {"right": 0.85, "top": 1}
                         size_hint: 0.85, 1
                     TextInput:
                         id: quantidade
-                        hint_text: "Quantidade"
+                        hint_text: "Quantidade em gramas"
                         pos_hint: {"right": 0.85, "top": 0.06}
                         size_hint: 0.85, 1
-                        input_filter: "int"
+                        input_filter: "float"
 
                 Label:
                     text: ""
@@ -114,7 +154,7 @@
             text: "[color=#FFFFFF]Cadastrar[/color]"
             id: label_total_vendas
             markup: True
-            on_release: app.firebase.criar_refeicao(tipo=tipo_refeicao.text, ingredientes=app.firebase.ingredientes, data=data.text, horario=hora.text) if lista_ingredientes.children else print("aaa")
+            on_release: app.firebase.criar_refeicao(tipo=tipo_refeicao.text, ingredientes=app.firebase.ingredientes, data=(f"{dia.text}/{mes.text}/2024"), horario=hora.text) if lista_ingredientes.children else print("aaa")
 
 
         GridLayout:

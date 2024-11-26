@@ -255,17 +255,20 @@ class MainApp(App):
         aux_carboidratos = 0
         aux_proteinas = 0
         aux_gorduras = 0
-        for chave, valor in requisicao_dic.items():
 
-            calorias = valor["Calorias"]
-            carboidratos = valor["Carboidratos"]
-            proteinas = valor["Proteinas"]
-            gorduras = valor["Gorduras"]
-            aux_calorias += float(calorias)
-            aux_carboidratos += float(carboidratos)
-            aux_proteinas += float(proteinas)
-            aux_gorduras += float(gorduras)
+        try:
+            for chave, valor in requisicao_dic.items():
 
+                calorias = valor["Calorias"]
+                carboidratos = valor["Carboidratos"]
+                proteinas = valor["Proteinas"]
+                gorduras = valor["Gorduras"]
+                aux_calorias += float(calorias)
+                aux_carboidratos += float(carboidratos)
+                aux_proteinas += float(proteinas)
+                aux_gorduras += float(gorduras)
+        except:
+            pass
 
         pagina_calorias.ids["calorias_consumidas"].text = "[color=#000000][size=32][b]" + "{:.1f}".format(aux_calorias) + "[/b][/size][/color]"
         if int(pagina_calorias.ids["calorias_total"].text) - int(aux_calorias) > 0:
@@ -355,8 +358,8 @@ class MainApp(App):
         refeicao = self.root.ids["refeicaopage"]
         refeicao.ids["quantidade"].text = ""
         refeicao.ids["nome"].text = ""
-        refeicao.ids["data"].text = ""
-        refeicao.ids["hora"].text = ""
+        #refeicao.ids["data"].text = ""
+        #refeicao.ids["hora"].text = ""
         gerenciador = self.root.ids["screen_manager"]
         gerenciador.current = id_tela
         

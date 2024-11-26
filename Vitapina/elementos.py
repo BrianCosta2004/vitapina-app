@@ -13,7 +13,10 @@ from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.pyplot as plt
 from kivy.properties import NumericProperty
 from kivy.app import App
+from datetime import datetime
 from kivy.properties import ObjectProperty
+from calendar import monthrange
+from kivy.uix.spinner import Spinner
 
 
 class ImageButton(ButtonBehavior, Image):
@@ -189,3 +192,78 @@ class SearchBox(BoxLayout):
     def validate(self):
         if self.search_input.text not in self.suggestions:
             self.search_input.text = ""
+
+
+class TimeInput(TextInput):
+    def insert_text(self, substring, from_undo=False):
+        # Permite apenas números
+        filtered = "".join(c for c in substring if c.isdigit())
+        text = self.text.replace(":", "")  # Remove ":" temporariamente
+        new_text = text + filtered
+
+        # Limita o comprimento máximo para 4 dígitos
+        if len(new_text) > 4:
+            return
+
+        # Valida a primeira entrada: deve ser 0, 1 ou 2
+        if len(new_text) == 1 and new_text[0] not in "012":
+            return
+
+        # Valida horas completas (dois dígitos no início)
+        if len(new_text) >= 2:
+            hours = int(new_text[:2])
+            if hours > 23:  # Horas inválidas
+                return
+
+        # Valida minutos enquanto o usuário digita
+        if len(new_text) > 2:
+            # Obtém os minutos digitados
+            minutes_str = new_text[2:]
+            minutes = int(minutes_str) if minutes_str.isdigit() else 0
+
+            if minutes > 59:  # Minutos inválidos
+                return
+
+            # Adiciona zero à esquerda apenas se os minutos forem 6, 7, 8 ou 9
+            if len(minutes_str) == 1 and minutes in range(6, 10):
+                minutes_str = "0" + minutes_str
+
+            formatted_text = new_text[:2] + ":" + minutes_str
+        else:
+            formatted_text = new_text
+
+        self.text = formatted_text
+        self.cursor = (len(self.text), 0)
+
+class DateSelector(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(orientation="horizontal", spacing=10, **kwargs)
+
+        # Obter data atual
+        self.current_date = datetime.now()
+        self.current_day = self.current_date.day
+        self.current_month = self.current_date.month
+
+
+    def get_valid_months(self):
+        """Retorna os meses válidos até o mês atual."""
+        months = [f"{i:02}" for i in range(1, self.current_month + 1)]
+        return months
+
+    def get_valid_days(self, selected_month):
+        """Retorna os dias válidos para o mês selecionado."""
+        # Converte o mês selecionado para inteiro
+        selected_month = int(selected_month)
+        days_in_month = monthrange(self.current_date.year, selected_month)[1]
+
+        # Lista de dias até o dia atual se o mês for o atual
+        if selected_month == self.current_month:
+            return [f"{i:02}" for i in range(1, self.current_day)]
+        else:
+            return [f"{i:02}" for i in range(1, days_in_month + 1)]
+
+    def update_days(self, spinner, selected_month):
+        """Atualiza os valores do spinner de dias com base no mês selecionado."""
+        self.day_spinner.values = self.get_valid_days(selected_month)
+        self.day_spinner.text = "Dia"
+
