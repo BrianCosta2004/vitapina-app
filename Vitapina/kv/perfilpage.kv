@@ -174,7 +174,7 @@
                 size_hint_x: None  # Remove o comportamento de dimensionamento automático
                 width: 85  # Define largura fixa
 
-            TextInput:
+            PhoneInput:
                 disabled: True
                 background_disabled_normal: ''
                 background_normal: ''  # Remove o fundo
@@ -184,7 +184,6 @@
                 cursor_color: 0, 0, 0, 1  # Cor do cursor (preto)
                 id: telefone
                 hint_text: "Telefone"
-                input_filter: "int"
 
                 canvas.before:
                     Color:

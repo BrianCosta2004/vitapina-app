@@ -9,7 +9,6 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
-from kivy.clock import Clock
 
 class MyFirebase():
     API_KEY = "AIzaSyC-Xb5RIUljluE8_KI2W5kxWLT_eXZRnpk"
@@ -146,7 +145,7 @@ class MyFirebase():
 
         return local_id, id_token
 
-    def cadastrar_receita(self, tipo, nome, calorias, carboidratos, proteinas, gorduras, horario="", foto=""):
+    def cadastrar_receita(self, tipo, nome, calorias, carboidratos, proteinas, gorduras):
         link = f"https://vitapinabd-default-rtdb.firebaseio.com/{App.get_running_app().local_id}/Refeicoes/{datetime.now().strftime('%d-%m-%Y')}.json"
         info_usuario = f'{{"Tipo": "{tipo}", "Nome": "{nome}", "Calorias": "{calorias}", "Carboidratos": "{carboidratos}","Proteinas": "{proteinas}", "Gorduras": "{gorduras}", "Horario": "{datetime.now().strftime("%H:%M")}"}}'
         requisicao = requests.post(link, data=info_usuario)
@@ -156,7 +155,7 @@ class MyFirebase():
             App.get_running_app().carregar_infos_usuario()
             App.get_running_app().mudar_tela("caloriaspage")
 
-    def criar_refeicao(self, tipo, data, ingredientes, horario, foto=""):
+    def criar_refeicao(self, tipo, data, ingredientes, horario):
         if data != "" and horario != "":
             calorias = 0
             carboidratos = 0

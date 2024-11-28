@@ -1,22 +1,19 @@
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.button import ButtonBehavior, Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.effectwidget import EffectWidget, HorizontalBlurEffect
 from kivy.animation import Animation
 from kivy.uix.widget import Widget
-from kivy.graphics import Line, Color, Rectangle, RoundedRectangle, Ellipse
+from kivy.graphics import Color, Rectangle, RoundedRectangle, Ellipse
 from kivy.uix.dropdown import DropDown
-from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
-import matplotlib.pyplot as plt
-from kivy.properties import NumericProperty
 from kivy.app import App
 from datetime import datetime
-from kivy.properties import ObjectProperty
 from calendar import monthrange
-from kivy.uix.spinner import Spinner
 
 
 class ImageButton(ButtonBehavior, Image):
@@ -38,55 +35,6 @@ class Retangulo(Widget):
             Color(0, 0, 0, 0)
             self.rect = Rectangle(pos=(0, 0), size=(200, 150))
 
-
-class CurvaGlicemicaWidget(BoxLayout):
-     def __init__(self, **kwargs):
-         super(CurvaGlicemicaWidget, self).__init__(**kwargs)
-
-         tempo = [0, 30, 60, 90, 120, 150, 180]
-         glicose = [90, 98, 75, 102, 97, 88, 91]
-
-         fig, ax = plt.subplots(figsize=(3, 1))
-         ax.plot(tempo, glicose, marker='o', linestyle='-', color='k', label='Nível de Glicose')
-
-         ax.set_title("Histórico")
-         ax.set_xlabel("Tempo (min)")
-         ax.set_ylabel("Glicose (mg/dL)")
-         ax.legend()
-         ax.grid(False)
-
-         canvas = FigureCanvasKivyAgg(fig)
-
-         self.add_widget(canvas)
-
-
-class HeatMapLabel(Label):
-    intensity = NumericProperty(0.7)
-
-    def __init__(self, **kwargs):
-        super(HeatMapLabel, self).__init__(**kwargs)
-        self.bind(size=self.update_rect, pos=self.update_rect)
-        self.bind(intensity=self.update_color)
-
-        with self.canvas.before:
-            self.rect_color = Color(1, 1, 1, 0)
-            self.rect = Rectangle(size=self.size, pos=self.pos)
-
-    def update_rect(self, *args):
-        self.rect.pos = self.pos
-        self.rect.size = self.size
-
-    def update_color(self, *args):
-        heat_color = self.get_color_for_intensity(self.intensity)
-        self.rect_color.rgba = heat_color
-
-    def get_color_for_intensity(self, intensity):
-        if intensity < 0.33:
-            return (0, 0, 1, 1)
-        elif intensity < 0.66:
-            return (0, 1, 0, 1)
-        else:
-            return (1, 0, 0, 1)
 
 class RoundedTextInput(TextInput):
     def __init__(self, **kwargs):
@@ -267,3 +215,46 @@ class DateSelector(BoxLayout):
         self.day_spinner.values = self.get_valid_days(selected_month)
         self.day_spinner.text = "Dia"
 
+
+class PhoneInput(TextInput):
+    def insert_text(self, substring, from_undo=False):
+        # Permitir apenas dígitos
+        substring = ''.join(filter(str.isdigit, substring))
+
+        # Obter o texto atual sem formatação
+        text = self.text.replace("(", "").replace(")", "").replace(" ", "").replace("-", "")
+
+        # Adicionar o novo caractere
+        text = text + substring
+
+        # Impedir que o texto exceda 11 dígitos (DDD + número)
+        if len(text) > 11:
+            return
+
+        # Formatar o número
+        formatted = ""
+        if len(text) > 0:
+            formatted += "(" + text[:2]
+        if len(text) > 2:
+            formatted += ") " + text[2:7]
+        if len(text) > 7:
+            formatted += "-" + text[7:]
+
+        # Atualizar o texto no campo
+        self.text = formatted
+
+        # Garantir que o cursor esteja na posição correta
+        self.cursor = (len(self.text), 0)
+
+
+class PhoneApp(App):
+    def build(self):
+        layout = BoxLayout(padding=10)
+        phone_input = PhoneInput(
+            hint_text="(XX) XXXXX-XXXX",
+            font_size=24,
+            size_hint=(1, None),
+            height=50
+        )
+        layout.add_widget(phone_input)
+        return layout

@@ -1,12 +1,8 @@
-from kivy.uix.label import Label
-from kivy.uix.image import Image
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
-from kivy.graphics import Color, Rectangle, RoundedRectangle
+from kivy.graphics import Color, RoundedRectangle
 from Vitapina.elementos import ImageButton, LabelButton
 from kivy.app import App
-from kivy.properties import ListProperty
-from functools import partial
 
 
 class CardReceita(GridLayout):

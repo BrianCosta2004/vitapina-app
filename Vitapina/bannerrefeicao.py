@@ -1,11 +1,8 @@
 from kivy.uix.label import Label
-from kivy.uix.image import Image
 from kivy.uix.button import ButtonBehavior
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Color, RoundedRectangle
-from kivy.app import App
 from myfirebase import MyFirebase
 
 

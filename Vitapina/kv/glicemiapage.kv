@@ -19,13 +19,6 @@
             pos_hint: {"right": 0.95, "top": 1}
             size_hint: 0.9, 0.35
 
-        HeatMapLabel:
-            text: "[color=#00FF00][size=100]90[/size][/color]"
-            pos_hint: {"right": 0.85, "top": 0.9}
-            size_hint: 0.7, 0.33
-            markup: True
-            bold: True
-
         Retangulo:
             canvas.before:
                 Color:
@@ -36,6 +29,7 @@
                     radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
             pos_hint: {"right": 0.9, "top": 0.60}
             size_hint: 0.8, 0.45
+
 
         LabelButton:
             canvas.before:
@@ -85,7 +79,22 @@
             source: "icones/logotipo.png"
             id: foto_perfil
 
-        CurvaGlicemicaWidget:
-            pos_hint: {"right": 0.86, "top": 0.55}
-            size_hint: 0.75, 0.33
+        Label:
+            pos_hint: {"right": 0.8, "top": 0.55}
+            size_hint: 0.6, None
+            markup: True
+            id: saudacao
+            height: self.texture_size[1]
+            text_size: self.width, None
+            halign: "center"
+            valign: "middle"
 
+        Label:
+            pos_hint: {"right": 0.8, "top": 0.40}
+            markup: True
+            text: "[color=#000000]Para usufruir as funcionalidades do App, navegue pelo menu inferior.[/color]"
+            size_hint: 0.6, None
+            height: self.texture_size[1]
+            text_size: self.width, None
+            halign: "center"
+            valign: "middle"

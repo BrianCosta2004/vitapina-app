@@ -2,7 +2,7 @@
     FloatLayout:
         canvas:
             Color:
-                rgb: utils.get_color_from_hex("#fffbf0")
+                rgb: utils.get_color_from_hex("#FF0000") #fffbf0
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -32,20 +32,18 @@
                 id: lista_refeicoes
                 size_hint_y: None
                 height: "800dp"
-                row_default_height: "90dp"
-                row_force_default: True
 
 
                 Label:
                     text: "[color=#000000][size=20][b]Café da Manhã[/b][/size][/color]"
                     id: cafe_manha
                     size_hint_y: None
-                    height: 130
+
                     markup: True
 
                 ScrollView:
                     size_hint_y: None
-                    height: 130
+
                     GridLayout:
                         rows: 1
                         id: lista_alimentos_cafe
@@ -54,19 +52,19 @@
                         spacing: 20, 2
                         col_default_width: "150dp"
                         col_force_default: True
-                        row_default_height: 130
+
 
 
                 Label:
                     text: "[color=#000000][size=20][b]Almoço[/b][/size][/color]"
                     id: almoco
                     size_hint_y: None
-                    height: 130
+
                     markup: True
 
                 ScrollView:
                     size_hint_y: None
-                    height: 130
+
                     GridLayout:
                         rows: 1
                         id: lista_alimentos_almoco
@@ -75,18 +73,18 @@
                         col_default_width: "150dp"
                         spacing: 20, 2
                         col_force_default: True
-                        row_default_height: 130
+
 
                 Label:
                     text: "[color=#000000][size=20][b]Lanche[/b][/size][/color]"
                     id: lanche
                     size_hint_y: None
-                    height: 130
+
                     markup: True
 
                 ScrollView:
                     size_hint_y: None
-                    height: 130
+
                     GridLayout:
                         rows: 1
                         id: lista_alimentos_lanche
@@ -95,19 +93,19 @@
                         col_default_width: "150dp"
                         spacing: 20, 2
                         col_force_default: True
-                        row_default_height: 130
+
 
 
                 Label:
                     text: "[color=#000000][size=20][b]Janta[/b][/size][/color]"
                     id: janta
                     size_hint_y: None
-                    height: 130
+
                     markup: True
 
                 ScrollView:
                     size_hint_y: None
-                    height: 130
+
                     GridLayout:
                         rows: 1
                         id: lista_alimentos_janta
@@ -116,7 +114,7 @@
                         col_default_width: "150dp"
                         spacing: 20, 2
                         col_force_default: True
-                        row_default_height: 130
+
 
         LabelButton:
             canvas.before:

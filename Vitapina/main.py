@@ -2,7 +2,6 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
 from Vitapina.cardreceita import CardReceita
 from telas import *
 from elementos import *
@@ -15,7 +14,6 @@ from kivy.core.window import Window
 from bannerrefeicao import BannerRefeicao
 
 GUI = Builder.load_file("main.kv")
-Window.size = (450, 600)
 
 class MainApp(App):
 
@@ -84,8 +82,9 @@ class MainApp(App):
             pagina_perfil = self.root.ids["perfilpage"]
             pagina_perfil.ids["label_nome"].text = f"[size=25][b]{nome} {sobrenome}[/b][/size]"
             pagina_perfil.ids["label_data"].text = f"Usuário há {(datetime.now() - datetime.strptime(data, '%d/%m/%Y')).days} dias"
-
-
+            pagina_inicial = self.root.ids["glicemiapage"]
+            saudacao = pagina_inicial.ids["saudacao"]
+            saudacao.text = f"[color=#000000]Seja Bem-vindo, [b]{nome}[/b][/color]"
             self.mudar_tela("homepage")
         except:
             pass
@@ -223,16 +222,17 @@ class MainApp(App):
         requisicao = requests.get(f"https://vitapinabd-default-rtdb.firebaseio.com/Receitas.json")
         requisicao_dic = requisicao.json()
 
-        print(requisicao_dic)
-        print(nome)
-        for info in requisicao_dic:
+        for chave, info in requisicao_dic.items():
+            print(info)
             if isinstance(info, dict):
+                print(info.get('Nome'))
+                print(nome)
                 if info.get('Nome') == nome:
                     print("aaaaaa")
-                    self.firebase.cadastrar_receita(carboidratos=info.get("Carboidratos"), calorias=info.get("Calorias"),
-                                             gorduras=info.get("Gorduras"), nome=info.get("Nome"),
-                                             proteinas=info.get("Proteinas"), tipo=info.get("Tipo"), foto=info.get("Foto"),
-                                             horario=info.get("Horario"))
+                    self.firebase.cadastrar_receita(tipo=info.get("Tipo"), nome=info.get("Nome"),
+                                                    calorias=info.get("Calorias"),
+                                                    carboidratos=info.get("Carboidratos"),
+                                                    proteinas=info.get("Proteinas"), gorduras=info.get("Gorduras"))
                     break
 
         self.mudar_tela("caloriaspage")
